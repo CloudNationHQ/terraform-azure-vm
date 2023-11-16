@@ -1,12 +1,41 @@
-
-
+## Usage: default
 
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vmss/azure"
   version = "~> 0.1"
 
-  naming = local.naming
+  keyvault      = module.kv.vault.id
+  resourcegroup = module.rg.groups.demo.name
+  location      = module.rg.groups.demo.location
+  naming        = local.naming
+  depends_on    = [module.kv]
+
+  vm = {
+    type = "linux"
+    name = module.naming.linux_virtual_machine.name
+
+    interfaces = {
+      int = {
+        subnet = module.network.subnets.int.id
+      }
+    }
+  }
+}
+```
+
+## Usage: multiple
+
+```hcl
+module "vm" {
+  source  = "cloudnationhq/vmss/azure"
+  version = "~> 0.1"
+
+  naming        = local.naming
+  keyvault      = module.kv.vault.id
+  resourcegroup = module.rg.groups.demo.name
+  location      = module.rg.groups.demo.location
+  depends_on    = [module.kv]
 
   for_each = local.vms
 
@@ -27,12 +56,8 @@ locals {
 locals {
   vms = {
     vm1 = {
-      name          = "vmdemodev1"
-      location      = module.rg.groups.demo.location
-      resourcegroup = module.rg.groups.demo.name
-      keyvault      = module.kv.vault.id
-      public_key    = module.kv.tls_public_keys.vm.value
-      type          = "linux"
+      name = "vm-demo-dev1"
+      type = "linux"
       interfaces = {
         vm1 = {
           subnet = module.network.subnets.int.id
@@ -40,12 +65,8 @@ locals {
       }
     }
     vm2 = {
-      name          = "vmdemodev2"
-      location      = module.rg.groups.demo.location
-      resourcegroup = module.rg.groups.demo.name
-      keyvault      = module.kv.vault.id
-      password      = module.kv.secrets.vm.value
-      type          = "windows"
+      name = "vm-demo-dev2"
+      type = "linux"
       interfaces = {
         vm2 = {
           subnet = module.network.subnets.int.id
@@ -53,12 +74,8 @@ locals {
       }
     }
     vm3 = {
-      name          = "vmdemodev3"
-      location      = module.rg.groups.demo.location
-      resourcegroup = module.rg.groups.demo.name
-      keyvault      = module.kv.vault.id
-      public_key    = module.kv.tls_public_keys.vm.value
-      type          = "linux"
+      name = "vm-demo-dev3"
+      type = "windows"
       interfaces = {
         vm3 = {
           subnet = module.network.subnets.int.id

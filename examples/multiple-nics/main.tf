@@ -46,15 +46,6 @@ module "kv" {
     name          = module.naming.key_vault.name_unique
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
-
-    secrets = {
-      random_string = {
-        vm = {
-          length  = 24
-          special = true
-        }
-      }
-    }
   }
 }
 
@@ -62,13 +53,15 @@ module "vm" {
   source  = "cloudnationhq/vmss/azure"
   version = "~> 0.1"
 
+  keyvault      = module.kv.vault.id
+  resourcegroup = module.rg.groups.demo.name
+  location      = module.rg.groups.demo.location
+  naming        = local.naming
+  depends_on    = [module.kv]
+
   vm = {
-    name          = module.naming.windows_virtual_machine.name
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    keyvault      = module.kv.vault.id
-    password      = module.kv.secrets.vm.value
-    type          = "windows"
+    type = "windows"
+    name = module.naming.windows_virtual_machine.name
 
     interfaces = {
       int = { subnet = module.network.subnets.int.id }

@@ -5,8 +5,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
 
   name                = var.vm.name
-  resource_group_name = var.vm.resourcegroup
-  location            = var.vm.location
+  resource_group_name = var.resourcegroup
+  location            = var.location
   size                = try(var.vm.size, "Standard_F2")
   admin_username      = try(var.vm.admin_username, "adminuser")
 
@@ -18,7 +18,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = try(var.vm.admin_username, "adminuser")
-    public_key = var.vm.public_key
+    public_key = azurerm_key_vault_secret.tls_public_key_secret[var.vm.type].value
   }
 
   os_disk {
@@ -38,8 +38,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
   for_each = var.vm.type == "windows" ? { (var.vm.type) = true } : {}
 
   name                = var.vm.name
-  resource_group_name = var.vm.resourcegroup
-  location            = var.vm.location
+  resource_group_name = var.resourcegroup
+  location            = var.location
   size                = try(var.vm.size, "Standard_F2")
   admin_username      = try(var.vm.admin_username, "adminuser")
   admin_password      = azurerm_key_vault_secret.secret[var.vm.type].value
@@ -77,8 +77,32 @@ resource "random_password" "password" {
 resource "azurerm_key_vault_secret" "secret" {
   for_each = var.vm.type == "windows" ? { (var.vm.type) = true } : {}
 
-  name         = format("%s-%s", var.naming.key_vault_secret, var.vm.name)
+  name         = format("%s-%s", "kvs", var.vm.name)
   value        = random_password.password[each.key].result
+  key_vault_id = var.keyvault
+}
+
+# tls keys
+resource "tls_private_key" "tls_key" {
+  for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
+
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "azurerm_key_vault_secret" "tls_public_key_secret" {
+  for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
+
+  name         = format("%s-%s-%s", "kvs", var.vm.name, "pub")
+  value        = tls_private_key.tls_key[each.key].public_key_openssh
+  key_vault_id = var.keyvault
+}
+
+resource "azurerm_key_vault_secret" "tls_private_key_secret" {
+  for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
+
+  name         = format("%s-%s-%s", "kvs", var.vm.name, "priv")
+  value        = tls_private_key.tls_key[each.key].private_key_pem
   key_vault_id = var.keyvault
 }
 

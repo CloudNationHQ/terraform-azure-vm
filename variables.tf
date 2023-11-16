@@ -17,3 +17,13 @@ variable "keyvault" {
   description = "keyvault to store secrets"
   type        = string
 }
+
+variable "location" {
+  description = "location of the resource group"
+  type        = string
+}
+
+variable "resourcegroup" {
+  description = "contains the resource group name"
+  type        = string
+}

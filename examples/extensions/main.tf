@@ -45,42 +45,27 @@ module "kv" {
     name          = module.naming.key_vault.name_unique
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
-
-    secrets = {
-      tls_keys = {
-        vm = {
-          algorithm = "RSA"
-          rsa_bits  = 2048
-        }
-      }
-    }
   }
 }
 
 module "vm" {
-  //source  = "cloudnationhq/vmss/azure"
-  //version = "~> 0.1"
-  source = "../../"
+  source  = "cloudnationhq/vmss/azure"
+  version = "~> 0.1"
 
-  naming = local.naming
+  keyvault      = module.kv.vault.id
+  resourcegroup = module.rg.groups.demo.name
+  location      = module.rg.groups.demo.location
+  naming        = local.naming
+  depends_on    = [module.kv]
 
   vm = {
-    name          = module.naming.linux_virtual_machine.name
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    keyvault      = module.kv.vault.id
-    extensions    = local.exts
-    type          = "linux"
+    type       = "linux"
+    name       = module.naming.linux_virtual_machine.name
+    extensions = local.exts
 
     interfaces = {
       int = {
         subnet = module.network.subnets.int.id
-      }
-    }
-
-    ssh_keys = {
-      adminuser = {
-        public_key = module.kv.tls_public_keys.vm.value
       }
     }
   }

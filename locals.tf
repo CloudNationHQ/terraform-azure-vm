@@ -11,8 +11,8 @@ locals {
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
       public_ip_address_id          = try(nic.public_ip_address_id, null)
-      resourcegroup                 = var.vm.resourcegroup
-      location                      = var.vm.location
+      resourcegroup                 = var.resourcegroup
+      location                      = var.location
     }
   ])
 }
@@ -23,8 +23,8 @@ locals {
 
       disk_key             = disk_key
       name                 = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
-      resourcegroup        = var.vm.resourcegroup
-      location             = var.vm.location
+      resourcegroup        = var.resourcegroup
+      location             = var.location
       create_option        = try(disk.create_option, "Empty")
       disk_size_gb         = try(disk.disk_size_gb, 10)
       storage_account_type = try(disk.storage_account_type, "Standard_LRS")
@@ -33,17 +33,6 @@ locals {
     }
   ])
 }
-
-//locals {
-//  ssh_keys = flatten([
-//    for ssh_key, ssh in try(var.vm.ssh_keys, {}) : {
-//
-//      ssh_key    = ssh_key
-//      username   = ssh_key
-//      public_key = ssh.public_key
-//    }
-//  ])
-//}
 
 locals {
   ext_keys = flatten([
