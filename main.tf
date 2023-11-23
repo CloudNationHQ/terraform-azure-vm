@@ -5,10 +5,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
 
   name                = var.vm.name
-  resource_group_name = var.resourcegroup
-  location            = var.location
+  resource_group_name = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
+  location            = coalesce(lookup(var.vm, "location", null), var.location)
   size                = try(var.vm.size, "Standard_F2")
-  admin_username      = try(var.vm.admin_username, "adminuser")
+  admin_username      = try(var.vm.username, "adminuser")
 
   network_interface_ids = [
     for intf in local.interfaces :
@@ -17,7 +17,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
 
   admin_ssh_key {
-    username   = try(var.vm.admin_username, "adminuser")
+    username   = try(var.vm.username, "adminuser")
     public_key = azurerm_key_vault_secret.tls_public_key_secret[var.vm.type].value
   }
 
@@ -27,10 +27,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   source_image_reference {
-    publisher = try(var.vm.image.publisher, "Canonical")
-    offer     = try(var.vm.image.offer, "UbuntuServer")
-    sku       = try(var.vm.image.sku, "18.04-LTS")
-    version   = try(var.vm.image.version, "latest")
+    publisher = try(var.vm.publisher, "Canonical")
+    offer     = try(var.vm.offer, "UbuntuServer")
+    sku       = try(var.vm.sku, "18.04-LTS")
+    version   = try(var.vm.version, "latest")
   }
 }
 
@@ -62,10 +62,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
   for_each = var.vm.type == "windows" ? { (var.vm.type) = true } : {}
 
   name                = var.vm.name
-  resource_group_name = var.resourcegroup
-  location            = var.location
+  resource_group_name = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
+  location            = coalesce(lookup(var.vm, "location", null), var.location)
   size                = try(var.vm.size, "Standard_F2")
-  admin_username      = try(var.vm.admin_username, "adminuser")
+  admin_username      = try(var.vm.username, "adminuser")
   admin_password      = azurerm_key_vault_secret.secret[var.vm.type].value
 
   network_interface_ids = [
@@ -79,10 +79,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   source_image_reference {
-    publisher = try(var.vm.image.publisher, "MicrosoftWindowsServer")
-    offer     = try(var.vm.image.offer, "WindowsServer")
-    sku       = try(var.vm.image.sku, "2016-Datacenter")
-    version   = try(var.vm.image.version, "latest")
+    publisher = try(var.vm.publisher, "MicrosoftWindowsServer")
+    offer     = try(var.vm.offer, "WindowsServer")
+    sku       = try(var.vm.sku, "2016-Datacenter")
+    version   = try(var.vm.version, "latest")
   }
 }
 

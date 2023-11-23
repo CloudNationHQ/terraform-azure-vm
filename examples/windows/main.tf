@@ -52,15 +52,15 @@ module "vm" {
   source  = "cloudnationhq/vmss/azure"
   version = "~> 0.1"
 
-  keyvault      = module.kv.vault.id
-  resourcegroup = module.rg.groups.demo.name
-  location      = module.rg.groups.demo.location
-  naming        = local.naming
-  depends_on    = [module.kv]
+  keyvault   = module.kv.vault.id
+  naming     = local.naming
+  depends_on = [module.kv]
 
   vm = {
-    type = "windows"
-    name = module.naming.windows_virtual_machine.name
+    type          = "windows"
+    name          = module.naming.windows_virtual_machine.name
+    resourcegroup = module.rg.groups.demo.name
+    location      = module.rg.groups.demo.location
 
     interfaces = {
       int = {

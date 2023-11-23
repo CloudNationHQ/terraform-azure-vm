@@ -17,10 +17,5 @@ locals {
         "commandToExecute" = "echo 'Hello World' > /tmp/helloworld.txt"
       }
     }
-    defender = {
-      publisher            = "Microsoft.Azure.AzureDefenderForServers"
-      type                 = "MDE.Linux"
-      type_handler_version = "1.0"
-    }
   }
 }

@@ -1,3 +1,5 @@
+This example illustrates the default virtual machine setup, in its simplest form.
+
 ## Usage: default
 
 ```hcl
@@ -5,15 +7,15 @@ module "vm" {
   source  = "cloudnationhq/vmss/azure"
   version = "~> 0.1"
 
-  keyvault      = module.kv.vault.id
-  resourcegroup = module.rg.groups.demo.name
-  location      = module.rg.groups.demo.location
-  naming        = local.naming
-  depends_on    = [module.kv]
+  keyvault   = module.kv.vault.id
+  naming     = local.naming
+  depends_on = [module.kv]
 
   vm = {
-    type = "linux"
-    name = module.naming.linux_virtual_machine.name
+    type          = "linux"
+    name          = module.naming.linux_virtual_machine.name
+    resourcegroup = module.rg.groups.demo.name
+    location      = module.rg.groups.demo.location
 
     interfaces = {
       int = {
@@ -23,6 +25,8 @@ module "vm" {
   }
 }
 ```
+
+Additionally, for certain scenarios, the example below highlights the ability to use multiple virtual machines, enabling a broader setup.
 
 ## Usage: multiple
 
@@ -43,16 +47,9 @@ module "vm" {
 }
 ```
 
+The module uses a local to iterate, generating a virtual machine for each key.
+
 ```hcl
-locals {
-  naming = {
-    # lookup outputs to have consistent naming
-    for type in local.naming_types : type => lookup(module.naming, type).name
-  }
-
-  naming_types = ["subnet", "network_security_group", "key_vault_secret", "network_interface"]
-}
-
 locals {
   vms = {
     vm1 = {

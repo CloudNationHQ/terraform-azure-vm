@@ -11,8 +11,9 @@ locals {
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
       public_ip_address_id          = try(nic.public_ip_address_id, null)
-      resourcegroup                 = var.resourcegroup
-      location                      = var.location
+      resourcegroup                 = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
+      location                      = coalesce(lookup(var.vm, "location", null), var.location)
+
     }
   ])
 }
@@ -23,8 +24,8 @@ locals {
 
       disk_key             = disk_key
       name                 = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
-      resourcegroup        = var.resourcegroup
-      location             = var.location
+      resourcegroup        = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
+      location             = coalesce(lookup(var.vm, "location", null), var.location)
       create_option        = try(disk.create_option, "Empty")
       disk_size_gb         = try(disk.disk_size_gb, 10)
       storage_account_type = try(disk.storage_account_type, "Standard_LRS")
