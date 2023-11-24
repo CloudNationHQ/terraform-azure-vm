@@ -46,21 +46,16 @@ module "kv" {
     name          = module.naming.key_vault.name_unique
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
-
-    secrets = {
-      tls_keys = {
-        vm = {
-          algorithm = "RSA"
-          rsa_bits  = 2048
-        }
-      }
-    }
   }
 }
 
 module "vm" {
   source  = "cloudnationhq/vmss/azure"
   version = "~> 0.1"
+
+  keyvault   = module.kv.vault.id
+  naming     = local.naming
+  depends_on = [module.kv]
 
   vm = {
     name          = module.naming.linux_virtual_machine.name
@@ -77,12 +72,6 @@ module "vm" {
     disks = {
       db   = { size_gb = 10, lun = 0 }
       logs = { size_gb = 12, lun = 10 }
-    }
-
-    ssh_keys = {
-      adminuser = {
-        public_key = module.kv.tls_public_keys.vm.value
-      }
     }
   }
 }

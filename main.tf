@@ -27,19 +27,19 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   source_image_reference {
-    publisher = try(var.vm.publisher, "Canonical")
-    offer     = try(var.vm.offer, "UbuntuServer")
-    sku       = try(var.vm.sku, "18.04-LTS")
-    version   = try(var.vm.version, "latest")
+    publisher = try(var.vm.image.publisher, "Canonical")
+    offer     = try(var.vm.image.offer, "UbuntuServer")
+    sku       = try(var.vm.image.sku, "18.04-LTS")
+    version   = try(var.vm.image.version, "latest")
   }
 }
 
-# tls keys
+# secrets
 resource "tls_private_key" "tls_key" {
   for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
 
-  algorithm = "RSA"
-  rsa_bits  = 4096
+  algorithm = try(var.vm.encryption.algorithm, "RSA")
+  rsa_bits  = try(var.vm.encryption.rsa_bits, 4096)
 }
 
 resource "azurerm_key_vault_secret" "tls_public_key_secret" {
@@ -58,6 +58,7 @@ resource "azurerm_key_vault_secret" "tls_private_key_secret" {
   key_vault_id = var.keyvault
 }
 
+# windows vm
 resource "azurerm_windows_virtual_machine" "vm" {
   for_each = var.vm.type == "windows" ? { (var.vm.type) = true } : {}
 
@@ -79,10 +80,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   source_image_reference {
-    publisher = try(var.vm.publisher, "MicrosoftWindowsServer")
-    offer     = try(var.vm.offer, "WindowsServer")
-    sku       = try(var.vm.sku, "2016-Datacenter")
-    version   = try(var.vm.version, "latest")
+    publisher = try(var.vm.image.publisher, "MicrosoftWindowsServer")
+    offer     = try(var.vm.image.offer, "WindowsServer")
+    sku       = try(var.vm.image.sku, "2016-Datacenter")
+    version   = try(var.vm.image.version, "latest")
   }
 }
 

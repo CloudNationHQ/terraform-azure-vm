@@ -1,3 +1,4 @@
+This section details the support for windows virtual machines.
 
 ```hcl
 module "vm" {

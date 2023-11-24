@@ -1,4 +1,4 @@
-
+This example illustrates the implementation of extensions.
 
 ```hcl
 module "vm" {

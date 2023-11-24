@@ -19,13 +19,13 @@ variable "keyvault" {
 }
 
 variable "location" {
-  description = "default azure region for the vm and can be used if location is not specified inside the object."
+  description = "default azure region and can be used if location is not specified inside the object."
   type        = string
   default     = null
 }
 
 variable "resourcegroup" {
-  description = "default resource group for the vm and can be used if resourcegroup is not specified inside the object."
+  description = "default resource group and can be used if resourcegroup is not specified inside the object."
   type        = string
   default     = null
 }
