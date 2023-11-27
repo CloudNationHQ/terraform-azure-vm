@@ -32,6 +32,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = try(var.vm.image.sku, "18.04-LTS")
     version   = try(var.vm.image.version, "latest")
   }
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 # secrets
