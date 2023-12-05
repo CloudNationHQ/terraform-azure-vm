@@ -1,0 +1,6 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - apache2
+runcmd:
+  - echo "<html><body><h1>Welcome to My Web Page</h1></body></html>" > /var/www/html/index.html
