@@ -4,7 +4,7 @@ This example illustrates the default virtual machine setup, in its simplest form
 
 ```hcl
 module "vm" {
-  source  = "cloudnationhq/vmss/azure"
+  source  = "cloudnationhq/vm/azure"
   version = "~> 0.1"
 
   keyvault   = module.kv.vault.id
@@ -32,7 +32,7 @@ Additionally, for certain scenarios, the example below highlights the ability to
 
 ```hcl
 module "vm" {
-  source  = "cloudnationhq/vmss/azure"
+  source  = "cloudnationhq/vm/azure"
   version = "~> 0.1"
 
   naming        = local.naming

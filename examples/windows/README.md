@@ -2,7 +2,7 @@ This section details the support for windows virtual machines.
 
 ```hcl
 module "vm" {
-  source  = "cloudnationhq/vmss/azure"
+  source  = "cloudnationhq/vm/azure"
   version = "~> 0.1"
 
   keyvault   = module.kv.vault.id

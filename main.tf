@@ -4,11 +4,35 @@ data "azurerm_subscription" "current" {}
 resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.vm.type == "linux" ? { (var.vm.type) = true } : {}
 
-  name                = var.vm.name
-  resource_group_name = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
-  location            = coalesce(lookup(var.vm, "location", null), var.location)
-  size                = try(var.vm.size, "Standard_F2")
-  admin_username      = try(var.vm.username, "adminuser")
+  name                            = var.vm.name
+  resource_group_name             = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
+  location                        = coalesce(lookup(var.vm, "location", null), var.location)
+  size                            = try(var.vm.size, "Standard_F2")
+  admin_username                  = try(var.vm.username, "adminuser")
+  license_type                    = try(var.vm.license_type, null)
+  allow_extension_operations      = try(var.vm.allow_extension_operations, true)
+  availability_set_id             = try(var.vm.availability_set, null)
+  custom_data                     = try(var.vm.custom_data, null)
+  user_data                       = try(var.vm.user_data, null)
+  disable_password_authentication = try(var.vm.disable_password_authentication, true)
+  encryption_at_host_enabled      = try(var.vm.encryption_at_host_enabled, false)
+  extensions_time_budget          = try(var.vm.extensions_time_budget, null)
+  patch_assessment_mode           = try(var.vm.patch_assessment_mode, "ImageDefault")
+  patch_mode                      = try(var.vm.patch_mode, "ImageDefault")
+  priority                        = try(var.vm.priority, "Regular")
+  provision_vm_agent              = try(var.vm.provision_vm_agent, true)
+  reboot_setting                  = try(var.vm.reboot_setting, null)
+  secure_boot_enabled             = try(var.vm.secure_boot_enabled, null)
+  vtpm_enabled                    = try(var.vm.vtpm_enabled, null)
+  zone                            = try(var.vm.zone, null)
+
+  additional_capabilities {
+    ultra_ssd_enabled = try(var.vm.ultra_ssd_enabled, false)
+  }
+
+  boot_diagnostics {
+    storage_account_uri = try(var.vm.boot_diags.storage_uri, null)
+  }
 
   network_interface_ids = [
     for intf in local.interfaces :
@@ -22,8 +46,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   os_disk {
-    storage_account_type = try(var.vm.os_disk.storage_account_type, "Standard_LRS")
-    caching              = try(var.vm.os_disk.caching, "ReadWrite")
+    storage_account_type      = try(var.vm.os_disk.storage_account_type, "Standard_LRS")
+    caching                   = try(var.vm.os_disk.caching, "ReadWrite")
+    disk_size_gb              = try(var.vm.os_disk.disk_size_gb, null)
+    security_encryption_type  = try(var.vm.os_disk.security_encryption_type, null)
+    write_accelerator_enabled = try(var.vm.os_disk.write_accelerator_enabled, false)
   }
 
   source_image_reference {
@@ -66,21 +93,54 @@ resource "azurerm_key_vault_secret" "tls_private_key_secret" {
 resource "azurerm_windows_virtual_machine" "vm" {
   for_each = var.vm.type == "windows" ? { (var.vm.type) = true } : {}
 
-  name                = var.vm.name
-  resource_group_name = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
-  location            = coalesce(lookup(var.vm, "location", null), var.location)
-  size                = try(var.vm.size, "Standard_F2")
-  admin_username      = try(var.vm.username, "adminuser")
-  admin_password      = azurerm_key_vault_secret.secret[var.vm.type].value
+  name                         = var.vm.name
+  resource_group_name          = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
+  location                     = coalesce(lookup(var.vm, "location", null), var.location)
+  size                         = try(var.vm.size, "Standard_F2")
+  admin_username               = try(var.vm.username, "adminuser")
+  admin_password               = azurerm_key_vault_secret.secret[var.vm.type].value
+  allow_extension_operations   = try(var.vm.allow_extension_operations, true)
+  availability_set_id          = try(var.vm.availability_set, null)
+  custom_data                  = try(var.vm.custom_data, null)
+  user_data                    = try(var.vm.user_data, null)
+  enable_automatic_updates     = try(var.vm.enable_automatic_updates, false)
+  encryption_at_host_enabled   = try(var.vm.encryption_at_host_enabled, false)
+  eviction_policy              = try(var.vm.eviction_policy, null)
+  hotpatching_enabled          = try(var.vm.hotpatching_enabled, false)
+  patch_assessment_mode        = try(var.vm.patch_assessment_mode, "ImageDefault")
+  patch_mode                   = try(var.vm.patch_mode, "Manual")
+  priority                     = try(var.vm.priority, "Regular")
+  reboot_setting               = try(var.vm.reboot_setting, null)
+  secure_boot_enabled          = try(var.vm.secure_boot_enabled, null)
+  timezone                     = try(var.vm.timezone, null)
+  virtual_machine_scale_set_id = try(var.vm.virtual_machine_scale_set_id, null)
+  vtpm_enabled                 = try(var.vm.vtpm_enabled, null)
+  zone                         = try(var.vm.zone, null)
+
+  bypass_platform_safety_checks_on_user_schedule_enabled = try(var.vm.bypass_platform_safety_checks_on_user_schedule_enabled, false)
 
   network_interface_ids = [
     for intf in local.interfaces :
     azurerm_network_interface.nic[intf.interface_key].id
   ]
 
+  additional_capabilities {
+    ultra_ssd_enabled = try(var.vm.ultra_ssd_enabled, false)
+  }
+
+  boot_diagnostics {
+    storage_account_uri = try(var.vm.boot_diags.storage_uri, null)
+  }
+
   os_disk {
-    storage_account_type = try(var.vm.os_disk.storage_account_type, "Standard_LRS")
-    caching              = try(var.vm.os_disk.caching, "ReadWrite")
+    storage_account_type             = try(var.vm.os_disk.storage_account_type, "Standard_LRS")
+    caching                          = try(var.vm.os_disk.caching, "ReadWrite")
+    disk_size_gb                     = try(var.vm.os_disk.disk_size_gb, null)
+    write_accelerator_enabled        = try(var.vm.os_disk.write_accelerator_enabled, false)
+    disk_encryption_set_id           = try(var.vm.os_disk.disk_encryption_set_id, null)
+    security_encryption_type         = try(var.vm.os_disk.security_encryption_type, null)
+    secure_vm_disk_encryption_set_id = try(var.vm.os_disk.secure_vm_disk_encryption_set_id, null)
+
   }
 
   source_image_reference {
