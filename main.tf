@@ -86,7 +86,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   source_image_reference {
     publisher = try(var.vm.image.publisher, "MicrosoftWindowsServer")
     offer     = try(var.vm.image.offer, "WindowsServer")
-    sku       = try(var.vm.image.sku, "2016-Datacenter")
+    sku       = try(var.vm.image.sku, "2022-datacenter-azure-edition")
     version   = try(var.vm.image.version, "latest")
   }
 }
