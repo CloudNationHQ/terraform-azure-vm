@@ -2,7 +2,7 @@ This example illustrates the implementation of extensions.
 
 ```hcl
 module "vm" {
-  source  = "cloudnationhq/vmss/azure"
+  source  = "cloudnationhq/vm/azure"
   version = "~> 0.1"
 
   keyvault   = module.kv.vault.id
