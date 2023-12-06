@@ -40,7 +40,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 
 | Name | Description | Type | Required |
 | :-- | :-- | :-- | :-- |
-| `instance` | contains all virtual machine instances | object | yes |
+| `instance` | contains all virtual machine config | object | yes |
 | `naming` | used for naming purposes | string | yes |
 | `keyvault` | keyvault to store secrets | string | yes |
 | `location` | default azure region and can be used if location is not specified inside the object | string | no |
