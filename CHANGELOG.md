@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.2.0...v0.3.0) (2023-12-06)
+
+
+### Features
+
+* add extended tests ([#11](https://github.com/CloudNationHQ/terraform-azure-vm/issues/11)) ([ea913f2](https://github.com/CloudNationHQ/terraform-azure-vm/commit/ea913f24b9eeff99990e464d238d2cefa5d97e3a))
+
 ## [0.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.1.1...v0.2.0) (2023-12-05)
 
 
