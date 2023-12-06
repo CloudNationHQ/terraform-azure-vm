@@ -1,9 +1,9 @@
-variable "vm" {
+variable "instance" {
   description = "contains all virtual machine config"
   type        = any
 
   validation {
-    condition     = contains(["windows", "linux"], lookup(var.vm, "type", ""))
+    condition     = contains(["windows", "linux"], lookup(var.instance, "type", ""))
     error_message = "The vm type must be either 'windows' or 'linux'."
   }
 }

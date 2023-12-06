@@ -1,6 +1,6 @@
-output "vm" {
+output "instance" {
   description = "contains all virtual machine config"
-  value       = var.vm.type == "linux" ? try(azurerm_linux_virtual_machine.vm["linux"], null) : try(azurerm_windows_virtual_machine.vm["windows"], null)
+  value       = var.instance.type == "linux" ? try(azurerm_linux_virtual_machine.vm["linux"], null) : try(azurerm_windows_virtual_machine.vm["windows"], null)
 }
 
 output "subscriptionId" {

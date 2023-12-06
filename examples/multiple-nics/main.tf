@@ -57,7 +57,7 @@ module "vm" {
   naming     = local.naming
   depends_on = [module.kv]
 
-  vm = {
+  instance = {
     type          = "windows"
     name          = module.naming.windows_virtual_machine.name
     resourcegroup = module.rg.groups.demo.name

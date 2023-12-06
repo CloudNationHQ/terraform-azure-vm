@@ -1,6 +1,6 @@
 locals {
   interfaces = flatten([
-    for interface_key, nic in var.vm.interfaces : {
+    for interface_key, nic in var.instance.interfaces : {
 
       interface_key                 = interface_key
       name                          = try(nic.name, join("-", [var.naming.network_interface, interface_key]))
@@ -11,8 +11,8 @@ locals {
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
       public_ip_address_id          = try(nic.public_ip_address_id, null)
-      resourcegroup                 = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
-      location                      = coalesce(lookup(var.vm, "location", null), var.location)
+      resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+      location                      = coalesce(lookup(var.instance, "location", null), var.location)
 
     }
   ])
@@ -20,12 +20,12 @@ locals {
 
 locals {
   data_disks = flatten([
-    for disk_key, disk in try(var.vm.disks, {}) : {
+    for disk_key, disk in try(var.instance.disks, {}) : {
 
       disk_key             = disk_key
       name                 = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
-      resourcegroup        = coalesce(lookup(var.vm, "resourcegroup", null), var.resourcegroup)
-      location             = coalesce(lookup(var.vm, "location", null), var.location)
+      resourcegroup        = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+      location             = coalesce(lookup(var.instance, "location", null), var.location)
       create_option        = try(disk.create_option, "Empty")
       disk_size_gb         = try(disk.disk_size_gb, 10)
       storage_account_type = try(disk.storage_account_type, "Standard_LRS")
@@ -37,7 +37,7 @@ locals {
 
 locals {
   ext_keys = flatten([
-    for ext_key, ext in try(var.vm.extensions, {}) : {
+    for ext_key, ext in try(var.instance.extensions, {}) : {
 
       ext_key              = ext_key
       name                 = ext_key
