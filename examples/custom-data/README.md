@@ -9,7 +9,7 @@ module "vm" {
   naming     = local.naming
   depends_on = [module.kv]
 
-  vm = {
+  instance = {
     type          = "linux"
     name          = module.naming.linux_virtual_machine.name
     resourcegroup = module.rg.groups.demo.name

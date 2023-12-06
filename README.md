@@ -40,7 +40,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 
 | Name | Description | Type | Required |
 | :-- | :-- | :-- | :-- |
-| `vm` | contains all virtual machine config | object | yes |
+| `instance` | contains all virtual machine instances | object | yes |
 | `naming` | used for naming purposes | string | yes |
 | `keyvault` | keyvault to store secrets | string | yes |
 | `location` | default azure region and can be used if location is not specified inside the object | string | no |
@@ -50,7 +50,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 
 | Name | Description |
 | :-- | :-- |
-| `vm` | contains all virtual machine config |
+| `instance` | contains all virtual machine config |
 | `subscriptionId` | contains the current subscription id |
 
 ## Testing
