@@ -86,7 +86,3 @@ MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/terraform-azure-vm/
 - [Documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines)
 - [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/virtualMachine.json)
-
-## Usage
-
-## Usage
