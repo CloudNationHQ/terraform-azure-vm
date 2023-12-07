@@ -13,7 +13,6 @@ locals {
       public_ip_address_id          = try(nic.public_ip_address_id, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
-
     }
   ])
 }
@@ -30,7 +29,10 @@ locals {
       disk_size_gb         = try(disk.disk_size_gb, 10)
       storage_account_type = try(disk.storage_account_type, "Standard_LRS")
       caching              = try(disk.caching, "ReadWrite")
-      lun                  = disk.lun
+      lun = try(
+        disk.lun,
+        length(keys(var.instance.disks)) > 0 ? index(keys(var.instance.disks), disk_key) : 0
+      )
     }
   ])
 }
