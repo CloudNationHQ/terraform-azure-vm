@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.3.0...v0.4.0) (2023-12-07)
+
+
+### Features
+
+* add auto increments on lun id disks ([#15](https://github.com/CloudNationHQ/terraform-azure-vm/issues/15)) ([680e58e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/680e58e3b747c8d7d6df1e565dd79cdf7c17d0bb))
+
 ## [0.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.2.0...v0.3.0) (2023-12-06)
 
 
