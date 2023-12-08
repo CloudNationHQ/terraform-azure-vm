@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.4.0...v0.5.0) (2023-12-08)
+
+
+### Features
+
+* added an additional example demonstrating how to reference specific subnets in scenarios with multiple virtual machines ([#18](https://github.com/CloudNationHQ/terraform-azure-vm/issues/18)) ([f00c780](https://github.com/CloudNationHQ/terraform-azure-vm/commit/f00c78020909b8da52c10072a67cd9ca1733ed4a))
+
 ## [0.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.3.0...v0.4.0) (2023-12-07)
 
 
