@@ -3,7 +3,7 @@ This section outlines the configuration of multiple network interfaces, enabling
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 0.3"
+  version = "~> 0.4"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming
