@@ -90,3 +90,5 @@ output "disks" {
   }
 }
 ```
+
+In another module, reference it as `module.vm.interfaces.dcroot002.int1.subnet` or `module.vm.disks.dcroot001.disks.dsk1.name`.
