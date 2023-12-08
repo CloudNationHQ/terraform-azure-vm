@@ -62,7 +62,7 @@ locals {
 }
 ```
 
-In combination with this output we are able to reference a specific subnet for each virtual machine.
+If we need specific information regarding the interfaces on each vm from another module, the below output can be used.
 
 ```hcl
 output "interfaces" {
@@ -70,6 +70,21 @@ output "interfaces" {
     for vm_name, vm_config in local.vms : vm_name => {
       for interface_name, interface_config in vm_config.interfaces : interface_name => {
         subnet_id = interface_config.subnet
+      }
+    }
+  }
+}
+```
+
+We can do more or less the same with for example disks.
+
+```hcl
+output "disks" {
+  value = {
+    for vm_name, vm_config in local.vms : vm_name => {
+      for disk_name, disk_config in vm_config.disks : disk_name => {
+        name    = disk_config.name
+        size_gb = disk_config.disk_size_gb
       }
     }
   }
