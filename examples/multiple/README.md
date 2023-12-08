@@ -1,0 +1,77 @@
+The following example can be used for referencing specific subnets in configurations with multiple virtual machines.
+
+## Usage
+
+```hcl
+module "vm" {
+  source  = "cloudnationhq/vm/azure"
+  version = "~> 0.1"
+
+  naming        = local.naming
+  keyvault      = module.kv.vault.id
+  resourcegroup = module.rg.groups.demo.name
+  location      = module.rg.groups.demo.location
+  depends_on    = [module.kv]
+
+  for_each = local.vms
+
+  instance = each.value
+}
+```
+
+The below local holds all our virtual machine config.
+
+```hcl
+locals {
+  vms = {
+    dcroot001 = {
+      name = "vmdcroot001"
+      type = "windows"
+      size = "Standard_D2s_v5"
+      interfaces = {
+        int1 = {
+          name   = "vmdcroot-int1"
+          subnet = module.network.subnets.int.id
+        }
+      }
+      disks = {
+        dsk1 = {
+          name         = "vmdcroot001-dsk1"
+          disk_size_gb = 128
+        }
+      }
+    }
+    dcroot002 = {
+      name = "vmdcroot002"
+      type = "windows"
+      size = "Standard_D4ds_v5"
+      interfaces = {
+        int1 = {
+          name   = "vmdcroot002-int1"
+          subnet = module.network.subnets.mgt.id
+        }
+      }
+      disks = {
+        dsk1 = {
+          name         = "vmdcroot002-dsk1"
+          disk_size_gb = 128
+        }
+      }
+    }
+  }
+}
+```
+
+In combination with this output we are able to reference a specific subnet for each virtual machine.
+
+```hcl
+output "interfaces" {
+  value = {
+    for vm_name, vm_config in local.vms : vm_name => {
+      for interface_name, interface_config in vm_config.interfaces : interface_name => {
+        subnet_id = interface_config.subnet
+      }
+    }
+  }
+}
+```
