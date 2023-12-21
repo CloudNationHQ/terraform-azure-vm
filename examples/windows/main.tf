@@ -19,7 +19,7 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 0.1"
+  version = "~> 1.0"
 
   naming = local.naming
 
@@ -64,7 +64,7 @@ module "vm" {
 
     interfaces = {
       int = {
-        subnet = module.network.subnets.internal.id
+        subnet = module.network.subnets.int.id
       }
     }
   }

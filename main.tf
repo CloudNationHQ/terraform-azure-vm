@@ -5,6 +5,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.instance.type == "linux" ? { (var.instance.type) = true } : {}
 
   name                            = var.instance.name
+  computer_name                   = try(var.instance.computer_name, null)
   resource_group_name             = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location                        = coalesce(lookup(var.instance, "location", null), var.location)
   size                            = try(var.instance.size, "Standard_F2")
@@ -94,6 +95,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   for_each = var.instance.type == "windows" ? { (var.instance.type) = true } : {}
 
   name                         = var.instance.name
+  computer_name                = try(var.instance.computer_name, null)
   resource_group_name          = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location                     = coalesce(lookup(var.instance, "location", null), var.location)
   size                         = try(var.instance.size, "Standard_F2")
