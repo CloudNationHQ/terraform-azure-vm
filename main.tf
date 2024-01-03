@@ -66,7 +66,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
     content {
       type         = try(var.instance.identity.type, "SystemAssigned")
-      identity_ids = concat([try(azurerm_user_assigned_identity.identity["identity"].id, null)], [try(var.instance.identity.identity_ids, [])])
+      identity_ids = concat(try(azurerm_user_assigned_identity.identity["identity"].id, []), try(var.instance.identity.identity_ids, []))
     }
   }
 }
@@ -162,7 +162,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
     content {
       type         = try(var.instance.identity.type, "SystemAssigned")
-      identity_ids = concat([try(azurerm_user_assigned_identity.identity["identity"].id, null)], [try(var.instance.identity.identity_ids, []])])
+      identity_ids = concat(try(azurerm_user_assigned_identity.identity["identity"].id, []), try(var.instance.identity.identity_ids, []))
     }
   }
 }
