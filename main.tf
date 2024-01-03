@@ -62,16 +62,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "identity" {
-    for_each = try(var.instance.identity, null) == true ? [1] : []
+    for_each = try(var.instance.identity, null) != null ? [1] : []
 
     content {
       type         = try(var.instance.identity.type, "SystemAssigned")
       identity_ids = concat([azurerm_user_assigned_identity.primary_identity["identity"].id], try(var.instance.identity.identity_ids, null))
     }
-  }
-
-  identity {
-    type = "SystemAssigned"
   }
 }
 
@@ -162,7 +158,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "identity" {
-    for_each = try(var.instance.identity, null) == true ? [1] : []
+    for_each = try(var.instance.identity, null) != null ? [1] : []
 
     content {
       type         = try(var.instance.identity.type, "SystemAssigned")
