@@ -61,6 +61,15 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = try(var.instance.image.version, "latest")
   }
 
+  dynamic "identity" {
+    for_each = try(var.instance.identity, null) == true ? [1] : []
+
+    content {
+      type         = try(var.instance.identity.type, "SystemAssigned")
+      identity_ids = concat([azurerm_user_assigned_identity.primary_identity["identity"].id], try(var.instance.identity.identity_ids, null))
+    }
+  }
+
   identity {
     type = "SystemAssigned"
   }
@@ -151,6 +160,15 @@ resource "azurerm_windows_virtual_machine" "vm" {
     sku       = try(var.instance.image.sku, "2022-datacenter-azure-edition")
     version   = try(var.instance.image.version, "latest")
   }
+
+  dynamic "identity" {
+    for_each = try(var.instance.identity, null) == true ? [1] : []
+
+    content {
+      type         = try(var.instance.identity.type, "SystemAssigned")
+      identity_ids = concat([azurerm_user_assigned_identity.primary_identity["identity"].id], try(var.instance.identity.identity_ids, null))
+    }
+  }
 }
 
 # random password
@@ -233,4 +251,12 @@ resource "azurerm_virtual_machine_data_disk_attachment" "at" {
   virtual_machine_id = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.type].id : azurerm_windows_virtual_machine.vm[var.instance.type].id
   lun                = each.value.lun
   caching            = each.value.caching
+}
+
+resource "azurerm_user_assigned_identity" "identity" {
+  for_each = try(var.instance.identity.type, null) == "UserAssigned" || try(var.instance.identity.type, null) == "SystemAssigned, UserAssigned" ? { "identity" = {} } : {}
+
+  location            = var.instance.location
+  name                = "${var.naming.user_assigned_identity}-${var.instance.name}"
+  resource_group_name = var.instance.resourcegroup
 }
