@@ -54,8 +54,8 @@ module "vm" {
   source  = "cloudnationhq/vm/azure"
   version = "~> 0.1"
 
-  keyvault   = module.kv.vault.id
-  naming     = local.naming
+  keyvault = module.kv.vault.id
+  naming   = local.naming
 
   instance = {
     type          = "linux"
@@ -67,7 +67,7 @@ module "vm" {
       type         = "SystemAssigned, UserAssigned"
       identity_ids = [azurerm_user_assigned_identity.identity_1.id, azurerm_user_assigned_identity.identity_2.id]
     }
-    
+
     interfaces = {
       int = {
         subnet = module.network.subnets.int.id
@@ -77,13 +77,13 @@ module "vm" {
 }
 
 resource "azurerm_user_assigned_identity" "identity_1" {
-  location            = var.location
+  location            = module.rg.groups.demo.location
   name                = "${local.naming.user_assigned_identity}-id1"
-  resource_group_name = module.rg.groups.vm.name
+  resource_group_name = module.rg.groups.demo.name
 }
 
-resource "azurerm_user_assigned_identity" "identity2" {
-  location            = var.location
+resource "azurerm_user_assigned_identity" "identity_2" {
+  location            = module.rg.groups.demo.location
   name                = "${local.naming.user_assigned_identity}-id2"
-  resource_group_name = module.rg.groups.vm.name
+  resource_group_name = module.rg.groups.demo.name
 }
