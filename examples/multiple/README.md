@@ -5,7 +5,7 @@ The following example can be used for referencing specific subnets in configurat
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 0.6"
+  version = "~> 0.7"
 
   naming        = local.naming
   keyvault      = module.kv.vault.id

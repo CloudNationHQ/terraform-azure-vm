@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.6.0...v0.7.0) (2024-01-04)
+
+
+### Features
+
+* besided generating passwords or ssh keys within the module itself, it is also possible to use outputs from other modules as well ([#29](https://github.com/CloudNationHQ/terraform-azure-vm/issues/29)) ([753e054](https://github.com/CloudNationHQ/terraform-azure-vm/commit/753e05409b20aa6cee7ae3482268512e8ee2f71a))
+
 ## [0.6.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.5.0...v0.6.0) (2023-12-21)
 
 
