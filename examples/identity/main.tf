@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 0.1"
+  version = "~> 0.2"
 
   groups = {
     demo = {
@@ -19,7 +19,7 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 1.0"
+  version = "~> 1.1.1"
 
   naming = local.naming
 
@@ -39,7 +39,7 @@ module "network" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 0.1"
+  version = "~> 0.4"
 
   naming = local.naming
 
@@ -52,7 +52,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 0.1"
+  version = "~> 0.8"
 
   keyvault = module.kv.vault.id
   naming   = local.naming
@@ -74,6 +74,7 @@ module "vm" {
       }
     }
   }
+  depends_on = [module.kv]
 }
 
 resource "azurerm_user_assigned_identity" "identity_1" {
