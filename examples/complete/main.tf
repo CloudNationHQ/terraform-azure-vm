@@ -69,24 +69,9 @@ module "vm" {
       mgt = { subnet = module.network.subnets.mgt.id }
     }
 
-    identity = {
-      type         = "SystemAssigned, UserAssigned"
-      identity_ids = [data.azurerm_user_assigned_identity.identity_1.id, data.azurerm_user_assigned_identity.identity_2.id]
-    }
-
     disks = {
       db   = { size_gb = 10 }
       logs = { size_gb = 12 }
     }
   }
-}
-
-data "azurerm_user_assigned_identity" "identity_1" {
-  name                = "${local.naming.user_assigned_identity}-id-1"
-  resource_group_name = "rg-demo-sandbox"
-}
-
-data "azurerm_user_assigned_identity" "identity_2" {
-  name                = "${local.naming.user_assigned_identity}-id-2"
-  resource_group_name = "rg-demo-sandbox"
 }

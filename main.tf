@@ -62,11 +62,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "identity" {
-    for_each = try(var.instance.identity, null) != null ? [1] : []
+    for_each = length(
+      [try(var.instance.identity.type, "SystemAssigned")]
+    ) > 0 ? [1] : []
 
     content {
-      type         = try(var.instance.identity.type, "SystemAssigned")
-      identity_ids = concat(try([azurerm_user_assigned_identity.identity["identity"].id], []), try(var.instance.identity.identity_ids, []))
+      type = try(var.instance.identity.type, "SystemAssigned")
+      identity_ids = concat(
+        try([azurerm_user_assigned_identity.identity["identity"].id], []),
+        try(var.instance.identity.identity_ids, [])
+      )
     }
   }
 }
@@ -250,9 +255,11 @@ resource "azurerm_virtual_machine_data_disk_attachment" "at" {
 }
 
 resource "azurerm_user_assigned_identity" "identity" {
-  for_each = try(var.instance.identity.type, null) == "UserAssigned" || try(var.instance.identity.type, null) == "SystemAssigned, UserAssigned" ? { "identity" = {} } : {}
+  for_each = contains(
+    ["UserAssigned", "SystemAssigned, UserAssigned"], try(var.instance.identity.type, "")
+  ) ? { "identity" = {} } : {}
 
   location            = var.instance.location
-  name                = "${var.naming.user_assigned_identity}-${var.instance.name}"
+  name                = var.naming.user_assigned_identity
   resource_group_name = var.instance.resourcegroup
 }
