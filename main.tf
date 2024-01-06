@@ -63,11 +63,15 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "identity" {
-    for_each = try(var.instance.identity, null) != null ? [1] : []
+    for_each = [var.instance.identity != null ? var.instance.identity : { type = "SystemAssigned", identity_ids = null }]
 
     content {
-      type         = try(var.instance.identity.type, "SystemAssigned")
-      identity_ids = concat(try([azurerm_user_assigned_identity.identity["identity"].id], []), try(var.instance.identity.identity_ids, []))
+      type = identity.value.type != null ? identity.value.type : "SystemAssigned"
+
+      identity_ids = length(identity.value.identity_ids) > 0 ? concat(
+        [azurerm_user_assigned_identity.identity["identity"].id],
+        identity.value.identity_ids
+      ) : null
     }
   }
 }
@@ -175,11 +179,15 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "identity" {
-    for_each = try(var.instance.identity, null) != null ? [1] : []
+    for_each = [var.instance.identity != null ? var.instance.identity : { type = "SystemAssigned", identity_ids = null }]
 
     content {
-      type         = try(var.instance.identity.type, "SystemAssigned")
-      identity_ids = concat(try([azurerm_user_assigned_identity.identity["identity"].id], []), try(var.instance.identity.identity_ids, []))
+      type = identity.value.type != null ? identity.value.type : "SystemAssigned"
+
+      identity_ids = length(identity.value.identity_ids) > 0 ? concat(
+        [azurerm_user_assigned_identity.identity["identity"].id],
+        identity.value.identity_ids
+      ) : null
     }
   }
 }
