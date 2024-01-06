@@ -6,6 +6,19 @@ variable "instance" {
     condition     = contains(["windows", "linux"], lookup(var.instance, "type", ""))
     error_message = "The vm type must be either 'windows' or 'linux'."
   }
+
+  validation {
+    condition = (
+      var.instance.type == "windows" && (
+        !can(var.instance.secrets) || can(var.instance.secrets.password)
+      )
+      ) || (
+      var.instance.type == "linux" && (
+        !can(var.instance.secrets) || can(var.instance.secrets.public_key)
+      )
+    )
+    error_message = "For Windows instances, 'secrets' must contain 'password'. For Linux instances, 'secrets' must contain 'public_key'."
+  }
 }
 
 variable "naming" {
