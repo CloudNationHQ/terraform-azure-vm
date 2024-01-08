@@ -3,7 +3,7 @@ This section details the support for windows virtual machines.
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 0.7"
+  version = "~> 0.8"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming

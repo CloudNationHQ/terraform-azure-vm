@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.7.0...v0.8.0) (2024-01-08)
+
+
+### Features
+
+* add additional validation in variables ([#32](https://github.com/CloudNationHQ/terraform-azure-vm/issues/32)) ([05bc676](https://github.com/CloudNationHQ/terraform-azure-vm/commit/05bc676dc3bb1d5cd0831ab923dd28f082ac2f04))
+* add support for additional user assigned identities ([#31](https://github.com/CloudNationHQ/terraform-azure-vm/issues/31)) ([769f6bc](https://github.com/CloudNationHQ/terraform-azure-vm/commit/769f6bc4c55f91a36491a5c85abb486d04f9c6c0))
+
 ## [0.7.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.6.0...v0.7.0) (2024-01-04)
 
 
