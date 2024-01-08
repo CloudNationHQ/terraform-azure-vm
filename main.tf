@@ -278,12 +278,21 @@ resource "azurerm_virtual_machine_data_disk_attachment" "at" {
   caching            = each.value.caching
 }
 
+resource "random_string" "random_suffix" {
+  length  = 3
+  upper   = false
+  lower   = true
+  numeric = false
+  special = false
+}
+
 resource "azurerm_user_assigned_identity" "identity" {
   for_each = contains(
     ["UserAssigned", "SystemAssigned, UserAssigned"], try(var.instance.identity.type, "")
   ) ? { "identity" = {} } : {}
 
-  location            = var.instance.location
-  name                = var.naming.user_assigned_identity
-  resource_group_name = var.instance.resourcegroup
+  name                = "uai-${var.instance.name}"
+  resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+  location            = coalesce(lookup(var.instance, "location", null), var.location)
+
 }
