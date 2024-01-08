@@ -62,8 +62,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = try(var.instance.image.version, "latest")
   }
 
-  identity {
-    type = "SystemAssigned"
+  dynamic "identity" {
+    for_each = [lookup(var.instance, "identity", { type = "SystemAssigned", identity_ids = [] })]
+
+    content {
+      type = identity.value.type
+      identity_ids = concat(
+        try([azurerm_user_assigned_identity.identity["identity"].id], []),
+        lookup(identity.value, "identity_ids", [])
+      )
+    }
   }
 }
 
@@ -168,6 +176,18 @@ resource "azurerm_windows_virtual_machine" "vm" {
     sku       = try(var.instance.image.sku, "2022-datacenter-azure-edition")
     version   = try(var.instance.image.version, "latest")
   }
+
+  dynamic "identity" {
+    for_each = [lookup(var.instance, "identity", { type = "SystemAssigned", identity_ids = [] })]
+
+    content {
+      type = identity.value.type
+      identity_ids = concat(
+        try([azurerm_user_assigned_identity.identity["identity"].id], []),
+        lookup(identity.value, "identity_ids", [])
+      )
+    }
+  }
 }
 
 resource "random_password" "password" {
@@ -256,4 +276,22 @@ resource "azurerm_virtual_machine_data_disk_attachment" "at" {
   virtual_machine_id = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.type].id : azurerm_windows_virtual_machine.vm[var.instance.type].id
   lun                = each.value.lun
   caching            = each.value.caching
+}
+
+resource "random_string" "random_suffix" {
+  length  = 3
+  upper   = false
+  lower   = true
+  numeric = false
+  special = false
+}
+
+resource "azurerm_user_assigned_identity" "identity" {
+  for_each = contains(
+    ["UserAssigned", "SystemAssigned, UserAssigned"], try(var.instance.identity.type, "")
+  ) ? { "identity" = {} } : {}
+
+  name                = "uai-${var.instance.name}"
+  resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+  location            = coalesce(lookup(var.instance, "location", null), var.location)
 }
