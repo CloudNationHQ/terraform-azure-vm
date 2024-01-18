@@ -8,6 +8,7 @@ locals {
       enable_accelerated_networking = try(nic.enable_accelerated_networking, false)
       enable_ip_forwarding          = try(nic.enable_ip_forwarding, false)
       subnet_id                     = nic.subnet
+      ip_config_name                = try(nic.ip_config_name, "ipconfig")
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
       public_ip_address_id          = try(nic.public_ip_address_id, null)
