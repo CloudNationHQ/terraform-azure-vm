@@ -28,6 +28,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   secure_boot_enabled             = try(var.instance.secure_boot_enabled, null)
   vtpm_enabled                    = try(var.instance.vtpm_enabled, null)
   zone                            = try(var.instance.zone, null)
+  tags                            = try(var.instance.tags, null)
 
   additional_capabilities {
     ultra_ssd_enabled = try(var.instance.ultra_ssd_enabled, false)
@@ -154,6 +155,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   virtual_machine_scale_set_id = try(var.instance.virtual_machine_scale_set_id, null)
   vtpm_enabled                 = try(var.instance.vtpm_enabled, null)
   zone                         = try(var.instance.zone, null)
+  tags                         = try(var.instance.tags, null)
 
   bypass_platform_safety_checks_on_user_schedule_enabled = try(var.instance.bypass_platform_safety_checks_on_user_schedule_enabled, false)
 
@@ -248,6 +250,7 @@ resource "azurerm_network_interface" "nic" {
   enable_accelerated_networking = each.value.enable_accelerated_networking
   enable_ip_forwarding          = each.value.enable_ip_forwarding
   dns_servers                   = each.value.dns_servers
+  tags                          = each.value.tags
 
   ip_configuration {
     name                          = "ipconfig"
@@ -285,6 +288,7 @@ resource "azurerm_managed_disk" "disks" {
   storage_account_type = each.value.storage_account_type
   create_option        = each.value.create_option
   disk_size_gb         = each.value.disk_size_gb
+  tags                 = each.value.tags
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "at" {
@@ -314,4 +318,5 @@ resource "azurerm_user_assigned_identity" "identity" {
   name                = "uai-${var.instance.name}"
   resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
+  tags                = try(var.instance.identity.tags, null)
 }
