@@ -19,6 +19,23 @@ A last key goal is to separate logic from configuration in the module, thereby e
 - ability to use multiple interfaces and disks
 - compatible with both Linux and Windows environments
 
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.61 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.5.1 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0.4 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.61 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.5.1 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0.4 |
+
 ## Resources
 
 | Name | Type |
