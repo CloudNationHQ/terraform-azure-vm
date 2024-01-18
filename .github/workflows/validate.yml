@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: cloudnationhq/az-cn-shared-tf-workflows/.github/workflows/validate.yml@main
+    uses: cloudnationhq/terraform-azure-workflows/.github/workflows/validate.yml@main
     secrets:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
