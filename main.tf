@@ -62,6 +62,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = try(var.instance.image.version, "latest")
   }
 
+  dynamic "plan" {
+    for_each = try(var.instance.plan, null) != null ? [1] : []
+
+    content {
+      name      = try(var.instance.plan.name, null)
+      product   = try(var.instance.plan.product, null)
+      publisher = try(var.instance.plan.publisher, null)
+    }
+  }
+
   dynamic "identity" {
     for_each = [lookup(var.instance, "identity", { type = "SystemAssigned", identity_ids = [] })]
 
@@ -175,6 +185,16 @@ resource "azurerm_windows_virtual_machine" "vm" {
     offer     = try(var.instance.image.offer, "WindowsServer")
     sku       = try(var.instance.image.sku, "2022-datacenter-azure-edition")
     version   = try(var.instance.image.version, "latest")
+  }
+
+  dynamic "plan" {
+    for_each = try(var.instance.plan, null) != null ? [1] : []
+
+    content {
+      name      = try(var.instance.plan.name, null)
+      product   = try(var.instance.plan.product, null)
+      publisher = try(var.instance.plan.publisher, null)
+    }
   }
 
   dynamic "identity" {
