@@ -8,11 +8,13 @@ locals {
       enable_accelerated_networking = try(nic.enable_accelerated_networking, false)
       enable_ip_forwarding          = try(nic.enable_ip_forwarding, false)
       subnet_id                     = nic.subnet
+      ip_config_name                = try(nic.ip_config_name, "ipconfig")
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
       public_ip_address_id          = try(nic.public_ip_address_id, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
+      tags                          = try(nic.tags, null)
     }
   ])
 }
@@ -29,6 +31,7 @@ locals {
       disk_size_gb         = try(disk.disk_size_gb, 10)
       storage_account_type = try(disk.storage_account_type, "Standard_LRS")
       caching              = try(disk.caching, "ReadWrite")
+      tags                 = try(disk.tags, null)
       lun = try(
         disk.lun,
         length(keys(var.instance.disks)) > 0 ? index(keys(var.instance.disks), disk_key) : 0
