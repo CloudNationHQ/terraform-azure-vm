@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.9.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.8.0...v0.9.0) (2024-01-23)
+
+
+### Features
+
+* add support for optional plan block ([#47](https://github.com/CloudNationHQ/terraform-azure-vm/issues/47)) ([4ab8f13](https://github.com/CloudNationHQ/terraform-azure-vm/commit/4ab8f13874954e253b203f92d088637c827b5b3a))
+* added the ability to override ip config name network interfaces ([#42](https://github.com/CloudNationHQ/terraform-azure-vm/issues/42)) ([9247191](https://github.com/CloudNationHQ/terraform-azure-vm/commit/9247191e487fec57384bcfcc3ab123ada97456c5))
+* **deps:** bump github.com/Azure/azure-sdk-for-go/sdk/azidentity ([#46](https://github.com/CloudNationHQ/terraform-azure-vm/issues/46)) ([14cf680](https://github.com/CloudNationHQ/terraform-azure-vm/commit/14cf680c0f97714e3f54add18a43709c180d08f2))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#34](https://github.com/CloudNationHQ/terraform-azure-vm/issues/34)) ([a599f7c](https://github.com/CloudNationHQ/terraform-azure-vm/commit/a599f7c38c79cd02bcec2aabe9775a6a40eb2cb9))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#45](https://github.com/CloudNationHQ/terraform-azure-vm/issues/45)) ([55c2eb4](https://github.com/CloudNationHQ/terraform-azure-vm/commit/55c2eb4e82db8bff5091ef6337e074d62fb7ac11))
+* small refactor workflows ([#43](https://github.com/CloudNationHQ/terraform-azure-vm/issues/43)) ([a83f3b1](https://github.com/CloudNationHQ/terraform-azure-vm/commit/a83f3b1cf18c153aeadb4afa73af0df08bd04a16))
+
 ## [0.8.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.7.0...v0.8.0) (2024-01-08)
 
 
