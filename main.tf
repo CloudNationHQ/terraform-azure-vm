@@ -253,7 +253,7 @@ resource "azurerm_network_interface" "nic" {
   tags                          = each.value.tags
 
   ip_configuration {
-    name                          = "ipconfig"
+    name                          = each.value.ip_config_name
     private_ip_address_allocation = each.value.private_ip_address_allocation
     private_ip_address            = each.value.private_ip_address
     public_ip_address_id          = each.value.public_ip_address_id
@@ -307,7 +307,7 @@ resource "azurerm_user_assigned_identity" "identity" {
     ["UserAssigned", "SystemAssigned, UserAssigned"], try(var.instance.identity.type, "")
   ) ? { "identity" = {} } : {}
 
-  name                = "uai-${var.instance.name}"
+  name                = try(var.instance.identity.name, "uai-${var.instance.name}")
   resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
   tags                = try(var.instance.identity.tags, null)
