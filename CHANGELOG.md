@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.9.0...v1.0.0) (2024-01-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* Enhancing reliability in import scenarios. This change will cause a recreate on existing resources.
+
+### Features
+
+* refined key value configurations for all resources ([#48](https://github.com/CloudNationHQ/terraform-azure-vm/issues/48)) ([fd56760](https://github.com/CloudNationHQ/terraform-azure-vm/commit/fd56760b41c0e7bca183c736caddab4b49768daa))
+
 ## [0.9.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.8.0...v0.9.0) (2024-01-23)
 
 
