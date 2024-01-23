@@ -70,8 +70,8 @@ module "vm" {
     }
 
     disks = {
-      db   = { size_gb = 10 }
-      logs = { size_gb = 12 }
+      db   = { size_gb = 10, lun = 0 }
+      logs = { size_gb = 12, lun = 1 }
     }
   }
 }
