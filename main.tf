@@ -253,7 +253,7 @@ resource "azurerm_network_interface" "nic" {
   tags                          = each.value.tags
 
   ip_configuration {
-    name                          = "ipconfig"
+    name                          = each.value.ip_config_name
     private_ip_address_allocation = each.value.private_ip_address_allocation
     private_ip_address            = each.value.private_ip_address
     public_ip_address_id          = each.value.public_ip_address_id
