@@ -1,7 +1,7 @@
 locals {
-  interfaces = flatten([
+  interfaces = [
     for interface_key, nic in var.instance.interfaces : {
-
+      vm_name                       = var.instance.name
       interface_key                 = interface_key
       name                          = try(nic.name, join("-", [var.naming.network_interface, interface_key]))
       dns_servers                   = try(nic.dns_servers, [])
@@ -14,15 +14,14 @@ locals {
       public_ip_address_id          = try(nic.public_ip_address_id, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
-      tags                          = try(nic.tags, null)
     }
-  ])
+  ]
 }
 
 locals {
-  data_disks = flatten([
-    for disk_key, disk in try(var.instance.disks, {}) : {
-
+  data_disks = [
+    for disk_key, disk in var.instance.disks : {
+      vm_name              = var.instance.name
       disk_key             = disk_key
       name                 = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
       resourcegroup        = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
@@ -32,18 +31,15 @@ locals {
       storage_account_type = try(disk.storage_account_type, "Standard_LRS")
       caching              = try(disk.caching, "ReadWrite")
       tags                 = try(disk.tags, null)
-      lun = try(
-        disk.lun,
-        length(keys(var.instance.disks)) > 0 ? index(keys(var.instance.disks), disk_key) : 0
-      )
+      lun                  = disk.lun
     }
-  ])
+  ]
 }
 
 locals {
   ext_keys = flatten([
     for ext_key, ext in try(var.instance.extensions, {}) : {
-
+      vm_name              = var.instance.name
       ext_key              = ext_key
       name                 = ext_key
       publisher            = ext.publisher
@@ -54,4 +50,3 @@ locals {
     }
   ])
 }
-

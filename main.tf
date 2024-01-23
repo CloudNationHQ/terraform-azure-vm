@@ -3,7 +3,7 @@ data "azurerm_subscription" "current" {}
 # linux vm
 resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.instance.type == "linux" ? {
-    (var.instance.type) = true
+    (var.instance.name) = true
   } : {}
 
   name                            = var.instance.name
@@ -40,12 +40,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   network_interface_ids = [
     for intf in local.interfaces :
-    azurerm_network_interface.nic[intf.interface_key].id
+    azurerm_network_interface.nic["${intf.vm_name}-${intf.interface_key}"].id
   ]
 
   admin_ssh_key {
     username   = try(var.instance.username, "adminuser")
-    public_key = length(lookup(var.instance, "secrets", {})) == 0 ? tls_private_key.tls_key["generate"].public_key_openssh : var.instance.secrets.public_key
+    public_key = length(lookup(var.instance, "secrets", {})) == 0 ? tls_private_key.tls_key[var.instance.name].public_key_openssh : var.instance.secrets.public_key
   }
 
   os_disk {
@@ -79,7 +79,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     content {
       type = identity.value.type
       identity_ids = concat(
-        try([azurerm_user_assigned_identity.identity["identity"].id], []),
+        try([azurerm_user_assigned_identity.identity[var.instance.name].id], []),
         lookup(identity.value, "identity_ids", [])
       )
     }
@@ -91,7 +91,7 @@ resource "tls_private_key" "tls_key" {
   # workaround, keys used in for each must be known at plan time
   for_each = var.instance.type == "linux" && lookup(
     var.instance, "secrets", {}) == {} ? {
-    "generate" = true
+    (var.instance.name) = true
   } : {}
 
   algorithm = try(var.instance.encryption.algorithm, "RSA")
@@ -101,29 +101,29 @@ resource "tls_private_key" "tls_key" {
 resource "azurerm_key_vault_secret" "tls_public_key_secret" {
   for_each = var.instance.type == "linux" && lookup(
     var.instance, "secrets", {}) == {} ? {
-    "generate" = true
+    (var.instance.name) = true
   } : {}
 
   name         = format("%s-%s-%s", "kvs", var.instance.name, "pub")
-  value        = tls_private_key.tls_key[each.key].public_key_openssh
+  value        = tls_private_key.tls_key[var.instance.name].public_key_openssh
   key_vault_id = var.keyvault
 }
 
 resource "azurerm_key_vault_secret" "tls_private_key_secret" {
   for_each = var.instance.type == "linux" && lookup(
     var.instance, "secrets", {}) == {} ? {
-    "generate" = true
+    (var.instance.name) = true
   } : {}
 
   name         = format("%s-%s-%s", "kvs", var.instance.name, "priv")
-  value        = tls_private_key.tls_key[each.key].private_key_pem
+  value        = tls_private_key.tls_key[var.instance.name].private_key_pem
   key_vault_id = var.keyvault
 }
 
 # windows vm
 resource "azurerm_windows_virtual_machine" "vm" {
   for_each = var.instance.type == "windows" ? {
-    (var.instance.type) = true
+    (var.instance.name) = true
   } : {}
 
   name                = var.instance.name
@@ -135,7 +135,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
   admin_password = length(
     lookup(var.instance, "secrets", {})) > 0 ? var.instance.secrets.password : (
-    var.instance.type == "windows" ? azurerm_key_vault_secret.secret["generate"].value : ""
+    var.instance.type == "windows" ? azurerm_key_vault_secret.secret[var.instance.name].value : ""
   )
 
   allow_extension_operations   = try(var.instance.allow_extension_operations, true)
@@ -161,7 +161,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
   network_interface_ids = [
     for intf in local.interfaces :
-    azurerm_network_interface.nic[intf.interface_key].id
+    azurerm_network_interface.nic["${intf.vm_name}-${intf.interface_key}"].id
   ]
 
   additional_capabilities {
@@ -205,7 +205,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     content {
       type = identity.value.type
       identity_ids = concat(
-        try([azurerm_user_assigned_identity.identity["identity"].id], []),
+        try([azurerm_user_assigned_identity.identity[var.instance.name].id], []),
         lookup(identity.value, "identity_ids", [])
       )
     }
@@ -216,7 +216,7 @@ resource "random_password" "password" {
   # workaround, keys used in for each must be known at plan time
   for_each = var.instance.type == "windows" && lookup(
     var.instance, "secrets", {}) == {} ? {
-    "generate" = true
+    (var.instance.name) = true
   } : {}
 
   length      = 24
@@ -230,18 +230,18 @@ resource "random_password" "password" {
 resource "azurerm_key_vault_secret" "secret" {
   for_each = var.instance.type == "windows" && lookup(
     var.instance, "secrets", {}) == {} ? {
-    "generate" = true
+    (var.instance.name) = true
   } : {}
 
   name         = format("%s-%s", "kvs", var.instance.name)
-  value        = random_password.password["generate"].result
+  value        = random_password.password[var.instance.name].result
   key_vault_id = var.keyvault
 }
 
 # interfaces
 resource "azurerm_network_interface" "nic" {
   for_each = {
-    for nic in local.interfaces : nic.interface_key => nic
+    for intf in local.interfaces : "${intf.vm_name}-${intf.interface_key}" => intf
   }
 
   name                          = each.value.name
@@ -250,7 +250,7 @@ resource "azurerm_network_interface" "nic" {
   enable_accelerated_networking = each.value.enable_accelerated_networking
   enable_ip_forwarding          = each.value.enable_ip_forwarding
   dns_servers                   = each.value.dns_servers
-  tags                          = each.value.tags
+  tags                          = try(var.instance.tags, null)
 
   ip_configuration {
     name                          = each.value.ip_config_name
@@ -264,11 +264,11 @@ resource "azurerm_network_interface" "nic" {
 # extensions
 resource "azurerm_virtual_machine_extension" "ext" {
   for_each = {
-    for ext in local.ext_keys : ext.ext_key => ext
+    for ext in local.ext_keys : "${ext.vm_name}-${ext.ext_key}" => ext
   }
 
   name                 = each.value.name
-  virtual_machine_id   = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.type].id : azurerm_windows_virtual_machine.vm[var.instance.type].id
+  virtual_machine_id   = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.name].id : azurerm_windows_virtual_machine.vm[var.instance.name].id
   publisher            = each.value.publisher
   type                 = each.value.type
   type_handler_version = each.value.type_handler_version
@@ -279,7 +279,7 @@ resource "azurerm_virtual_machine_extension" "ext" {
 # data disks
 resource "azurerm_managed_disk" "disks" {
   for_each = {
-    for disk in local.data_disks : disk.disk_key => disk
+    for disk in local.data_disks : "${disk.vm_name}-${disk.disk_key}" => disk
   }
 
   name                 = each.value.name
@@ -292,12 +292,10 @@ resource "azurerm_managed_disk" "disks" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "at" {
-  for_each = {
-    for disk in local.data_disks : disk.disk_key => disk
-  }
+  for_each = { for disk in local.data_disks : "${disk.vm_name}-${disk.disk_key}" => disk }
 
   managed_disk_id    = azurerm_managed_disk.disks[each.key].id
-  virtual_machine_id = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.type].id : azurerm_windows_virtual_machine.vm[var.instance.type].id
+  virtual_machine_id = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.name].id : azurerm_windows_virtual_machine.vm[var.instance.name].id
   lun                = each.value.lun
   caching            = each.value.caching
 }
@@ -305,7 +303,8 @@ resource "azurerm_virtual_machine_data_disk_attachment" "at" {
 resource "azurerm_user_assigned_identity" "identity" {
   for_each = contains(
     ["UserAssigned", "SystemAssigned, UserAssigned"], try(var.instance.identity.type, "")
-  ) ? { "identity" = {} } : {}
+  ) ? { (var.instance.name) = {} } : {}
+
 
   name                = try(var.instance.identity.name, "uai-${var.instance.name}")
   resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
