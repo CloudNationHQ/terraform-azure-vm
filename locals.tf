@@ -20,7 +20,7 @@ locals {
 
 locals {
   data_disks = [
-    for disk_key, disk in var.instance.disks : {
+    for disk_key, disk in try(var.instance.disks, {}) : {
       vm_name              = var.instance.name
       disk_key             = disk_key
       name                 = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
