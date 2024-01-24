@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.0.0...v1.0.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* make the disks property in data_disks optional again ([#51](https://github.com/CloudNationHQ/terraform-azure-vm/issues/51)) ([3652a21](https://github.com/CloudNationHQ/terraform-azure-vm/commit/3652a2198e7dec6a384736f0a524671f801e3240))
+
 ## [1.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v0.9.0...v1.0.0) (2024-01-23)
 
 
