@@ -250,7 +250,7 @@ resource "azurerm_network_interface" "nic" {
   enable_accelerated_networking = each.value.enable_accelerated_networking
   enable_ip_forwarding          = each.value.enable_ip_forwarding
   dns_servers                   = each.value.dns_servers
-  tags                          = try(var.instance.tags, null)
+  tags                          = each.value.tags
 
   ip_configuration {
     name                          = each.value.ip_config_name

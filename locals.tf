@@ -12,6 +12,7 @@ locals {
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
       public_ip_address_id          = try(nic.public_ip_address_id, null)
+      tags                          = try(nic.tags, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
     }
