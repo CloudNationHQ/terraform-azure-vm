@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.0.1...v1.0.2) (2024-01-25)
+
+
+### Bug Fixes
+
+* separate tags of the nic from the instance ([#54](https://github.com/CloudNationHQ/terraform-azure-vm/issues/54)) ([935301d](https://github.com/CloudNationHQ/terraform-azure-vm/commit/935301d06b84c4622706a6661ee368388e4069a4))
+
 ## [1.0.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.0.0...v1.0.1) (2024-01-24)
 
 
