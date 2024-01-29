@@ -17,6 +17,15 @@ resource "azurerm_linux_virtual_machine" "vm" {
   availability_set_id             = try(var.instance.availability_set, null)
   custom_data                     = try(var.instance.custom_data, null)
   user_data                       = try(var.instance.user_data, null)
+  capacity_reservation_group_id   = try(var.instance.capacity_reservation_group_id, null)
+  virtual_machine_scale_set_id    = try(var.instance.virtual_machine_scale_set_id, null)
+  proximity_placement_group_id    = try(var.instance.proximity_placement_group_id, null)
+  dedicated_host_group_id         = try(var.instance.dedicated_host_group_id, null)
+  platform_fault_domain           = try(var.instance.platform_fault_domain, null)
+  source_image_id                 = try(var.instance.source_image_id, null)
+  dedicated_host_id               = try(var.instance.dedicated_host_id, null)
+  max_bid_price                   = try(var.instance.max_bid_price, null)
+  edge_zone                       = try(var.instance.edge_zone, null)
   disable_password_authentication = try(var.instance.disable_password_authentication, true)
   encryption_at_host_enabled      = try(var.instance.encryption_at_host_enabled, false)
   extensions_time_budget          = try(var.instance.extensions_time_budget, null)
@@ -138,24 +147,34 @@ resource "azurerm_windows_virtual_machine" "vm" {
     var.instance.type == "windows" ? azurerm_key_vault_secret.secret[var.instance.name].value : ""
   )
 
-  allow_extension_operations   = try(var.instance.allow_extension_operations, true)
-  availability_set_id          = try(var.instance.availability_set, null)
-  custom_data                  = try(var.instance.custom_data, null)
-  user_data                    = try(var.instance.user_data, null)
-  enable_automatic_updates     = try(var.instance.enable_automatic_updates, false)
-  encryption_at_host_enabled   = try(var.instance.encryption_at_host_enabled, false)
-  eviction_policy              = try(var.instance.eviction_policy, null)
-  hotpatching_enabled          = try(var.instance.hotpatching_enabled, false)
-  patch_assessment_mode        = try(var.instance.patch_assessment_mode, "ImageDefault")
-  patch_mode                   = try(var.instance.patch_mode, "Manual")
-  priority                     = try(var.instance.priority, "Regular")
-  reboot_setting               = try(var.instance.reboot_setting, null)
-  secure_boot_enabled          = try(var.instance.secure_boot_enabled, null)
-  timezone                     = try(var.instance.timezone, null)
-  virtual_machine_scale_set_id = try(var.instance.virtual_machine_scale_set_id, null)
-  vtpm_enabled                 = try(var.instance.vtpm_enabled, null)
-  zone                         = try(var.instance.zone, null)
-  tags                         = try(var.instance.tags, null)
+  allow_extension_operations    = try(var.instance.allow_extension_operations, true)
+  availability_set_id           = try(var.instance.availability_set, null)
+  custom_data                   = try(var.instance.custom_data, null)
+  user_data                     = try(var.instance.user_data, null)
+  enable_automatic_updates      = try(var.instance.enable_automatic_updates, false)
+  encryption_at_host_enabled    = try(var.instance.encryption_at_host_enabled, false)
+  eviction_policy               = try(var.instance.eviction_policy, null)
+  hotpatching_enabled           = try(var.instance.hotpatching_enabled, false)
+  patch_assessment_mode         = try(var.instance.patch_assessment_mode, "ImageDefault")
+  patch_mode                    = try(var.instance.patch_mode, "Manual")
+  priority                      = try(var.instance.priority, "Regular")
+  reboot_setting                = try(var.instance.reboot_setting, null)
+  secure_boot_enabled           = try(var.instance.secure_boot_enabled, null)
+  license_type                  = try(var.instance.license_type, null)
+  max_bid_price                 = try(var.instance.max_bid_price, null)
+  edge_zone                     = try(var.instance.edge_zone, null)
+  dedicated_host_id             = try(var.instance.dedicated_host_id, null)
+  source_image_id               = try(var.instance.source_image_id, null)
+  platform_fault_domain         = try(var.instance.platform_fault_domain, null)
+  extensions_time_budget        = try(var.instance.extensions_time_budget, null)
+  dedicated_host_group_id       = try(var.instance.dedicated_host_group_id, null)
+  proximity_placement_group_id  = try(var.instance.proximity_placement_group_id, null)
+  capacity_reservation_group_id = try(var.instance.capacity_reservation_group_id, null)
+  timezone                      = try(var.instance.timezone, null)
+  virtual_machine_scale_set_id  = try(var.instance.virtual_machine_scale_set_id, null)
+  vtpm_enabled                  = try(var.instance.vtpm_enabled, null)
+  zone                          = try(var.instance.zone, null)
+  tags                          = try(var.instance.tags, null)
 
   bypass_platform_safety_checks_on_user_schedule_enabled = try(var.instance.bypass_platform_safety_checks_on_user_schedule_enabled, false)
 
@@ -180,6 +199,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     disk_encryption_set_id           = try(var.instance.os_disk.disk_encryption_set_id, null)
     security_encryption_type         = try(var.instance.os_disk.security_encryption_type, null)
     secure_vm_disk_encryption_set_id = try(var.instance.os_disk.secure_vm_disk_encryption_set_id, null)
+    name                             = try(var.instance.os_disk.name, null)
   }
 
   source_image_reference {
@@ -249,6 +269,10 @@ resource "azurerm_network_interface" "nic" {
   location                      = each.value.location
   enable_accelerated_networking = each.value.enable_accelerated_networking
   enable_ip_forwarding          = each.value.enable_ip_forwarding
+  auxiliary_sku                 = each.value.auxiliary_sku
+  auxiliary_mode                = each.value.auxiliary_mode
+  internal_dns_name_label       = each.value.internal_dns_name_label
+  edge_zone                     = each.value.edge_zone
   dns_servers                   = each.value.dns_servers
   tags                          = each.value.tags
 
@@ -258,6 +282,7 @@ resource "azurerm_network_interface" "nic" {
     private_ip_address            = each.value.private_ip_address
     public_ip_address_id          = each.value.public_ip_address_id
     subnet_id                     = each.value.subnet_id
+    private_ip_address_version    = each.value.private_ip_address_version
   }
 }
 
