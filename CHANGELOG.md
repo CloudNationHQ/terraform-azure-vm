@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.0.2...v1.1.0) (2024-01-29)
+
+
+### Features
+
+* add some missing properties ([#56](https://github.com/CloudNationHQ/terraform-azure-vm/issues/56)) ([99c7448](https://github.com/CloudNationHQ/terraform-azure-vm/commit/99c7448f18ee117e792180651215052887972109))
+
 ## [1.0.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.0.1...v1.0.2) (2024-01-25)
 
 
