@@ -24,6 +24,7 @@ variable "instance" {
 variable "naming" {
   description = "used for naming purposes"
   type        = map(string)
+  default     = {}
 }
 
 variable "keyvault" {
