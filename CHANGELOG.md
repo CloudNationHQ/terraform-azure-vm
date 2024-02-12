@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.1.1...v1.2.0) (2024-02-12)
+
+
+### Features
+
+* naming variable is optional now ([#62](https://github.com/CloudNationHQ/terraform-azure-vm/issues/62)) ([890875a](https://github.com/CloudNationHQ/terraform-azure-vm/commit/890875a2524fb3abb94372183a3ebb54f8713003))
+
 ## [1.1.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.1.0...v1.1.1) (2024-02-12)
 
 
