@@ -43,16 +43,16 @@ locals {
 }
 
 locals {
-  ext_keys = flatten([
-    for ext_key, ext in try(var.instance.extensions, {}) : {
-      vm_name              = var.instance.name
-      ext_key              = ext_key
-      name                 = ext_key
-      publisher            = ext.publisher
-      type                 = ext.type
-      type_handler_version = ext.type_handler_version
-      protected_settings   = try(ext.protected_settings, null)
-      settings             = try(ext.settings, null)
+  ext_keys = {
+    for ext_name, ext in var.instance.extensions : "${var.instance.name}-${ext_name}" => {
+      name                 = ext_name,
+      vm_name              = var.instance.name,
+      ext_key              = ext.ext_key,
+      publisher            = ext.publisher,
+      type                 = ext.type,
+      type_handler_version = ext.type_handler_version,
+      settings             = ext.settings,
+      protected_settings   = try(ext.protected_settings, {}),
     }
-  ])
+  }
 }

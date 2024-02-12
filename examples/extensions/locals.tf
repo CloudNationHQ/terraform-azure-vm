@@ -8,7 +8,7 @@ locals {
 }
 
 locals {
-  exts = {
+  extensions = {
     custom = {
       publisher            = "Microsoft.Azure.Extensions"
       type                 = "CustomScript"

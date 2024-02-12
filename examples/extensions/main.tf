@@ -61,7 +61,7 @@ module "vm" {
     name          = module.naming.linux_virtual_machine.name
     resourcegroup = module.rg.groups.demo.name
     location      = module.rg.groups.demo.location
-    extensions    = local.exts
+    extensions    = local.extensions
 
     interfaces = {
       int = {
