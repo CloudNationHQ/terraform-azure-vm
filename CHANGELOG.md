@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.1.0...v1.1.1) (2024-02-12)
+
+
+### Bug Fixes
+
+* refactored for each loop by using static keys in the extension resource to prevent unknown value issues ([#60](https://github.com/CloudNationHQ/terraform-azure-vm/issues/60)) ([f6de31c](https://github.com/CloudNationHQ/terraform-azure-vm/commit/f6de31c66ca182dcee165e825bb9abae1b20af6d))
+
 ## [1.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.0.2...v1.1.0) (2024-01-29)
 
 
