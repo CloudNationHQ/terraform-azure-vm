@@ -48,6 +48,17 @@ module "kv" {
   }
 }
 
+module "analytics" {
+  source  = "cloudnationhq/law/azure"
+  version = "~> 0.1"
+
+  law = {
+    name          = module.naming.log_analytics_workspace.name
+    location      = module.rg.groups.demo.location
+    resourcegroup = module.rg.groups.demo.name
+  }
+}
+
 module "vm" {
   source  = "cloudnationhq/vm/azure"
   version = "~> 0.1"
@@ -61,7 +72,7 @@ module "vm" {
     name          = module.naming.linux_virtual_machine.name
     resourcegroup = module.rg.groups.demo.name
     location      = module.rg.groups.demo.location
-    extensions    = local.exts
+    extensions    = local.extensions
 
     interfaces = {
       int = {
