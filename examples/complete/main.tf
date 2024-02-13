@@ -53,9 +53,9 @@ module "vm" {
   source = "../.."
   # version = "~> 0.1"
 
-  keyvault_id = module.kv.vault.id
-  naming      = local.naming
-  depends_on  = [module.kv]
+  keyvault   = module.kv.vault.id
+  naming     = local.naming
+  depends_on = [module.kv]
 
   instance = {
     name          = module.naming.linux_virtual_machine.name

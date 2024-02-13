@@ -12,7 +12,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   location                        = coalesce(lookup(var.instance, "location", null), var.location)
   size                            = try(var.instance.size, "Standard_D2s_v3")
   admin_username                  = try(var.instance.username, "adminuser")
-  admin_password                  = length(lookup(var.instance, "password", {})) > 0 ? var.instance.password : azurerm_key_vault_secret.secret[var.instance.name].value
+  admin_password                  = try(var.instance.password, null) != null ? var.instance.password : try(var.instance.public_key, null) == null ? azurerm_key_vault_secret.secret[var.instance.name].value : null
   license_type                    = try(var.instance.license_type, null)
   allow_extension_operations      = try(var.instance.allow_extension_operations, true)
   availability_set_id             = try(var.instance.availability_set, null)
@@ -53,9 +53,13 @@ resource "azurerm_linux_virtual_machine" "vm" {
     azurerm_network_interface.nic["${intf.vm_name}-${intf.interface_key}"].id
   ]
 
-  admin_ssh_key {
-    username   = try(var.instance.username, "adminuser")
-    public_key = length(lookup(var.instance, "public_key", {})) == 0 ? tls_private_key.tls_key[var.instance.name].public_key_openssh : var.instance.public_key
+  dynamic "admin_ssh_key" {
+    for_each = try(var.instance.public_key, null) != null ? [1] : []
+    content {
+      username = try(var.instance.username, "adminuser")
+      public_key = try(var.instance.public_key, null) != null ? var.instance.public_key : try(
+      var.instance.password, null) == null ? tls_private_key.tls_key[var.instance.name].public_key_openssh : null
+    }
   }
 
   os_disk {
@@ -99,35 +103,29 @@ resource "azurerm_linux_virtual_machine" "vm" {
 # secrets
 resource "tls_private_key" "tls_key" {
   # workaround, keys used in for each must be known at plan time
-  for_each = var.instance.type == "linux" && lookup(
-    var.instance, "public_key", {}) == {} ? {
-    (var.instance.name) = true
-  } : {}
+  for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
+  var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
 
   algorithm = try(var.instance.encryption.algorithm, "RSA")
   rsa_bits  = try(var.instance.encryption.rsa_bits, 4096)
 }
 
 resource "azurerm_key_vault_secret" "tls_public_key_secret" {
-  for_each = var.instance.type == "linux" && lookup(
-    var.instance, "public_key", {}) == {} ? {
-    (var.instance.name) = true
-  } : {}
+  for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
+  var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
 
   name         = format("%s-%s-%s", "kvs", var.instance.name, "pub")
   value        = tls_private_key.tls_key[var.instance.name].public_key_openssh
-  key_vault_id = var.keyvault_id
+  key_vault_id = var.keyvault
 }
 
 resource "azurerm_key_vault_secret" "tls_private_key_secret" {
-  for_each = var.instance.type == "linux" && lookup(
-    var.instance, "public_key", {}) == {} ? {
-    (var.instance.name) = true
-  } : {}
+  for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
+  var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
 
   name         = format("%s-%s-%s", "kvs", var.instance.name, "priv")
   value        = tls_private_key.tls_key[var.instance.name].private_key_pem
-  key_vault_id = var.keyvault_id
+  key_vault_id = var.keyvault
 }
 
 # windows vm
@@ -232,10 +230,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
 resource "random_password" "password" {
   # workaround, keys used in for each must be known at plan time
-  for_each = lookup(
-    var.instance, "password", {}) == {} ? {
-    (var.instance.name) = true
-  } : {}
+  for_each = lookup(var.instance, "password", {}) == {} && lookup(var.instance, "public_key", {}) == {} ? {
+  (var.instance.name) = true } : {}
 
   length      = 24
   special     = true
@@ -246,14 +242,12 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_key_vault_secret" "secret" {
-  for_each = lookup(
-    var.instance, "password", {}) == {} ? {
-    (var.instance.name) = true
-  } : {}
+  for_each = lookup(var.instance, "password", {}) == {} && lookup(var.instance, "public_key", {}) == {} ? {
+  (var.instance.name) = true } : {}
 
   name         = format("%s-%s", "kvs", var.instance.name)
   value        = random_password.password[var.instance.name].result
-  key_vault_id = var.keyvault_id
+  key_vault_id = var.keyvault
 }
 
 # interfaces

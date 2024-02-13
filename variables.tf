@@ -27,8 +27,8 @@ variable "naming" {
   default     = {}
 }
 
-variable "keyvault_id" {
-  description = "keyvault to store secrets"
+variable "keyvault" {
+  description = "keyvault id to store secrets"
   type        = string
   default     = null
 }
