@@ -69,8 +69,8 @@ module "kv" {
 }
 
 module "vm-linux-ssh" {
-  source = "../.."
-  # version = "~> 0.1"
+  source  = "cloudnationhq/vm/azure"
+  version = "~> 1.3.1"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -91,8 +91,8 @@ module "vm-linux-ssh" {
 }
 
 module "vm-linux-password" {
-  source = "../.."
-  # version = "~> 0.1"
+  source  = "cloudnationhq/vm/azure"
+  version = "~> 1.3.1"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -113,8 +113,8 @@ module "vm-linux-password" {
 }
 
 module "vm-windows-password" {
-  source = "../.."
-  # version = "~> 0.1"
+  source  = "cloudnationhq/vm/azure"
+  version = "~> 1.3.1"
 
   naming     = local.naming
   depends_on = [module.kv]
