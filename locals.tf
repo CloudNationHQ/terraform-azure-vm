@@ -43,16 +43,16 @@ locals {
 }
 
 locals {
-  ext_keys = {
-    for ext_name, ext in var.instance.extensions : "${var.instance.name}-${ext_name}" => {
+  ext_keys = length(lookup(var.instance, "extensions", {})) > 0 ? {
+    for ext_name, ext in lookup(var.instance, "extensions", {}) :
+    "${var.instance.name}-${ext_name}" => {
       name                 = ext_name,
       vm_name              = var.instance.name,
-      ext_key              = ext.ext_key,
       publisher            = ext.publisher,
       type                 = ext.type,
       type_handler_version = ext.type_handler_version,
-      settings             = ext.settings,
-      protected_settings   = try(ext.protected_settings, {}),
+      settings             = lookup(ext, "settings", {}),
+      protected_settings   = lookup(ext, "protected_settings", {}),
     }
-  }
+  } : {}
 }
