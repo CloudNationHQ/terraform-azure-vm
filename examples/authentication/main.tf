@@ -49,17 +49,17 @@ module "kv" {
 
     secrets = {
       tls_keys = {
-        vm-linux-demo-dev-key = {
+        vm-linux-key = {
           algorithm = "RSA"
           key_size  = 2048
         }
       }
       random_string = {
-        vm-linux-demo-dev-password = {
+        vm-linux-password = {
           length  = 24
           special = false
         }
-        vm-windows-demo-dev-password = {
+        vm-windows-password = {
           length  = 24
           special = false
         }
@@ -76,17 +76,17 @@ module "vm-linux-ssh" {
   depends_on = [module.kv]
 
   instance = {
-    name          = module.naming.linux_virtual_machine.name
+    name          = "${module.naming.linux_virtual_machine.name}-01"
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
     type          = "linux"
 
     interfaces = {
-      int = { subnet = module.network.subnets.int.id }
+      int1 = { subnet = module.network.subnets.int.id }
     }
 
     username   = "linux-admin" ## default is "adminuser" if not set
-    public_key = module.kv.tls_public_keys.vm-linux-demo-dev-key.value
+    public_key = module.kv.tls_public_keys.vm-linux-key.value
   }
 }
 
@@ -98,17 +98,17 @@ module "vm-linux-password" {
   depends_on = [module.kv]
 
   instance = {
-    name          = module.naming.linux_virtual_machine.name
+    name          = "${module.naming.linux_virtual_machine.name}-02"
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
     type          = "linux"
 
     interfaces = {
-      int = { subnet = module.network.subnets.int.id }
+      int2 = { subnet = module.network.subnets.int.id }
     }
 
     username = "linux-admin" ## default is "adminuser" if not set
-    password = module.kv.secrets.vm-linux-demo-dev-password.value
+    password = module.kv.secrets.vm-linux-password.value
   }
 }
 
@@ -120,16 +120,16 @@ module "vm-windows-password" {
   depends_on = [module.kv]
 
   instance = {
-    name          = module.naming.windows_virtual_machine.name
+    name          = "${module.naming.windows_virtual_machine.name}-03"
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
     type          = "windows"
 
     interfaces = {
-      int = { subnet = module.network.subnets.int.id }
+      int3 = { subnet = module.network.subnets.int.id }
     }
 
     username = "windows-admin" ## default is "adminuser" if not set
-    password = module.kv.secrets.vm-windows-demo-dev-password.value
+    password = module.kv.secrets.vm-windows-password.value
   }
 }
