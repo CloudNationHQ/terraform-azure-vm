@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.2.0...v1.2.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* make extensions optional again ([#64](https://github.com/CloudNationHQ/terraform-azure-vm/issues/64)) ([5924e82](https://github.com/CloudNationHQ/terraform-azure-vm/commit/5924e828c359f3ea5f6d1ca0cd927623543a6dfa))
+
 ## [1.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.1.1...v1.2.0) (2024-02-12)
 
 
