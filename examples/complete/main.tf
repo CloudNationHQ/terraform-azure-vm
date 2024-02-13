@@ -50,18 +50,17 @@ module "kv" {
 }
 
 module "vm" {
-  source  = "cloudnationhq/vm/azure"
-  version = "~> 0.1"
+  source = "../.."
+  # version = "~> 0.1"
 
-  keyvault   = module.kv.vault.id
-  naming     = local.naming
-  depends_on = [module.kv]
+  keyvault_id = module.kv.vault.id
+  naming      = local.naming
+  depends_on  = [module.kv]
 
   instance = {
     name          = module.naming.linux_virtual_machine.name
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
-    keyvault      = module.kv.vault.id
     type          = "linux"
 
     interfaces = {
