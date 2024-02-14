@@ -133,4 +133,3 @@ module "vm-windows-password" {
     password = module.kv.secrets.vm-windows-password.value
   }
 }
-
