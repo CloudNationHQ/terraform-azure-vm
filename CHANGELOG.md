@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.2.1...v1.3.0) (2024-02-14)
+
+
+### Features
+
+* added option to use generated or external ssh key/password ([#67](https://github.com/CloudNationHQ/terraform-azure-vm/issues/67)) ([c7bb6a5](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c7bb6a5ac839f861ace57bfa54451660abbbfd62))
+
 ## [1.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.2.0...v1.2.1) (2024-02-13)
 
 
