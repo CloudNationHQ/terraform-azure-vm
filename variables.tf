@@ -14,10 +14,10 @@ variable "instance" {
       )
       ) || (
       var.instance.type == "linux" && (
-        !can(var.instance.secrets) || can(var.instance.secrets.public_key)
+        !can(var.instance.secrets) || can(var.instance.secrets.public_key || can(var.instance.secrets.password))
       )
     )
-    error_message = "For Windows instances, 'secrets' must contain 'password'. For Linux instances, 'secrets' must contain 'public_key'."
+    error_message = "For Windows instances, 'secrets' must contain 'password'. For Linux instances, 'secrets' must contain 'public_key' or 'password'."
   }
 }
 
@@ -28,8 +28,9 @@ variable "naming" {
 }
 
 variable "keyvault" {
-  description = "keyvault to store secrets"
+  description = "keyvault id to store secrets"
   type        = string
+  default     = null
 }
 
 variable "location" {
