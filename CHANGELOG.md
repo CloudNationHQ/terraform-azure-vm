@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.4.0...v1.4.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* fix managed disk defaults ([#71](https://github.com/CloudNationHQ/terraform-azure-vm/issues/71)) ([d77b012](https://github.com/CloudNationHQ/terraform-azure-vm/commit/d77b012537b2271d83574131a941065511f35911))
+
 ## [1.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.3.0...v1.4.0) (2024-02-15)
 
 
