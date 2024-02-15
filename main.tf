@@ -293,13 +293,40 @@ resource "azurerm_managed_disk" "disks" {
     for disk in local.data_disks : "${disk.vm_name}-${disk.disk_key}" => disk
   }
 
-  name                 = each.value.name
-  location             = each.value.location
-  resource_group_name  = each.value.resourcegroup
-  storage_account_type = each.value.storage_account_type
-  create_option        = each.value.create_option
-  disk_size_gb         = each.value.disk_size_gb
-  tags                 = each.value.tags
+  name                              = each.value.name
+  location                          = each.value.location
+  resource_group_name               = each.value.resourcegroup
+  storage_account_type              = each.value.storage_account_type
+  create_option                     = each.value.create_option
+  disk_size_gb                      = each.value.disk_size_gb
+  tier                              = each.value.tier
+  zone                              = each.value.zone
+  os_type                           = each.value.os_type
+  edge_zone                         = each.value.edge_zone
+  max_shares                        = each.value.max_shares
+  source_uri                        = each.value.source_uri
+  optimized_frequent_attach_enabled = each.value.optimized_frequent_attach_enabled
+  public_network_access_enabled     = each.value.public_network_access_enabled
+  on_demand_bursting_enabled        = each.value.on_demand_bursting_enabled
+  gallery_image_reference_id        = each.value.gallery_image_reference_id
+  performance_plus_enabled          = each.value.performance_plus_enabled
+  trusted_launch_enabled            = each.value.trusted_launch_enabled
+  network_access_policy             = each.value.network_access_policy
+  disk_mbps_read_write              = each.value.disk_mbps_read_write
+  disk_iops_read_write              = each.value.disk_iops_read_write
+  logical_sector_size               = each.value.logical_sector_size
+  disk_mbps_read_only               = each.value.disk_mbps_read_only
+  disk_iops_read_only               = each.value.disk_iops_read_only
+  source_resource_id                = each.value.source_resource_id
+  image_reference_id                = each.value.image_reference_id
+  secure_vm_disk_encryption_set_id  = each.value.secure_vm_disk_encryption_set_id
+  disk_encryption_set_id            = each.value.disk_encryption_set_id
+  security_type                     = each.value.security_type
+  disk_access_id                    = each.value.disk_access_id
+  upload_size_bytes                 = each.value.upload_size_bytes
+  hyper_v_generation                = each.value.hyper_v_generation
+  storage_account_id                = each.value.storage_account_id
+  tags                              = each.value.tags
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "at" {
