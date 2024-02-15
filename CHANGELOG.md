@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.3.0...v1.4.0) (2024-02-15)
+
+
+### Features
+
+* add missing properties managed disks ([#69](https://github.com/CloudNationHQ/terraform-azure-vm/issues/69)) ([16e2dd0](https://github.com/CloudNationHQ/terraform-azure-vm/commit/16e2dd00bcd56ca7ee4da4a79e6e4ff1218a5357))
+
 ## [1.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.2.1...v1.3.0) (2024-02-14)
 
 
