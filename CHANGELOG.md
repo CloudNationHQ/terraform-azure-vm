@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.5.0...v1.5.1) (2024-02-16)
+
+
+### Bug Fixes
+
+* fix defaults sku image offer ([#75](https://github.com/CloudNationHQ/terraform-azure-vm/issues/75)) ([be33a68](https://github.com/CloudNationHQ/terraform-azure-vm/commit/be33a680406f64944b5f92e0ff81db0f2d3150eb))
+
 ## [1.5.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.4.1...v1.5.0) (2024-02-16)
 
 
