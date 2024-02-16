@@ -152,7 +152,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   availability_set_id           = try(var.instance.availability_set, null)
   custom_data                   = try(var.instance.custom_data, null)
   user_data                     = try(var.instance.user_data, null)
-  enable_automatic_updates      = try(var.instance.enable_automatic_updates, false)
+  enable_automatic_updates      = try(var.instance.enable_automatic_updates, true)
   encryption_at_host_enabled    = try(var.instance.encryption_at_host_enabled, false)
   eviction_policy               = try(var.instance.eviction_policy, null)
   hotpatching_enabled           = try(var.instance.hotpatching_enabled, false)
@@ -212,7 +212,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   source_image_reference {
     publisher = try(var.instance.image.publisher, "MicrosoftWindowsServer")
     offer     = try(var.instance.image.offer, "WindowsServer")
-    sku       = try(var.instance.image.sku, "2022-datacenter")
+    sku       = try(var.instance.image.sku, "2022-Datacenter")
     version   = try(var.instance.image.version, "latest")
   }
 
