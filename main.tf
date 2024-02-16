@@ -35,17 +35,23 @@ resource "azurerm_linux_virtual_machine" "vm" {
   priority                        = try(var.instance.priority, "Regular")
   provision_vm_agent              = try(var.instance.provision_vm_agent, true)
   reboot_setting                  = try(var.instance.reboot_setting, null)
-  secure_boot_enabled             = try(var.instance.secure_boot_enabled, null)
-  vtpm_enabled                    = try(var.instance.vtpm_enabled, null)
+  secure_boot_enabled             = try(var.instance.secure_boot_enabled, false)
+  vtpm_enabled                    = try(var.instance.vtpm_enabled, false)
   zone                            = try(var.instance.zone, null)
   tags                            = try(var.instance.tags, null)
 
-  additional_capabilities {
-    ultra_ssd_enabled = try(var.instance.ultra_ssd_enabled, false)
+  dynamic "additional_capabilities" {
+    for_each = lookup(var.instance, "ultra_ssd_enabled", false) == true ? [1] : []
+    content {
+      ultra_ssd_enabled = true
+    }
   }
 
-  boot_diagnostics {
-    storage_account_uri = try(var.instance.boot_diags.storage_uri, null)
+  dynamic "boot_diagnostics" {
+    for_each = lookup(var.instance, "boot_diags", null) != null ? [1] : []
+    content {
+      storage_account_uri = lookup(var.instance.boot_diags, "storage_uri", null)
+    }
   }
 
   network_interface_ids = [
@@ -151,10 +157,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
   eviction_policy               = try(var.instance.eviction_policy, null)
   hotpatching_enabled           = try(var.instance.hotpatching_enabled, false)
   patch_assessment_mode         = try(var.instance.patch_assessment_mode, "ImageDefault")
-  patch_mode                    = try(var.instance.patch_mode, "Manual")
+  patch_mode                    = try(var.instance.patch_mode, "AutomaticByOS")
   priority                      = try(var.instance.priority, "Regular")
   reboot_setting                = try(var.instance.reboot_setting, null)
-  secure_boot_enabled           = try(var.instance.secure_boot_enabled, null)
+  secure_boot_enabled           = try(var.instance.secure_boot_enabled, false)
   license_type                  = try(var.instance.license_type, null)
   max_bid_price                 = try(var.instance.max_bid_price, null)
   edge_zone                     = try(var.instance.edge_zone, null)
@@ -167,7 +173,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   capacity_reservation_group_id = try(var.instance.capacity_reservation_group_id, null)
   timezone                      = try(var.instance.timezone, null)
   virtual_machine_scale_set_id  = try(var.instance.virtual_machine_scale_set_id, null)
-  vtpm_enabled                  = try(var.instance.vtpm_enabled, null)
+  vtpm_enabled                  = try(var.instance.vtpm_enabled, false)
   zone                          = try(var.instance.zone, null)
   tags                          = try(var.instance.tags, null)
 
@@ -178,12 +184,18 @@ resource "azurerm_windows_virtual_machine" "vm" {
     azurerm_network_interface.nic["${intf.vm_name}-${intf.interface_key}"].id
   ]
 
-  additional_capabilities {
-    ultra_ssd_enabled = try(var.instance.ultra_ssd_enabled, false)
+  dynamic "additional_capabilities" {
+    for_each = lookup(var.instance, "ultra_ssd_enabled", false) == true ? [1] : []
+    content {
+      ultra_ssd_enabled = true
+    }
   }
 
-  boot_diagnostics {
-    storage_account_uri = try(var.instance.boot_diags.storage_uri, null)
+  dynamic "boot_diagnostics" {
+    for_each = lookup(var.instance, "boot_diags", null) != null ? [1] : []
+    content {
+      storage_account_uri = lookup(var.instance.boot_diags, "storage_uri", null)
+    }
   }
 
   os_disk {
@@ -200,7 +212,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   source_image_reference {
     publisher = try(var.instance.image.publisher, "MicrosoftWindowsServer")
     offer     = try(var.instance.image.offer, "WindowsServer")
-    sku       = try(var.instance.image.sku, "2022-datacenter-azure-edition")
+    sku       = try(var.instance.image.sku, "2022-datacenter")
     version   = try(var.instance.image.version, "latest")
   }
 
@@ -267,7 +279,7 @@ resource "azurerm_network_interface" "nic" {
 
   ip_configuration {
     name                          = each.value.ip_config_name
-    private_ip_address_allocation = each.value.private_ip_address_allocation
+    private_ip_address_allocation = each.value.private_ip_address != null ? "Static" : "Dynamic"
     private_ip_address            = each.value.private_ip_address
     public_ip_address_id          = each.value.public_ip_address_id
     subnet_id                     = each.value.subnet_id
