@@ -19,7 +19,7 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   naming = local.naming
 
@@ -29,8 +29,14 @@ module "network" {
     resourcegroup = module.rg.groups.demo.name
     cidr          = ["10.18.0.0/16"]
     subnets = {
-      int = { cidr = ["10.18.1.0/24"] }
-      mgt = { cidr = ["10.18.2.0/24"] }
+      int = {
+        cidr = ["10.18.1.0/24"]
+        nsg  = {}
+      }
+      mgt = {
+        cidr = ["10.18.2.0/24"]
+        nsg  = {}
+      }
     }
   }
 }
