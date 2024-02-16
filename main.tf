@@ -157,7 +157,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   eviction_policy               = try(var.instance.eviction_policy, null)
   hotpatching_enabled           = try(var.instance.hotpatching_enabled, false)
   patch_assessment_mode         = try(var.instance.patch_assessment_mode, "ImageDefault")
-  patch_mode                    = try(var.instance.patch_mode, "Manual")
+  patch_mode                    = try(var.instance.patch_mode, "AutomaticByOS")
   priority                      = try(var.instance.priority, "Regular")
   reboot_setting                = try(var.instance.reboot_setting, null)
   secure_boot_enabled           = try(var.instance.secure_boot_enabled, false)
