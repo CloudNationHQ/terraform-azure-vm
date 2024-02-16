@@ -68,10 +68,10 @@ locals {
 
 locals {
   ext_keys = length(lookup(var.instance, "extensions", {})) > 0 ? {
-    for ext_name, ext in lookup(var.instance, "extensions", {}) :
-    "${var.instance.name}-${ext_name}" => {
+    for ext_key, ext in lookup(var.instance, "extensions", {}) :
+    "${var.instance.name}-${ext_key}" => {
 
-      name                 = try(ext.name, ext_name)
+      name                 = try(ext.name, ext_key)
       vm_name              = var.instance.name,
       publisher            = ext.publisher,
       type                 = ext.type,
