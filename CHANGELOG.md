@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.4.1...v1.5.0) (2024-02-16)
+
+
+### Features
+
+* improve boot diagnostic and additional capabilities blocks ([#73](https://github.com/CloudNationHQ/terraform-azure-vm/issues/73)) ([b33e96e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/b33e96eb79d791d9d78b23488363a4a77f08ec54))
+
 ## [1.4.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.4.0...v1.4.1) (2024-02-15)
 
 
