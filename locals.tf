@@ -1,6 +1,7 @@
 locals {
   interfaces = [
     for interface_key, nic in var.instance.interfaces : {
+
       vm_name                       = var.instance.name
       interface_key                 = interface_key
       name                          = try(nic.name, join("-", [var.naming.network_interface, interface_key]))
@@ -27,6 +28,7 @@ locals {
 locals {
   data_disks = [
     for disk_key, disk in try(var.instance.disks, {}) : {
+
       vm_name                           = var.instance.name
       disk_key                          = disk_key
       name                              = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
@@ -68,7 +70,8 @@ locals {
   ext_keys = length(lookup(var.instance, "extensions", {})) > 0 ? {
     for ext_name, ext in lookup(var.instance, "extensions", {}) :
     "${var.instance.name}-${ext_name}" => {
-      name                 = ext_name,
+
+      name                 = try(ext.name, ext_name)
       vm_name              = var.instance.name,
       publisher            = ext.publisher,
       type                 = ext.type,
