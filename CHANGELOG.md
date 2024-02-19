@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.6.0...v1.6.1) (2024-02-19)
+
+
+### Bug Fixes
+
+* fix typo storage account type defaults ([#79](https://github.com/CloudNationHQ/terraform-azure-vm/issues/79)) ([b2292a3](https://github.com/CloudNationHQ/terraform-azure-vm/commit/b2292a3c0a4211d90995500247295c75c9d14b6e))
+
 ## [1.6.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.5.1...v1.6.0) (2024-02-19)
 
 
