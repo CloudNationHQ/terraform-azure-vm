@@ -36,7 +36,7 @@ locals {
       location                          = coalesce(lookup(var.instance, "location", null), var.location)
       create_option                     = try(disk.create_option, "Empty")
       disk_size_gb                      = try(disk.disk_size_gb, 10)
-      storage_account_type              = try(disk.storage_account_type, "StandardSSD_LRS")
+      storage_account_type              = try(disk.storage_account_type, "Standard_LRS")
       caching                           = try(disk.caching, "ReadWrite")
       tags                              = try(disk.tags, null)
       lun                               = disk.lun
