@@ -290,13 +290,14 @@ resource "azurerm_network_interface" "nic" {
 resource "azurerm_virtual_machine_extension" "ext" {
   for_each = local.ext_keys
 
-  name                 = each.value.name
-  virtual_machine_id   = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[each.value.vm_name].id : azurerm_windows_virtual_machine.vm[each.value.vm_name].id
-  publisher            = each.value.publisher
-  type                 = each.value.type
-  type_handler_version = each.value.type_handler_version
-  settings             = jsonencode(each.value.settings)
-  protected_settings   = jsonencode(each.value.protected_settings)
+  name                       = each.value.name
+  virtual_machine_id         = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[each.value.vm_name].id : azurerm_windows_virtual_machine.vm[each.value.vm_name].id
+  publisher                  = each.value.publisher
+  type                       = each.value.type
+  type_handler_version       = each.value.type_handler_version
+  auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
+  settings                   = jsonencode(each.value.settings)
+  protected_settings         = jsonencode(each.value.protected_settings)
 }
 
 # data disks

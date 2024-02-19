@@ -36,7 +36,7 @@ locals {
       location                          = coalesce(lookup(var.instance, "location", null), var.location)
       create_option                     = try(disk.create_option, "Empty")
       disk_size_gb                      = try(disk.disk_size_gb, 10)
-      storage_account_type              = try(disk.storage_account_type, "Standard_LRS")
+      storage_account_type              = try(disk.storage_account_type, "StandardSSD_LRS")
       caching                           = try(disk.caching, "ReadWrite")
       tags                              = try(disk.tags, null)
       lun                               = disk.lun
@@ -71,13 +71,14 @@ locals {
     for ext_key, ext in lookup(var.instance, "extensions", {}) :
     "${var.instance.name}-${ext_key}" => {
 
-      name                 = try(ext.name, ext_key)
-      vm_name              = var.instance.name,
-      publisher            = ext.publisher,
-      type                 = ext.type,
-      type_handler_version = ext.type_handler_version,
-      settings             = lookup(ext, "settings", {}),
-      protected_settings   = lookup(ext, "protected_settings", {}),
+      name                       = try(ext.name, ext_key)
+      vm_name                    = var.instance.name,
+      publisher                  = ext.publisher,
+      type                       = ext.type,
+      type_handler_version       = ext.type_handler_version,
+      settings                   = lookup(ext, "settings", {}),
+      protected_settings         = lookup(ext, "protected_settings", {}),
+      auto_upgrade_minor_version = try(ext.auto_upgrade_minor_version, true)
     }
   } : {}
 }
