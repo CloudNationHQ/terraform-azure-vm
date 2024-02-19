@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.5.1...v1.6.0) (2024-02-19)
+
+
+### Features
+
+* add auto upgrade version property extensions ([#77](https://github.com/CloudNationHQ/terraform-azure-vm/issues/77)) ([607ec49](https://github.com/CloudNationHQ/terraform-azure-vm/commit/607ec495e4fc3dc85faf6033c205de4859caf798))
+
 ## [1.5.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.5.0...v1.5.1) (2024-02-16)
 
 
