@@ -298,6 +298,7 @@ resource "azurerm_virtual_machine_extension" "ext" {
   auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
   settings                   = jsonencode(each.value.settings)
   protected_settings         = jsonencode(each.value.protected_settings)
+  tags                       = each.value.tags
 }
 
 # data disks
