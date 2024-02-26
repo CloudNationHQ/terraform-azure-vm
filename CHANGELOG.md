@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.6.1...v1.7.0) (2024-02-26)
+
+
+### Features
+
+* add missing tag property extensions ([#81](https://github.com/CloudNationHQ/terraform-azure-vm/issues/81)) ([2c5d5d7](https://github.com/CloudNationHQ/terraform-azure-vm/commit/2c5d5d72dafb8d851d34466814c5218d1396ad38))
+
 ## [1.6.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.6.0...v1.6.1) (2024-02-19)
 
 
