@@ -79,6 +79,7 @@ locals {
       settings                   = lookup(ext, "settings", {}),
       protected_settings         = lookup(ext, "protected_settings", {}),
       auto_upgrade_minor_version = try(ext.auto_upgrade_minor_version, true)
+      tags                       = try(ext.tags, null)
     }
   } : {}
 }
