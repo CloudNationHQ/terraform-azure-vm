@@ -7,3 +7,8 @@ output "subscriptionId" {
   description = "contains the current subscription id"
   value       = data.azurerm_subscription.current.subscription_id
 }
+
+output "uai" {
+  description = "contains the user assigned identity"
+  value       = azurerm_user_assigned_identity.identity
+}
