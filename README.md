@@ -71,6 +71,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 | :-- | :-- |
 | `instance` | contains all virtual machine config |
 | `subscriptionId` | contains the current subscription id |
+| `uai` | contains the user assigned identity |
 
 ## Testing
 
