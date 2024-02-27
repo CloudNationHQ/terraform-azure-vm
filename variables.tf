@@ -44,3 +44,9 @@ variable "resourcegroup" {
   type        = string
   default     = null
 }
+
+variable "tags" {
+  description = "tags to be added to the resources"
+  type        = map(string)
+  default     = {}
+}

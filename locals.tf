@@ -18,7 +18,7 @@ locals {
       auxiliary_mode                = try(nic.auxiliary_mode, null)
       internal_dns_name_label       = try(nic.internal_dns_name_label, null)
       edge_zone                     = try(nic.edge_zone, null)
-      tags                          = try(nic.tags, null)
+      tags                          = try(nic.tags, var.tags, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
     }
@@ -38,13 +38,13 @@ locals {
       disk_size_gb                      = try(disk.disk_size_gb, 10)
       storage_account_type              = try(disk.storage_account_type, "Standard_LRS")
       caching                           = try(disk.caching, "ReadWrite")
-      tags                              = try(disk.tags, null)
+      tags                              = try(disk.tags, var.tags, null)
       lun                               = disk.lun
       tier                              = try(disk.tier, null)
       zone                              = try(disk.zone, var.instance.zone, null)
       os_type                           = try(disk.os_type, null)
       edge_zone                         = try(disk.edge_zone, null)
-      max_shares                        = try(disk.max_shares, 10)
+      max_shares                        = try(disk.max_shares, null)
       source_uri                        = try(disk.source_uri, null)
       optimized_frequent_attach_enabled = try(disk.optimized_frequent_attach_enabled, null)
       public_network_access_enabled     = try(disk.public_network_access_enabled, null)
@@ -79,7 +79,7 @@ locals {
       settings                   = lookup(ext, "settings", {}),
       protected_settings         = lookup(ext, "protected_settings", {}),
       auto_upgrade_minor_version = try(ext.auto_upgrade_minor_version, true)
-      tags                       = try(ext.tags, null)
+      tags                       = try(ext.tags, var.tags, null)
     }
   } : {}
 }

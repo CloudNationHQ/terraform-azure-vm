@@ -38,7 +38,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   secure_boot_enabled             = try(var.instance.secure_boot_enabled, false)
   vtpm_enabled                    = try(var.instance.vtpm_enabled, false)
   zone                            = try(var.instance.zone, null)
-  tags                            = try(var.instance.tags, null)
+  tags                            = try(var.instance.tags, var.tags, null)
 
   dynamic "additional_capabilities" {
     for_each = lookup(var.instance, "ultra_ssd_enabled", false) == true ? [1] : []
@@ -107,7 +107,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
 # secrets
 resource "tls_private_key" "tls_key" {
-  # workaround, keys used in for each must be known at plan time
   for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
   var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
 
@@ -175,7 +174,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   virtual_machine_scale_set_id  = try(var.instance.virtual_machine_scale_set_id, null)
   vtpm_enabled                  = try(var.instance.vtpm_enabled, false)
   zone                          = try(var.instance.zone, null)
-  tags                          = try(var.instance.tags, null)
+  tags                          = try(var.instance.tags, var.tags, null)
 
   bypass_platform_safety_checks_on_user_schedule_enabled = try(var.instance.bypass_platform_safety_checks_on_user_schedule_enabled, false)
 
@@ -240,7 +239,6 @@ resource "azurerm_windows_virtual_machine" "vm" {
 }
 
 resource "random_password" "password" {
-  # workaround, keys used in for each must be known at plan time
   for_each = var.instance.type == "windows" && lookup(var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
 
   length      = 24
@@ -356,5 +354,6 @@ resource "azurerm_user_assigned_identity" "identity" {
   name                = try(var.instance.identity.name, "uai-${var.instance.name}")
   resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
-  tags                = try(var.instance.identity.tags, null)
+  tags                = try(var.instance.identity.tags, var.tags, null)
+
 }
