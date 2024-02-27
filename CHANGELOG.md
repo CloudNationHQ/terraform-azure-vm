@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.7.0...v1.8.0) (2024-02-27)
+
+
+### Features
+
+* add conditional expression to allow global tagging and changed defaults max shares property on managed disks ([#84](https://github.com/CloudNationHQ/terraform-azure-vm/issues/84)) ([1cd0d76](https://github.com/CloudNationHQ/terraform-azure-vm/commit/1cd0d76dd8393838e195dbb48544b286d8f576a9))
+* add user assigned identity output ([#86](https://github.com/CloudNationHQ/terraform-azure-vm/issues/86)) ([0b57df6](https://github.com/CloudNationHQ/terraform-azure-vm/commit/0b57df63f1bcd1c7d9229c6a09a53da96374fdb5))
+
 ## [1.7.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.6.1...v1.7.0) (2024-02-26)
 
 
