@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.8.0...v1.9.0) (2024-03-13)
+
+
+### Features
+
+* **deps:** bump github.com/stretchr/testify in /tests ([#87](https://github.com/CloudNationHQ/terraform-azure-vm/issues/87)) ([9216ff9](https://github.com/CloudNationHQ/terraform-azure-vm/commit/9216ff9a788c956deba155a830de4f58001b7184))
+
+
+### Bug Fixes
+
+* change key of instance output ([#88](https://github.com/CloudNationHQ/terraform-azure-vm/issues/88)) ([08763d5](https://github.com/CloudNationHQ/terraform-azure-vm/commit/08763d5df4d1dfbdb050571e2d8f3ca71b2df1dc))
+
 ## [1.8.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.7.0...v1.8.0) (2024-02-27)
 
 
