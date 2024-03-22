@@ -68,6 +68,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   os_disk {
+    name                      = try(var.instance.os_disk.name, null)
     storage_account_type      = try(var.instance.os_disk.storage_account_type, "Standard_LRS")
     caching                   = try(var.instance.os_disk.caching, "ReadWrite")
     disk_size_gb              = try(var.instance.os_disk.disk_size_gb, null)
