@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.9.0...v1.10.0) (2024-03-22)
+
+
+### Features
+
+* allow OS disk name override ([#91](https://github.com/CloudNationHQ/terraform-azure-vm/issues/91)) ([931ff94](https://github.com/CloudNationHQ/terraform-azure-vm/commit/931ff9461d2984b34a4afba33345190a25846dbe))
+* **deps:** bump google.golang.org/protobuf in /tests ([#90](https://github.com/CloudNationHQ/terraform-azure-vm/issues/90)) ([649e709](https://github.com/CloudNationHQ/terraform-azure-vm/commit/649e7092b5e41b9047b41d8473c2b8a55aefc59d))
+
 ## [1.9.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.8.0...v1.9.0) (2024-03-13)
 
 
