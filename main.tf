@@ -7,7 +7,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   } : {}
 
   name                            = var.instance.name
-  computer_name                   = try(var.instance.computer_name, null)
+  computer_name                   = try(var.instance.computer_name, var.instance.name, null)
   resource_group_name             = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location                        = coalesce(lookup(var.instance, "location", null), var.location)
   size                            = try(var.instance.size, "Standard_D2s_v3")
@@ -140,7 +140,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   } : {}
 
   name                = var.instance.name
-  computer_name       = try(var.instance.computer_name, null)
+  computer_name       = try(var.instance.computer_name, var.instance.name, null)
   resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
   size                = try(var.instance.size, "Standard_D2s_v3")
