@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.11.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.10.0...v1.11.0) (2024-03-26)
+
+
+### Features
+
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#93](https://github.com/CloudNationHQ/terraform-azure-vm/issues/93)) ([a082584](https://github.com/CloudNationHQ/terraform-azure-vm/commit/a0825847a35acc96bc22cca42593026759383f55))
+* use virtual machine name as fallback when computer name is not specified ([#94](https://github.com/CloudNationHQ/terraform-azure-vm/issues/94)) ([c7b0639](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c7b06396ea4f12ced36a04b73462d9e64cd31d19))
+
 ## [1.10.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.9.0...v1.10.0) (2024-03-22)
 
 
