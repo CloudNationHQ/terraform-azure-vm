@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.11.0...v1.12.0) (2024-03-27)
+
+
+### Features
+
+* update documentation ([#96](https://github.com/CloudNationHQ/terraform-azure-vm/issues/96)) ([cffc8f4](https://github.com/CloudNationHQ/terraform-azure-vm/commit/cffc8f4395a450a976746ddae6759004640ecff9))
+
 ## [1.11.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.10.0...v1.11.0) (2024-03-26)
 
 
