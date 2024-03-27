@@ -1,12 +1,23 @@
-locals {
-  naming = {
-    # lookup outputs to have consistent naming
-    for type in local.naming_types : type => lookup(module.naming, type).name
-  }
+This example highlights the complete usage.
 
-  naming_types = ["subnet", "network_security_group", "key_vault_secret", "network_interface", "managed_disk", "user_assigned_identity"]
+## Usage
+
+```hcl
+module "vm" {
+  source  = "cloudnationhq/vm/azure"
+  version = "~> 1.3"
+
+  keyvault   = module.kv.vault.id
+  naming     = local.naming
+  depends_on = [module.kv]
+
+  instance = local.instance
 }
+```
 
+The module uses the below locals for configuration:
+
+```hcl
 locals {
   instance = {
     name          = module.naming.linux_virtual_machine.name
@@ -35,7 +46,9 @@ locals {
     }
   }
 }
+```
 
+```hcl
 locals {
   extensions = {
     custom = {
@@ -48,3 +61,4 @@ locals {
     }
   }
 }
+```

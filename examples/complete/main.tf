@@ -2,7 +2,7 @@ module "naming" {
   source  = "cloudnationhq/naming/azure"
   version = "~> 0.1"
 
-  suffix = ["demo", "dev"]
+  suffix = ["demo", "prd"]
 }
 
 module "rg" {
@@ -12,7 +12,7 @@ module "rg" {
   groups = {
     demo = {
       name   = module.naming.resource_group.name
-      region = "westeurope"
+      region = "northeurope"
     }
   }
 }
@@ -36,6 +36,7 @@ module "network" {
       }
       mgt = {
         cidr = ["10.18.2.0/24"]
+        nsg  = {}
       }
     }
   }
@@ -55,27 +56,11 @@ module "kv" {
 }
 
 module "vm" {
-  source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3"
+  source = "../../"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming
   depends_on = [module.kv]
 
-  instance = {
-    name          = module.naming.linux_virtual_machine.name
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    type          = "linux"
-
-    interfaces = {
-      int = { subnet = module.network.subnets.int.id }
-      mgt = { subnet = module.network.subnets.mgt.id }
-    }
-
-    disks = {
-      db   = { size_gb = 10, lun = 0 }
-      logs = { size_gb = 12, lun = 1 }
-    }
-  }
+  instance = local.instance
 }

@@ -1,13 +1,13 @@
-To authenticate to the Virtual machine it is possible to use either SSH-keys or password for Linux VM's and password for Windows VM's.
-This module allows flexibility in configuring virtual machines by either generating passwords and SSH keys internally or allowing users to bring their own.
+This module enables flexible virtual machine setup by supporting both auto generated and user supplied (bring your own) ssh keys and passwords for tailored access.
 
-## Using Internally Generated Password or SSH Key
-When using the internally generated password (default for Windows) or SSH keys (default for Linux), you can simply provide the Key Vault ID where the secrets will be stored in your configuration. For example:
+## Usage: generated password or ssh key
+
+To utilize the generated password or ssh key, simply specify the key vault id in your configuration:
 
 ```hcl
-module "vm-linux-ssh" {
+module "vm" {
   source = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -19,20 +19,24 @@ module "vm-linux-ssh" {
     type          = "linux"
 
     interfaces = {
-      int = { subnet = module.network.subnets.int.id }
+      int1 = {
+        subnet = module.network.subnets.int.id
+      }
     }
 
     keyvault_id = module.kv.vault.id
   }
 }
 ```
-## Bringing Your Own Password or SSH Key
-If you want to bring your own password or SSH key, you can set these as a property instead. For example:
+
+## Usage: bringing your own password or ssh key
+
+To use your own password or SSH key, use the below properties in your configuration:
 
 ```hcl
-module "vm-linux-ssh" {
+module "vm" {
   source = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -41,22 +45,22 @@ module "vm-linux-ssh" {
     name          = module.naming.linux_virtual_machine.name
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
+    public_key    = module.kv.tls_public_keys.vm-linux-demo-dev-key.value
     type          = "linux"
 
     interfaces = {
-      int = { subnet = module.network.subnets.int.id }
+      int1 = {
+        subnet = module.network.subnets.int.id
+      }
     }
-
-    username   = "linux-admin" ## default is "adminuser" if not set
-    public_key = module.kv.tls_public_keys.vm-linux-demo-dev-key.value
   }
 }
 ```
 
 ```hcl
-module "vm-linux-password" {
+module "vm" {
   source = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -65,14 +69,14 @@ module "vm-linux-password" {
     name          = module.naming.linux_virtual_machine.name
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
+    password      = module.kv.secrets.vm-linux-demo-dev-password.value
     type          = "linux"
 
     interfaces = {
-      int = { subnet = module.network.subnets.int.id }
+      int1 = {
+        subnet = module.network.subnets.int.id
+      }
     }
-
-    username = "linux-admin" ## default is "adminuser" if not set
-    password = module.kv.secrets.vm-linux-demo-dev-password.value
   }
 }
 ```
