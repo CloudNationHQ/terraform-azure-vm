@@ -34,10 +34,6 @@ module "network" {
         cidr = ["10.18.1.0/24"]
         nsg  = {}
       }
-      mgt = {
-        cidr = ["10.18.2.0/24"]
-        nsg  = {}
-      }
     }
   }
 }
@@ -76,7 +72,7 @@ module "kv" {
 
 module "vm-linux-ssh" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -85,20 +81,20 @@ module "vm-linux-ssh" {
     name          = "${module.naming.linux_virtual_machine.name}-01"
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
+    public_key    = module.kv.tls_public_keys.vm-linux-key.value
     type          = "linux"
 
     interfaces = {
-      int1 = { subnet = module.network.subnets.int.id }
+      int1 = {
+        subnet = module.network.subnets.int.id
+      }
     }
-
-    username   = "linux-admin" ## default is "adminuser" if not set
-    public_key = module.kv.tls_public_keys.vm-linux-key.value
   }
 }
 
 module "vm-linux-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -107,20 +103,20 @@ module "vm-linux-password" {
     name          = "${module.naming.linux_virtual_machine.name}-02"
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
+    password      = module.kv.secrets.vm-linux-password.value
     type          = "linux"
 
     interfaces = {
-      int2 = { subnet = module.network.subnets.int.id }
+      int1 = {
+        subnet = module.network.subnets.int.id
+      }
     }
-
-    username = "linux-admin" ## default is "adminuser" if not set
-    password = module.kv.secrets.vm-linux-password.value
   }
 }
 
 module "vm-windows-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   naming     = local.naming
   depends_on = [module.kv]
@@ -129,13 +125,13 @@ module "vm-windows-password" {
     name          = "${module.naming.windows_virtual_machine.name}-03"
     location      = module.rg.groups.demo.location
     resourcegroup = module.rg.groups.demo.name
+    password      = module.kv.secrets.vm-windows-password.value
     type          = "windows"
 
     interfaces = {
-      int3 = { subnet = module.network.subnets.int.id }
+      int1 = {
+        subnet = module.network.subnets.int.id
+      }
     }
-
-    username = "windows-admin" ## default is "adminuser" if not set
-    password = module.kv.secrets.vm-windows-password.value
   }
 }

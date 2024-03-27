@@ -17,6 +17,8 @@ A last key goal is to separate logic from configuration in the module, thereby e
 - flexibility to incorporate multiple extensions
 - utilization of Terratest for robust validation
 - ability to use multiple interfaces and disks
+- supports both system and multiple user assigned identities
+- supports custom data integration
 - compatible with both Linux and Windows environments
 
 ## Requirements
@@ -92,6 +94,8 @@ Each of these tests contributes to the robustness and resilience of the module. 
 Using a dedicated module, we've developed a naming convention for resources that's based on specific regular expressions for each type, ensuring correct abbreviations and offering flexibility with multiple prefixes and suffixes
 
 Full examples detailing all usages, along with integrations with dependency modules, are located in the examples directory
+
+Authentication for linux virtual machines can be done with either ssh keys or passwords.
 
 ## Authors
 
