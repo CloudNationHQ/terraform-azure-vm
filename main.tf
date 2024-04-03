@@ -335,6 +335,12 @@ resource "azurerm_managed_disk" "disks" {
   hyper_v_generation                = each.value.hyper_v_generation
   storage_account_id                = each.value.storage_account_id
   tags                              = each.value.tags
+
+  lifecycle {
+    ignore_changes = [
+      encryption_settings
+    ]
+  }
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "at" {
