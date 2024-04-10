@@ -1,5 +1,7 @@
 This section outlines the configuration of multiple network interfaces, enabling advanced networking capabilities and increased connectivity options.
 
+## Usage
+
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"

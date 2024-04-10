@@ -15,7 +15,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_password                  = try(var.instance.password, null) != null ? var.instance.password : null
   license_type                    = try(var.instance.license_type, null)
   allow_extension_operations      = try(var.instance.allow_extension_operations, true)
-  availability_set_id             = try(var.instance.availability_set, null)
+  availability_set_id             = try(var.instance.availability_set_id, null)
   custom_data                     = try(var.instance.custom_data, null)
   user_data                       = try(var.instance.user_data, null)
   capacity_reservation_group_id   = try(var.instance.capacity_reservation_group_id, null)
@@ -149,7 +149,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   admin_password = length(lookup(var.instance, "password", {})) > 0 ? var.instance.password : azurerm_key_vault_secret.secret[var.instance.name].value
 
   allow_extension_operations    = try(var.instance.allow_extension_operations, true)
-  availability_set_id           = try(var.instance.availability_set, null)
+  availability_set_id           = try(var.instance.availability_set_id, null)
   custom_data                   = try(var.instance.custom_data, null)
   user_data                     = try(var.instance.user_data, null)
   enable_automatic_updates      = try(var.instance.enable_automatic_updates, true)

@@ -1,5 +1,7 @@
 This example illustrates the implementation of extensions.
 
+## Usage
+
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"

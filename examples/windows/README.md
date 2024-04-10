@@ -1,5 +1,7 @@
 This section details the support for windows virtual machines.
 
+## Usage
+
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
