@@ -1,5 +1,7 @@
 This example details the setup and utilization of custom data and cloud-init.
 
+## Usage
+
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"

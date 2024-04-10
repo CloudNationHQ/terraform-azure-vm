@@ -20,6 +20,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 - supports both system and multiple user assigned identities
 - supports custom data integration
 - compatible with both Linux and Windows environments
+- supports availability sets to enhance fault tolerance and availability
 
 ## Requirements
 
@@ -54,6 +55,13 @@ A last key goal is to separate logic from configuration in the module, thereby e
 | [azurerm_managed_disk](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) | resource |
 | [azurerm_virtual_machine_data_disk_attachment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) | resource |
 | [azurerm_user_assigned_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
+| [azurerm_availability_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/availability_set) | resource |
+
+## Modules
+
+| Name | Source |
+|------|--------|
+| [availability-sets](./modules/availability-sets) | resource |
 
 ## Inputs
 
