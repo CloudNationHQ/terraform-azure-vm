@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.12.0...v1.13.0) (2024-04-10)
+
+
+### Features
+
+* add support for availability sets ([#100](https://github.com/CloudNationHQ/terraform-azure-vm/issues/100)) ([f03f280](https://github.com/CloudNationHQ/terraform-azure-vm/commit/f03f28075280e4e245c73ad0d8ac729b7c7da3bc))
+
 ## [1.12.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.11.0...v1.12.0) (2024-04-03)
 
 
