@@ -8,7 +8,7 @@ locals {
       dns_servers                   = try(nic.dns_servers, [])
       enable_accelerated_networking = try(nic.enable_accelerated_networking, false)
       enable_ip_forwarding          = try(nic.enable_ip_forwarding, false)
-      subnet_id                     = nic.subnet
+      subnet_id                     = try(nic.subnet_id, nic.subnet)
       ip_config_name                = try(nic.ip_config_name, "ipconfig")
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
@@ -21,6 +21,20 @@ locals {
       tags                          = try(nic.tags, var.tags, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
+      ip_configurations = flatten([
+        for ip_config_key, ip_config in try(nic.ip_configurations, {}) : {
+
+          ip_config_key                       = ip_config_key
+          name                                = try(ip_config.name, join("-", [var.naming.ip_configuration, ip_config_key]))
+          private_ip_address_allocation       = try(ip_config.private_ip_address_allocation, "Dynamic")
+          private_ip_address                  = try(ip_config.private_ip_address, null)
+          subnet_id                           = try(ip_config.subnet_id, null)
+          public_ip_address_id                = try(ip_config.public_ip_address_id, null)
+          load_balancer_backend_address_pools = try(ip_config.load_balancer_backend_address_pools, [])
+          load_balancer_inbound_nat_rules     = try(ip_config.load_balancer_inbound_nat_rules, [])
+          tags                                = try(ip_config.tags, null)
+        }
+      ])
     }
   ]
 }
