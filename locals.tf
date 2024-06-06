@@ -8,7 +8,6 @@ locals {
       dns_servers                   = try(nic.dns_servers, [])
       enable_accelerated_networking = try(nic.enable_accelerated_networking, false)
       enable_ip_forwarding          = try(nic.enable_ip_forwarding, false)
-      subnet_id                     = nic.subnet
       ip_config_name                = try(nic.ip_config_name, "ipconfig")
       private_ip_address_allocation = try(nic.private_ip_address_allocation, "Dynamic")
       private_ip_address            = try(nic.private_ip_address, null)
@@ -21,6 +20,18 @@ locals {
       tags                          = try(nic.tags, var.tags, null)
       resourcegroup                 = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                      = coalesce(lookup(var.instance, "location", null), var.location)
+
+      ip_configurations = [
+        for ip_key, ip_config in nic.ip_configurations : {
+          name                          = try(ip_config.name, ip_key)
+          private_ip_address_allocation = (try(ip_config.private_ip_address, null) != null) ? "Static" : "Dynamic"
+          private_ip_address            = try(ip_config.private_ip_address, null)
+          public_ip_address_id          = try(ip_config.public_ip_address_id, null)
+          private_ip_address_version    = try(ip_config.private_ip_address_version, "IPv4")
+          subnet_id                     = nic.subnet
+          primary                       = try(ip_config.primary, false)
+        }
+      ]
     }
   ]
 }

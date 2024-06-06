@@ -87,6 +87,11 @@ module "vm-linux-ssh" {
     interfaces = {
       int1 = {
         subnet = module.network.subnets.int.id
+        ip_configurations = {
+          config1 = {
+            private_ip_address_allocation = "Dynamic"
+          }
+        }
       }
     }
   }
@@ -109,6 +114,11 @@ module "vm-linux-password" {
     interfaces = {
       int1 = {
         subnet = module.network.subnets.int.id
+        ip_configurations = {
+          config1 = {
+            private_ip_address_allocation = "Dynamic"
+          }
+        }
       }
     }
   }
@@ -131,6 +141,11 @@ module "vm-windows-password" {
     interfaces = {
       int1 = {
         subnet = module.network.subnets.int.id
+        ip_configurations = {
+          config1 = {
+            primary = true
+          }
+        }
       }
     }
   }
