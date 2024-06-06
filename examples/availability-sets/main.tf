@@ -66,6 +66,11 @@ module "vm" {
     interfaces = {
       dcroot001 = {
         subnet = module.network.subnets.int.id
+        ip_configurations = {
+          config1 = {
+            private_ip_address_allocation = "Dynamic"
+          }
+        }
       }
     }
     disks = {

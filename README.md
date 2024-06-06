@@ -21,6 +21,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 - supports custom data integration
 - compatible with both Linux and Windows environments
 - supports availability sets to enhance fault tolerance and availability
+- offers optional multiple ip configurations per interface
 
 ## Requirements
 
