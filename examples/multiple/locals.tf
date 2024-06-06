@@ -17,6 +17,11 @@ locals {
         int1 = {
           name   = "vmdcroot-int1"
           subnet = module.network.subnets.int.id
+          ip_configurations = {
+            config1 = {
+              private_ip_address_allocation = "Dynamic"
+            }
+          }
         }
       }
       disks = {
@@ -34,6 +39,11 @@ locals {
         int1 = {
           name   = "vmdcroot002-int1"
           subnet = module.network.subnets.mgt.id
+          ip_configurations = {
+            config1 = {
+              private_ip_address_allocation = "Dynamic"
+            }
+          }
         }
       }
       disks = {
