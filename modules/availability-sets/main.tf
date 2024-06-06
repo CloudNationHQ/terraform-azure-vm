@@ -9,6 +9,5 @@ resource "azurerm_availability_set" "avail" {
   platform_fault_domain_count  = try(each.value.platform_fault_domain_count, 3)
   platform_update_domain_count = try(each.value.platform_update_domain_count, 5)
   proximity_placement_group_id = try(each.value.proximity_placement_group_id, null)
-
-  tags = try(each.value.tags, var.tags, {})
+  tags                         = try(each.value.tags, var.tags, {})
 }

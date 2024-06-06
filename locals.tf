@@ -27,11 +27,11 @@ locals {
 
 locals {
   data_disks = [
-    for disk_key, disk in try(var.instance.disks, {}) : {
+    for disk_key, disk in lookup(var.instance, "disks", {}) : {
 
       vm_name                           = var.instance.name
       disk_key                          = disk_key
-      name                              = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
+      name                              = lookup(disk, "name", join("-", [var.naming.managed_disk, disk_key]))
       resourcegroup                     = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
       location                          = coalesce(lookup(var.instance, "location", null), var.location)
       create_option                     = try(disk.create_option, "Empty")
@@ -54,17 +54,58 @@ locals {
       trusted_launch_enabled            = try(disk.trusted_launch_enabled, false)
       network_access_policy             = try(disk.network_access_policy, null)
       logical_sector_size               = try(disk.logical_sector_size, null)
-      source_resource_id                = try(disk.source_resource_id, null)
-      image_reference_id                = try(disk.image_reference_id, null)
-      secure_vm_disk_encryption_set_id  = try(disk.secure_vm_disk_encryption_set_id, null)
-      disk_encryption_set_id            = try(disk.disk_encryption_set_id, null)
+      source_resource_id                = lookup(disk, "source_resource_id", null)
+      image_reference_id                = lookup(disk, "image_reference_id", null)
+      secure_vm_disk_encryption_set_id  = lookup(disk, "secure_vm_disk_encryption_set_id", null)
+      disk_encryption_set_id            = lookup(disk, "disk_encryption_set_id", null)
       security_type                     = try(disk.security_type, null)
-      disk_access_id                    = try(disk.disk_access_id, null)
+      disk_access_id                    = lookup(disk, "disk_access_id", null)
       hyper_v_generation                = try(disk.hyper_v_generation, null)
-      storage_account_id                = try(disk.storage_account_id, null)
+      storage_account_id                = lookup(disk, "storage_account_id", null)
     }
   ]
 }
+
+#locals {
+#data_disks = [
+#for disk_key, disk in try(var.instance.disks, {}) : {
+
+#vm_name                           = var.instance.name
+#disk_key                          = disk_key
+#name                              = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
+#resourcegroup                     = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+#location                          = coalesce(lookup(var.instance, "location", null), var.location)
+#create_option                     = try(disk.create_option, "Empty")
+#disk_size_gb                      = try(disk.disk_size_gb, 10)
+#storage_account_type              = try(disk.storage_account_type, "Standard_LRS")
+#caching                           = try(disk.caching, "ReadWrite")
+#tags                              = try(disk.tags, var.tags, null)
+#lun                               = disk.lun
+#tier                              = try(disk.tier, null)
+#zone                              = try(disk.zone, var.instance.zone, null)
+#os_type                           = try(disk.os_type, null)
+#edge_zone                         = try(disk.edge_zone, null)
+#max_shares                        = try(disk.max_shares, null)
+#source_uri                        = try(disk.source_uri, null)
+#optimized_frequent_attach_enabled = try(disk.optimized_frequent_attach_enabled, null)
+#public_network_access_enabled     = try(disk.public_network_access_enabled, null)
+#on_demand_bursting_enabled        = try(disk.on_demand_bursting_enabled, false)
+#gallery_image_reference_id        = try(disk.gallery_image_reference_id, null)
+#performance_plus_enabled          = try(disk.performance_plus_enabled, null)
+#trusted_launch_enabled            = try(disk.trusted_launch_enabled, false)
+#network_access_policy             = try(disk.network_access_policy, null)
+#logical_sector_size               = try(disk.logical_sector_size, null)
+#source_resource_id                = try(disk.source_resource_id, null)
+#image_reference_id                = try(disk.image_reference_id, null)
+#secure_vm_disk_encryption_set_id  = try(disk.secure_vm_disk_encryption_set_id, null)
+#disk_encryption_set_id            = try(disk.disk_encryption_set_id, null)
+#security_type                     = try(disk.security_type, null)
+#disk_access_id                    = try(disk.disk_access_id, null)
+#hyper_v_generation                = try(disk.hyper_v_generation, null)
+#storage_account_id                = try(disk.storage_account_id, null)
+#}
+#]
+#}
 
 locals {
   ext_keys = length(lookup(var.instance, "extensions", {})) > 0 ? {
