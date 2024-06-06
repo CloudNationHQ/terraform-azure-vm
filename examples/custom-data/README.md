@@ -27,6 +27,11 @@ EOF
     interfaces = {
       int = {
         subnet = module.network.subnets.int.id
+        ip_configurations = {
+          config1 = {
+            private_ip_address_allocation = "Dynamic"
+          }
+        }
       }
     }
   }

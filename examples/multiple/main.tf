@@ -56,7 +56,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 0.1"
+  version = "~> 1.3"
 
   naming        = local.naming
   keyvault      = module.kv.vault.id

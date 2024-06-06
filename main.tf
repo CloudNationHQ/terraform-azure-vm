@@ -276,13 +276,18 @@ resource "azurerm_network_interface" "nic" {
   dns_servers                   = each.value.dns_servers
   tags                          = each.value.tags
 
-  ip_configuration {
-    name                          = each.value.ip_config_name
-    private_ip_address_allocation = each.value.private_ip_address != null ? "Static" : "Dynamic"
-    private_ip_address            = each.value.private_ip_address
-    public_ip_address_id          = each.value.public_ip_address_id
-    subnet_id                     = each.value.subnet_id
-    private_ip_address_version    = each.value.private_ip_address_version
+  dynamic "ip_configuration" {
+    for_each = each.value.ip_configurations
+
+    content {
+      name                          = ip_configuration.value.name
+      private_ip_address_allocation = ip_configuration.value.private_ip_address_allocation
+      private_ip_address            = ip_configuration.value.private_ip_address
+      public_ip_address_id          = ip_configuration.value.public_ip_address_id
+      subnet_id                     = ip_configuration.value.subnet_id
+      private_ip_address_version    = ip_configuration.value.private_ip_address_version
+      primary                       = ip_configuration.value.primary
+    }
   }
 }
 
