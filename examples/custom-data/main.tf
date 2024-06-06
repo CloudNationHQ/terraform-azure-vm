@@ -53,7 +53,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3.1"
+  version = "~> 1.3"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming
@@ -75,6 +75,11 @@ EOF
     interfaces = {
       int = {
         subnet = module.network.subnets.int.id
+        ip_configurations = {
+          config1 = {
+            private_ip_address_allocation = "Dynamic"
+          }
+        }
       }
     }
   }
