@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.0.0...v2.1.0) (2024-06-07)
+
+
+### Features
+
+* add pull request template ([#113](https://github.com/CloudNationHQ/terraform-azure-vm/issues/113)) ([12089c4](https://github.com/CloudNationHQ/terraform-azure-vm/commit/12089c4b76fd90c2ad62a29e68cc018a6b5f00b8))
+
 ## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v1.13.0...v2.0.0) (2024-06-06)
 
 
