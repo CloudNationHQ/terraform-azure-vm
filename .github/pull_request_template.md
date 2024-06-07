@@ -31,7 +31,7 @@ Below please provide what should go into the changelog (if anything)
 
 <!-- Replace the changelog example below with your entry. One resource per line. -->
 
- * `azurerm_resource` - support for the `example` property [GH-00000]
+ * `azurerm_resource` - support for the `example` property
 
 
 <!-- What type of PR is this? -->
