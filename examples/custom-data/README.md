@@ -5,7 +5,7 @@ This example details the setup and utilization of custom data and cloud-init.
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 2.2"
+  version = "~> 2.3"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming
