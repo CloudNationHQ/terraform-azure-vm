@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.2.0...v2.3.0) (2024-07-02)
+
+
+### Features
+
+* update tls & random provider versions ([#122](https://github.com/CloudNationHQ/terraform-azure-vm/issues/122)) ([6b8ee90](https://github.com/CloudNationHQ/terraform-azure-vm/commit/6b8ee9040e922c072b474af4d181548be52e5768))
+
 ## [2.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.1.0...v2.2.0) (2024-07-02)
 
 

@@ -5,7 +5,7 @@ This example outlines the configuration and deployment of availability sets to e
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 2.2"
+  version = "~> 2.3"
 
   naming        = local.naming
   keyvault      = module.kv.vault.id
