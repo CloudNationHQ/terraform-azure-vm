@@ -5,7 +5,7 @@ This example highlights the complete usage.
 ```hcl
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 2.3"
+  version = "~> 2.4"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming

@@ -7,7 +7,7 @@ To utilize the generated password or ssh key, simply specify the key vault id in
 ```hcl
 module "vm" {
   source = "cloudnationhq/vm/azure"
-  version = "~> 2.3"
+  version = "~> 2.4"
 
   naming     = local.naming
   depends_on = [module.kv]
