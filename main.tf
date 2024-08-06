@@ -23,7 +23,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   proximity_placement_group_id    = try(var.instance.proximity_placement_group_id, null)
   dedicated_host_group_id         = try(var.instance.dedicated_host_group_id, null)
   platform_fault_domain           = try(var.instance.platform_fault_domain, null)
-  source_image_id                 = try(var.instance.source_image_id, null)
+  source_image_id                 = lookup(var.instance, "source_image_id", null)
   dedicated_host_id               = try(var.instance.dedicated_host_id, null)
   max_bid_price                   = try(var.instance.max_bid_price, null)
   edge_zone                       = try(var.instance.edge_zone, null)
@@ -77,12 +77,13 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "source_image_reference" {
-    for_each = lookup(var.instance, "source_image_id", null) == null ? [1] : []
+    for_each = lookup(var.instance, "source_image_id", null) == null ? ["use_image_reference"] : []
+
     content {
-      publisher = try(var.instance.image.publisher, "Canonical")
-      offer     = try(var.instance.image.offer, "UbuntuServer")
-      sku       = try(var.instance.image.sku, "18.04-LTS")
-      version   = try(var.instance.image.version, "latest")
+      publisher = try(var.instance.source_image_reference.publisher, "Canonical")
+      offer     = try(var.instance.source_image_reference.offer, "UbuntuServer")
+      sku       = try(var.instance.source_image_reference.sku, "18.04-LTS")
+      version   = try(var.instance.source_image_reference.version, "latest")
     }
   }
 
@@ -168,7 +169,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   max_bid_price                 = try(var.instance.max_bid_price, null)
   edge_zone                     = try(var.instance.edge_zone, null)
   dedicated_host_id             = try(var.instance.dedicated_host_id, null)
-  source_image_id               = try(var.instance.source_image_id, null)
+  source_image_id               = lookup(var.instance, "source_image_id", null)
   platform_fault_domain         = try(var.instance.platform_fault_domain, null)
   extensions_time_budget        = try(var.instance.extensions_time_budget, null)
   dedicated_host_group_id       = try(var.instance.dedicated_host_group_id, null)
@@ -213,12 +214,12 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "source_image_reference" {
-    for_each = lookup(var.instance, "source_image_id", null) == null ? [1] : []
+    for_each = lookup(var.instance, "source_image_id", null) == null ? ["use_image_reference"] : []
     content {
-      publisher = try(var.instance.image.publisher, "MicrosoftWindowsServer")
-      offer     = try(var.instance.image.offer, "WindowsServer")
-      sku       = try(var.instance.image.sku, "2022-Datacenter")
-      version   = try(var.instance.image.version, "latest")
+      publisher = try(var.instance.source_image_reference.publisher, "MicrosoftWindowsServer")
+      offer     = try(var.instance.source_image_reference.offer, "WindowsServer")
+      sku       = try(var.instance.source_image_reference.sku, "2022-Datacenter")
+      version   = try(var.instance.source_image_reference.version, "latest")
     }
   }
 
