@@ -76,11 +76,14 @@ resource "azurerm_linux_virtual_machine" "vm" {
     write_accelerator_enabled = try(var.instance.os_disk.write_accelerator_enabled, false)
   }
 
-  source_image_reference {
-    publisher = try(var.instance.image.publisher, "Canonical")
-    offer     = try(var.instance.image.offer, "UbuntuServer")
-    sku       = try(var.instance.image.sku, "18.04-LTS")
-    version   = try(var.instance.image.version, "latest")
+  dynamic "source_image_reference" {
+    for_each = lookup(var.instance, "source_image_id", null) == null ? [1] : []
+    content {
+      publisher = try(var.instance.image.publisher, "Canonical")
+      offer     = try(var.instance.image.offer, "UbuntuServer")
+      sku       = try(var.instance.image.sku, "18.04-LTS")
+      version   = try(var.instance.image.version, "latest")
+    }
   }
 
   dynamic "plan" {
@@ -209,11 +212,14 @@ resource "azurerm_windows_virtual_machine" "vm" {
     name                             = try(var.instance.os_disk.name, null)
   }
 
-  source_image_reference {
-    publisher = try(var.instance.image.publisher, "MicrosoftWindowsServer")
-    offer     = try(var.instance.image.offer, "WindowsServer")
-    sku       = try(var.instance.image.sku, "2022-Datacenter")
-    version   = try(var.instance.image.version, "latest")
+  dynamic "source_image_reference" {
+    for_each = lookup(var.instance, "source_image_id", null) == null ? [1] : []
+    content {
+      publisher = try(var.instance.image.publisher, "MicrosoftWindowsServer")
+      offer     = try(var.instance.image.offer, "WindowsServer")
+      sku       = try(var.instance.image.sku, "2022-Datacenter")
+      version   = try(var.instance.image.version, "latest")
+    }
   }
 
   dynamic "plan" {
