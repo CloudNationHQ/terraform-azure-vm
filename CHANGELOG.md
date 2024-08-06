@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.3.0...v2.4.0) (2024-08-06)
+
+
+### Features
+
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#126](https://github.com/CloudNationHQ/terraform-azure-vm/issues/126)) ([8dbb977](https://github.com/CloudNationHQ/terraform-azure-vm/commit/8dbb977679e58fc66c53cef851d2d41a3812af79))
+* make source image reference fully optional ([#128](https://github.com/CloudNationHQ/terraform-azure-vm/issues/128)) ([8193204](https://github.com/CloudNationHQ/terraform-azure-vm/commit/81932044c9acf2c04f61a41d108c7e494c25cbed))
+* update contribution docs ([#124](https://github.com/CloudNationHQ/terraform-azure-vm/issues/124)) ([2f31e0c](https://github.com/CloudNationHQ/terraform-azure-vm/commit/2f31e0c38e07d4878b20a0a3dfad4e38cd6586c1))
+
 ## [2.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.2.0...v2.3.0) (2024-07-02)
 
 
