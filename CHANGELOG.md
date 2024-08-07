@@ -12,9 +12,9 @@
 * align and remove several deprecated properties ([#132](https://github.com/CloudNationHQ/terraform-azure-vm/issues/132)) ([8415daa](https://github.com/CloudNationHQ/terraform-azure-vm/commit/8415daad1c36d0e6ce59677547d77110496c6ddb))
 * align source image reference blocks ([#130](https://github.com/CloudNationHQ/terraform-azure-vm/issues/130)) ([489cf70](https://github.com/CloudNationHQ/terraform-azure-vm/commit/489cf704c46e9b0b20411ad9079ce2a7621f49c1))
 
-Upgrade from v2.4.0 to v3.0.0:
+### Upgrade from v2.4.0 to v3.0.0:
 
-- Update module reference to: version = "~> 3.0"
+- Update module reference to: `version = "~> 3.0"`
 - Rename properties in instance object:
   - resourcegroup -> resource_group
   - image -> source_image_reference
