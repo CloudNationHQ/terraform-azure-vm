@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* * data structure has changed due to renaming of properties and (output) variables.
+* data structure has changed due to renaming of properties and (output) variables.
 
 ### Features
 
@@ -13,6 +13,7 @@
 * align source image reference blocks ([#130](https://github.com/CloudNationHQ/terraform-azure-vm/issues/130)) ([489cf70](https://github.com/CloudNationHQ/terraform-azure-vm/commit/489cf704c46e9b0b20411ad9079ce2a7621f49c1))
 
 Upgrade from v2.4.0 to v3.0.0:
+
 - Update module reference to: version = "~> 3.0"
 - Rename properties in instance object:
   - resourcegroup -> resource_group
