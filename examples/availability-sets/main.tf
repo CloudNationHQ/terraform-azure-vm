@@ -54,11 +54,11 @@ module "vm" {
   source  = "cloudnationhq/vm/azure"
   version = "~> 1.12"
 
-  naming        = local.naming
-  keyvault      = module.kv.vault.id
-  resourcegroup = module.rg.groups.demo.name
-  location      = module.rg.groups.demo.location
-  depends_on    = [module.kv]
+  naming         = local.naming
+  keyvault       = module.kv.vault.id
+  resource_group = module.rg.groups.demo.name
+  location       = module.rg.groups.demo.location
+  depends_on     = [module.kv]
 
   instance = {
     name = module.naming.virtual_machine.name
@@ -89,9 +89,9 @@ module "availability" {
 
   availability_sets = {
     demo = {
-      name          = module.naming.availability_set.name
-      resourcegroup = module.rg.groups.demo.name
-      location      = module.rg.groups.demo.location
+      name           = module.naming.availability_set.name
+      resource_group = module.rg.groups.demo.name
+      location       = module.rg.groups.demo.location
     }
   }
 }

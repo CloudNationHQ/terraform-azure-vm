@@ -9,11 +9,15 @@ locals {
 
 locals {
   instance = {
-    name          = module.naming.linux_virtual_machine.name
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    extensions    = local.extensions
-    type          = "linux"
+    name           = module.naming.linux_virtual_machine.name
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
+    extensions     = local.extensions
+    type           = "linux"
+
+    additional_capabilities = {
+      ultra_ssd_enabled = true
+    }
 
     source_image_reference = {
       publisher = "Debian"

@@ -72,7 +72,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 | `naming` | used for naming purposes | string | yes |
 | `keyvault` | keyvault to store secrets | string | yes |
 | `location` | default azure region and can be used if location is not specified inside the object | string | no |
-| `resourcegroup` | default resource group and can be used if resourcegroup is not specified inside the object | string | no |
+| `resource_group` | default resource group and can be used if resourcegroup is not specified inside the object | string | no |
 | `tags` | tags to be added to the resources | map(string) | no |
 
 
@@ -81,7 +81,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 | Name | Description |
 | :-- | :-- |
 | `instance` | contains all virtual machine config |
-| `subscriptionId` | contains the current subscription id |
+| `subscription_id` | contains the current subscription id |
 | `uai` | contains the user assigned identity |
 
 ## Testing

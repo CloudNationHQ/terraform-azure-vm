@@ -14,7 +14,7 @@ module "vm" {
   instance = {
     type          = "linux"
     name          = module.naming.linux_virtual_machine.name
-    resourcegroup = module.rg.groups.demo.name
+    resource_group = module.rg.groups.demo.name
     location      = module.rg.groups.demo.location
 
     custom_data = <<EOF

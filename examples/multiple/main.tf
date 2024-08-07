@@ -58,11 +58,11 @@ module "vm" {
   source  = "cloudnationhq/vm/azure"
   version = "~> 2.0"
 
-  naming        = local.naming
-  keyvault      = module.kv.vault.id
-  resourcegroup = module.rg.groups.demo.name
-  location      = module.rg.groups.demo.location
-  depends_on    = [module.kv]
+  naming         = local.naming
+  keyvault       = module.kv.vault.id
+  resource_group = module.rg.groups.demo.name
+  location       = module.rg.groups.demo.location
+  depends_on     = [module.kv]
 
   for_each = local.vms
 
