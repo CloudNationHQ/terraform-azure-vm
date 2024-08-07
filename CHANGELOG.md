@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/5f38f981-c745-4bbe-8a83-60784a4cb7e8)# Changelog
+# Changelog
 
 ## [3.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.4.0...v3.0.0) (2024-08-07)
 
@@ -12,6 +12,20 @@
 * align and remove several deprecated properties ([#132](https://github.com/CloudNationHQ/terraform-azure-vm/issues/132)) ([8415daa](https://github.com/CloudNationHQ/terraform-azure-vm/commit/8415daad1c36d0e6ce59677547d77110496c6ddb))
 * align source image reference blocks ([#130](https://github.com/CloudNationHQ/terraform-azure-vm/issues/130)) ([489cf70](https://github.com/CloudNationHQ/terraform-azure-vm/commit/489cf704c46e9b0b20411ad9079ce2a7621f49c1))
 
+Upgrade from v2.4.0 to v3.0.0:
+- Update module reference to: version = "~> 3.0"
+- Rename properties in instance object:
+  - resourcegroup -> resource_group
+  - image -> source_image_reference
+  - enable_accelerated_networking -> accelerated_networking_enabled
+  - enable_ip_forwarding -> ip_forwarding_enabled
+  - ultra_ssd_enabled -> additional_capabilities.ultra_ssd_enabled
+  - boot_diags.storage_uri -> boot_diagnostics.storage_account_uri
+- Rename variable (optional):
+  - resourcegroup -> resource_group
+- Rename output variable:
+  - subscriptionId -> subscription_id'
+  
 ## [2.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.3.0...v2.4.0) (2024-08-06)
 
 
