@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.4.0...v2.5.0) (2024-08-07)
+
+
+### Features
+
+* align source image reference blocks ([#130](https://github.com/CloudNationHQ/terraform-azure-vm/issues/130)) ([489cf70](https://github.com/CloudNationHQ/terraform-azure-vm/commit/489cf704c46e9b0b20411ad9079ce2a7621f49c1))
+
 ## [2.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v2.3.0...v2.4.0) (2024-08-06)
 
 
