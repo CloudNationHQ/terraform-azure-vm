@@ -2,7 +2,7 @@ module "naming" {
   source  = "cloudnationhq/naming/azure"
   version = "~> 0.1"
 
-  suffix = ["demo", "dev"]
+  suffix = ["demo", "prd"]
 }
 
 module "rg" {
@@ -12,7 +12,7 @@ module "rg" {
   groups = {
     demo = {
       name   = module.naming.resource_group.name
-      region = "westeurope"
+      region = "northeurope"
     }
   }
 }
@@ -53,7 +53,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3"
+  version = "~> 2.0"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming

@@ -77,12 +77,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "source_image_reference" {
-    for_each = lookup(var.instance, "source_image_id", null) == null ? [1] : []
+    for_each = try(var.instance.source_image_id, null) == null ? [true] : []
     content {
-      publisher = try(var.instance.image.publisher, "Canonical")
-      offer     = try(var.instance.image.offer, "UbuntuServer")
-      sku       = try(var.instance.image.sku, "18.04-LTS")
-      version   = try(var.instance.image.version, "latest")
+      publisher = try(var.instance.source_image_reference.publisher, "Canonical")
+      offer     = try(var.instance.source_image_reference.offer, "UbuntuServer")
+      sku       = try(var.instance.source_image_reference.sku, "18.04-LTS")
+      version   = try(var.instance.source_image_reference.version, "latest")
     }
   }
 
@@ -213,12 +213,13 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "source_image_reference" {
-    for_each = lookup(var.instance, "source_image_id", null) == null ? [1] : []
+    for_each = try(var.instance.source_image_id, null) == null ? [true] : []
+
     content {
-      publisher = try(var.instance.image.publisher, "MicrosoftWindowsServer")
-      offer     = try(var.instance.image.offer, "WindowsServer")
-      sku       = try(var.instance.image.sku, "2022-Datacenter")
-      version   = try(var.instance.image.version, "latest")
+      publisher = try(var.instance.source_image_reference.publisher, "MicrosoftWindowsServer")
+      offer     = try(var.instance.source_image_reference.offer, "WindowsServer")
+      sku       = try(var.instance.source_image_reference.sku, "2022-Datacenter")
+      version   = try(var.instance.source_image_reference.version, "latest")
     }
   }
 

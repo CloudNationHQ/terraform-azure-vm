@@ -15,6 +15,13 @@ locals {
     extensions    = local.extensions
     type          = "linux"
 
+    source_image_reference = {
+      publisher = "Debian"
+      offer     = "debian-11"
+      sku       = "11-backports-gen2"
+      version   = "latest"
+    }
+
     interfaces = {
       int = {
         subnet = module.network.subnets.int.id
