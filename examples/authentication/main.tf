@@ -72,17 +72,17 @@ module "kv" {
 
 module "vm-linux-ssh" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3"
+  version = "~> 3.0"
 
   naming     = local.naming
   depends_on = [module.kv]
 
   instance = {
-    name          = "${module.naming.linux_virtual_machine.name}-01"
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    public_key    = module.kv.tls_public_keys.vm-linux-key.value
-    type          = "linux"
+    name           = "${module.naming.linux_virtual_machine.name}-01"
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
+    public_key     = module.kv.tls_public_keys.vm-linux-key.value
+    type           = "linux"
 
     interfaces = {
       int1 = {
@@ -99,17 +99,17 @@ module "vm-linux-ssh" {
 
 module "vm-linux-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3"
+  version = "~> 3.0"
 
   naming     = local.naming
   depends_on = [module.kv]
 
   instance = {
-    name          = "${module.naming.linux_virtual_machine.name}-02"
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    password      = module.kv.secrets.vm-linux-password.value
-    type          = "linux"
+    name           = "${module.naming.linux_virtual_machine.name}-02"
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
+    password       = module.kv.secrets.vm-linux-password.value
+    type           = "linux"
 
     interfaces = {
       int1 = {
@@ -126,17 +126,17 @@ module "vm-linux-password" {
 
 module "vm-windows-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.3"
+  version = "~> 3.0"
 
   naming     = local.naming
   depends_on = [module.kv]
 
   instance = {
-    name          = "${module.naming.windows_virtual_machine.name}-03"
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
-    password      = module.kv.secrets.vm-windows-password.value
-    type          = "windows"
+    name           = "${module.naming.windows_virtual_machine.name}-03"
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
+    password       = module.kv.secrets.vm-windows-password.value
+    type           = "windows"
 
     interfaces = {
       int1 = {

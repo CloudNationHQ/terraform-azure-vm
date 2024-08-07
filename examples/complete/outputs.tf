@@ -3,6 +3,6 @@ output "vm" {
   sensitive = true
 }
 
-output "subscriptionId" {
-  value = module.vm.subscriptionId
+output "subscription_id" {
+  value = module.vm.subscription_id
 }

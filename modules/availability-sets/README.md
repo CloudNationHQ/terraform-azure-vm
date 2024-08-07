@@ -28,7 +28,7 @@ This submodule focuses on the management of availability sets
 | <a name="input_availability_sets"></a> [availability\_sets](#input\_availability\_sets) | describes all availability sets | `any` | `{}` | no |
 | <a name="input_location"></a> [location](#input\_location) | default azure region to be used. | `string` | `null` | no |
 | <a name="input_naming"></a> [naming](#input\_naming) | Used for naming purposes | `map(string)` | `null` | no |
-| <a name="input_resourcegroup"></a> [resourcegroup](#input\_resourcegroup) | default resource group to be used. | `string` | `null` | no |
+| <a name="input_resource_group"></a> [resource_group](#input\_resource_group) | default resource group to be used. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | `map(string)` | `{}` | no |
 
 ## Outputs

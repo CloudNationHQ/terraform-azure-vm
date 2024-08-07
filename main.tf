@@ -8,7 +8,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   name                            = var.instance.name
   computer_name                   = try(var.instance.computer_name, var.instance.name)
-  resource_group_name             = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+  resource_group_name             = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
   location                        = coalesce(lookup(var.instance, "location", null), var.location)
   size                            = try(var.instance.size, "Standard_D2s_v3")
   admin_username                  = try(var.instance.username, "adminuser")
@@ -41,16 +41,18 @@ resource "azurerm_linux_virtual_machine" "vm" {
   tags                            = try(var.instance.tags, var.tags, null)
 
   dynamic "additional_capabilities" {
-    for_each = lookup(var.instance, "ultra_ssd_enabled", false) == true ? [1] : []
+    for_each = try(var.instance.additional_capabilities, null) != null ? [1] : []
+
     content {
-      ultra_ssd_enabled = true
+      ultra_ssd_enabled   = try(var.instance.additional_capabilities.ultra_ssd_enabled, false)
+      hibernation_enabled = try(var.instance.additional_capabilities.hibernation_enabled, false)
     }
   }
 
   dynamic "boot_diagnostics" {
-    for_each = lookup(var.instance, "boot_diags", null) != null ? [1] : []
+    for_each = lookup(var.instance, "boot_diagnostics", null) != null ? [1] : []
     content {
-      storage_account_uri = lookup(var.instance.boot_diags, "storage_uri", null)
+      storage_account_uri = lookup(var.instance.boot_diagnostics, "storage_account_uri", null)
     }
   }
 
@@ -144,7 +146,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
   name                = var.instance.name
   computer_name       = try(var.instance.computer_name, var.instance.name)
-  resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+  resource_group_name = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
   size                = try(var.instance.size, "Standard_D2s_v3")
   admin_username      = try(var.instance.username, "adminuser")
@@ -188,16 +190,18 @@ resource "azurerm_windows_virtual_machine" "vm" {
   ]
 
   dynamic "additional_capabilities" {
-    for_each = lookup(var.instance, "ultra_ssd_enabled", false) == true ? [1] : []
+    for_each = try(var.instance.additional_capabilities, null) != null ? [1] : []
+
     content {
-      ultra_ssd_enabled = true
+      ultra_ssd_enabled   = try(var.instance.additional_capabilities.ultra_ssd_enabled, false)
+      hibernation_enabled = try(var.instance.additional_capabilities.hibernation_enabled, false)
     }
   }
 
   dynamic "boot_diagnostics" {
-    for_each = lookup(var.instance, "boot_diags", null) != null ? [1] : []
+    for_each = lookup(var.instance, "boot_diagnostics", null) != null ? [1] : []
     content {
-      storage_account_uri = lookup(var.instance.boot_diags, "storage_uri", null)
+      storage_account_uri = lookup(var.instance.boot_diagnostics, "storage_account_uri", null)
     }
   }
 
@@ -271,17 +275,17 @@ resource "azurerm_network_interface" "nic" {
     for intf in local.interfaces : "${intf.vm_name}-${intf.interface_key}" => intf
   }
 
-  name                          = each.value.name
-  resource_group_name           = each.value.resourcegroup
-  location                      = each.value.location
-  enable_accelerated_networking = each.value.enable_accelerated_networking
-  enable_ip_forwarding          = each.value.enable_ip_forwarding
-  auxiliary_sku                 = each.value.auxiliary_sku
-  auxiliary_mode                = each.value.auxiliary_mode
-  internal_dns_name_label       = each.value.internal_dns_name_label
-  edge_zone                     = each.value.edge_zone
-  dns_servers                   = each.value.dns_servers
-  tags                          = each.value.tags
+  name                           = each.value.name
+  resource_group_name            = each.value.resource_group
+  location                       = each.value.location
+  ip_forwarding_enabled          = each.value.ip_forwarding_enabled
+  accelerated_networking_enabled = each.value.accelerated_networking_enabled
+  auxiliary_sku                  = each.value.auxiliary_sku
+  auxiliary_mode                 = each.value.auxiliary_mode
+  internal_dns_name_label        = each.value.internal_dns_name_label
+  edge_zone                      = each.value.edge_zone
+  dns_servers                    = each.value.dns_servers
+  tags                           = each.value.tags
 
   dynamic "ip_configuration" {
     for_each = each.value.ip_configurations
@@ -320,7 +324,7 @@ resource "azurerm_managed_disk" "disks" {
 
   name                              = each.value.name
   location                          = each.value.location
-  resource_group_name               = each.value.resourcegroup
+  resource_group_name               = each.value.resource_group
   storage_account_type              = each.value.storage_account_type
   create_option                     = each.value.create_option
   disk_size_gb                      = each.value.disk_size_gb
@@ -371,8 +375,7 @@ resource "azurerm_user_assigned_identity" "identity" {
 
 
   name                = try(var.instance.identity.name, "uai-${var.instance.name}")
-  resource_group_name = coalesce(lookup(var.instance, "resourcegroup", null), var.resourcegroup)
+  resource_group_name = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
   tags                = try(var.instance.identity.tags, var.tags, null)
-
 }
