@@ -1,32 +1,23 @@
-This section details the support for windows virtual machines.
+# Windows
 
-## Usage
+This deploys a windows virtual machine.
+
+## Types
 
 ```hcl
-module "vm" {
-  source  = "cloudnationhq/vm/azure"
-  version = "~> 3.0"
-
-  keyvault   = module.kv.vault.id
-  naming     = local.naming
-  depends_on = [module.kv]
-
-  instance = {
-    type          = "windows"
-    name          = module.naming.windows_virtual_machine.name
-    resourcegroup = module.rg.groups.demo.name
-    location      = module.rg.groups.demo.location
-
-    interfaces = {
-      int = {
-        subnet = module.network.subnets.internal.id
-        ip_configurations = {
-          config1 = {
-            private_ip_address_allocation = "Dynamic"
-          }
-        }
-      }
-    }
-  }
-}
+instance = object({
+  type           = string
+  name           = string
+  resource_group = string
+  location       = string
+  interfaces     = map(object({
+    subnet = string
+    ip_configurations = map(object({
+      private_ip_address_allocation = string
+      private_ip_address            = optional(string)
+      public_ip_address_id          = optional(string)
+      primary                       = optional(bool)
+    }))
+  }))
+})
 ```

@@ -62,5 +62,27 @@ module "vm" {
   naming     = local.naming
   depends_on = [module.kv]
 
-  instance = local.instance
+  instance = {
+    name           = module.naming.linux_virtual_machine.name
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
+    extensions     = local.extensions
+    type           = "linux"
+    interfaces     = local.interfaces
+    extensions     = local.extensions
+
+    source_image_reference = {
+      publisher = "Debian"
+      offer     = "debian-11"
+      sku       = "11-backports-gen2"
+      version   = "latest"
+    }
+
+    disks = {
+      db = {
+        size_gb = 10
+        lun     = 0
+      }
+    }
+  }
 }

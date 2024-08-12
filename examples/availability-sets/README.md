@@ -1,51 +1,36 @@
-This example outlines the configuration and deployment of availability sets to ensure high availability and fault tolerance.
+# Availability Sets
 
-## Usage
+This deploys availability sets on the virtual machine to be utilized.
+
+## Types
 
 ```hcl
-module "vm" {
-  source  = "cloudnationhq/vm/azure"
-  version = "~> 3.0"
-
-  naming        = local.naming
-  keyvault      = module.kv.vault.id
-  resourcegroup = module.rg.groups.demo.name
-  location      = module.rg.groups.demo.location
-  depends_on    = [module.kv]
-
-  instance = {
-    name = module.naming.virtual_machine.name
-    type = "linux"
-    interfaces = {
-      dcroot001 = {
-        subnet = module.network.subnets.int.id
-        ip_configurations = {
-          config1 = {
-            private_ip_address_allocation = "Dynamic"
-          }
-        }
-      }
-    }
-    disks = {
-      dcroot001 = {
-        disk_size_gb = 128
-        lun          = 0
-      }
-    }
-    availability_set_id = module.availability.sets.demo.id
-  }
-}
-
-module "availability" {
-  source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 0.1"
-
-  availability_sets = {
-    demo = {
-      name          = module.naming.availability_set.name
-      resourcegroup = module.rg.groups.demo.name
-      location      = module.rg.groups.demo.location
-    }
-  }
-}
+instance = object({
+  type           = string
+  name           = string
+  resource_group = string
+  location       = string
+  custom_data    = optional(string)
+  interfaces     = map(object({
+    subnet            = string
+    ip_configurations = map(object({
+      private_ip_address_allocation = optional(string)
+      private_ip_address            = optional(string)
+      primary                       = optional(bool)
+    }))
+  }))
+  availability_set_id = optional(string)
+})
 ```
+
+```hcl
+availability_sets = map(object({
+  name           = string
+  resource_group = string
+  location       = string
+}))
+```
+
+## Notes
+
+The submodule enables setting up multiple availability sets and assigning virtual machines to specific zones.
