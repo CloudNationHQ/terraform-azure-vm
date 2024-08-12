@@ -43,7 +43,7 @@ locals {
       vm_name                           = var.instance.name
       disk_key                          = disk_key
       name                              = try(disk.name, join("-", [var.naming.managed_disk, disk_key]))
-      resource_group                     = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
+      resource_group                    = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
       location                          = coalesce(lookup(var.instance, "location", null), var.location)
       create_option                     = try(disk.create_option, "Empty")
       disk_size_gb                      = try(disk.disk_size_gb, 10)

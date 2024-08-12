@@ -52,7 +52,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 1.12"
+  version = "~> 3.0"
 
   naming         = local.naming
   keyvault       = module.kv.vault.id
@@ -73,19 +73,13 @@ module "vm" {
         }
       }
     }
-    disks = {
-      dcroot001 = {
-        disk_size_gb = 128
-        lun          = 0
-      }
-    }
     availability_set_id = module.availability.sets.demo.id
   }
 }
 
 module "availability" {
   source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 0.1"
+  version = "~> 3.0"
 
   availability_sets = {
     demo = {

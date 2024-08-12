@@ -1,48 +1,28 @@
-This example illustrates the implementation of extensions.
+# Extensions
 
-## Usage
+This deploys virtual machine extensions.
 
-```hcl
-module "vm" {
-  source  = "cloudnationhq/vm/azure"
-  version = "~> 3.0"
-
-  keyvault   = module.kv.vault.id
-  naming     = local.naming
-  depends_on = [module.kv]
-
-  instance = {
-    type          = "linux"
-    name          = module.naming.linux_virtual_machine.name
-    resourcegroup = module.rg.groups.demo.name
-    location      = module.rg.groups.demo.location
-    extensions    = local.exts
-
-    interfaces = {
-      int = {
-        subnet = module.network.subnets.int.id
-        ip_configurations = {
-          config1 = {
-            private_ip_address_allocation = "Dynamic"
-          }
-        }
-      }
-    }
-  }
-}
-```
+## Types
 
 ```hcl
-locals {
-  exts = {
-    custom = {
-      publisher            = "Microsoft.Azure.Extensions"
-      type                 = "CustomScript"
-      type_handler_version = "2.0"
-      settings = {
-        "commandToExecute" = "echo 'Hello World' > /tmp/helloworld.txt"
-      }
-    }
-  }
-}
+instance = object({
+  type           = string
+  name           = string
+  resource_group = string
+  location       = string
+  extensions     = optional(map(object({
+    publisher            = string
+    type                 = string
+    type_handler_version = string
+    settings             = map(string)
+  })))
+  interfaces     = map(object({
+    subnet            = string
+    ip_configurations = map(object({
+      private_ip_address_allocation = optional(string)
+      private_ip_address            = optional(string)
+      primary                       = optional(bool)
+    }))
+  }))
+})
 ```
