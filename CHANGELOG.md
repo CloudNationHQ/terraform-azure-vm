@@ -5,12 +5,16 @@
 
 ### ⚠ BREAKING CHANGES
 
-* * Version 4 of the azurerm provider includes breaking changes.
+* Version 4 of the azurerm provider includes breaking changes.
 
 ### Features
 
 * **deps:** bump github.com/gruntwork-io/terratest in /tests ([#139](https://github.com/CloudNationHQ/terraform-azure-vm/issues/139)) ([0627801](https://github.com/CloudNationHQ/terraform-azure-vm/commit/06278010f0cc7b074d0f50141739696cf9d8e964))
 * upgrade azurerm provder to v4 ([#142](https://github.com/CloudNationHQ/terraform-azure-vm/issues/142)) ([5a52ee5](https://github.com/CloudNationHQ/terraform-azure-vm/commit/5a52ee5544e7162b78aa087ba47acacc1f8a9e6f))
+
+### Upgrade from v3.2.0 to v4.0.0:
+
+- Update module reference to: `version = "~> 4.0"`
 
 ## [3.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v3.1.0...v3.2.0) (2024-08-28)
 
