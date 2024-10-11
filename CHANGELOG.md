@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.0.0...v4.1.0) (2024-10-11)
+
+
+### Features
+
+* auto generated docs and refine makefile ([#144](https://github.com/CloudNationHQ/terraform-azure-vm/issues/144)) ([c52d5f2](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c52d5f24c47d37f2a71f59c706f3306b6e593e38))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#143](https://github.com/CloudNationHQ/terraform-azure-vm/issues/143)) ([c95d0f4](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c95d0f40f145d0f26c4b0c0f171f2b1b4a2fedc2))
+
 ## [4.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v3.2.0...v4.0.0) (2024-09-24)
 
 
