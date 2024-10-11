@@ -2,18 +2,19 @@
 
 This submodule focuses on the management of availability sets
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.61 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.61 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
 
 ## Resources
 
@@ -28,7 +29,7 @@ This submodule focuses on the management of availability sets
 | <a name="input_availability_sets"></a> [availability\_sets](#input\_availability\_sets) | describes all availability sets | `any` | `{}` | no |
 | <a name="input_location"></a> [location](#input\_location) | default azure region to be used. | `string` | `null` | no |
 | <a name="input_naming"></a> [naming](#input\_naming) | Used for naming purposes | `map(string)` | `null` | no |
-| <a name="input_resource_group"></a> [resource_group](#input\_resource_group) | default resource group to be used. | `string` | `null` | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | default resource group to be used. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | `map(string)` | `{}` | no |
 
 ## Outputs
@@ -36,3 +37,4 @@ This submodule focuses on the management of availability sets
 | Name | Description |
 |------|-------------|
 | <a name="output_sets"></a> [sets](#output\_sets) | contains all availability sets |
+<!-- END_TF_DOCS -->
