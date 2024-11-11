@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.1.0...v4.2.0) (2024-11-11)
+
+
+### Features
+
+* enhance testing with sequential, parallel modes and flags for exceptions and skip-destroy ([#146](https://github.com/CloudNationHQ/terraform-azure-vm/issues/146)) ([377742d](https://github.com/CloudNationHQ/terraform-azure-vm/commit/377742df2c143227d579851c7f139d2d488c2e57))
+
 ## [4.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.0.0...v4.1.0) (2024-10-11)
 
 
