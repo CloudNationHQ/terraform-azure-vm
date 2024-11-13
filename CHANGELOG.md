@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.2.0...v4.2.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* fix submodule documentation generation ([#148](https://github.com/CloudNationHQ/terraform-azure-vm/issues/148)) ([b391f15](https://github.com/CloudNationHQ/terraform-azure-vm/commit/b391f15461e32eaf821c4c13a62cbcfa4897283b))
+
 ## [4.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.1.0...v4.2.0) (2024-11-11)
 
 
