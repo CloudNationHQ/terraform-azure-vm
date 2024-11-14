@@ -67,7 +67,6 @@ End-to-end testing is not conducted on these modules, as they are individual com
 | [azurerm_windows_virtual_machine.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) | resource |
 | [random_password.password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [tls_private_key.tls_key](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
 
@@ -85,7 +84,7 @@ End-to-end testing is not conducted on these modules, as they are individual com
 | Name | Description |
 |------|-------------|
 | <a name="output_instance"></a> [instance](#output\_instance) | contains all virtual machine config |
-| <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | contains the current subscription id |
+| <a name="output_network_interfaces"></a> [network\_interfaces](#output\_network\_interfaces) | contains all network interfaces config |
 | <a name="output_uai"></a> [uai](#output\_uai) | contains the user assigned identity |
 <!-- END_TF_DOCS -->
 
