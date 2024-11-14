@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.2.1...v4.2.2) (2024-11-14)
+
+
+### Bug Fixes
+
+* add network interfaces output and removed unnecessary ones ([#152](https://github.com/CloudNationHQ/terraform-azure-vm/issues/152)) ([cdcb585](https://github.com/CloudNationHQ/terraform-azure-vm/commit/cdcb58552d82cde32f2c4c6291bac33c4b61235d))
+
 ## [4.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.2.0...v4.2.1) (2024-11-13)
 
 
