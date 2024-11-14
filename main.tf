@@ -1,5 +1,3 @@
-data "azurerm_subscription" "current" {}
-
 # linux vm
 resource "azurerm_linux_virtual_machine" "vm" {
   for_each = var.instance.type == "linux" ? {
