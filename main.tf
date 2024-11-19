@@ -348,6 +348,8 @@ resource "azurerm_managed_disk" "disks" {
   disk_access_id                    = each.value.disk_access_id
   hyper_v_generation                = each.value.hyper_v_generation
   storage_account_id                = each.value.storage_account_id
+  disk_iops_read_write              = each.value.disk_iops_read_write
+  disk_mbps_read_write              = each.value.disk_mbps_read_write
   tags                              = each.value.tags
 
   lifecycle {

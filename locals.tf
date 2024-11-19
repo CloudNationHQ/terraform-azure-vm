@@ -72,6 +72,8 @@ locals {
       security_type                     = try(disk.security_type, null)
       disk_access_id                    = try(disk.disk_access_id, null)
       hyper_v_generation                = try(disk.hyper_v_generation, null)
+      disk_iops_read_write              = try(disk.disk_iops_read_write, null)
+      disk_mbps_read_write              = try(disk.disk_mbps_read_write, null)
       storage_account_id                = try(disk.storage_account_id, null)
     }
   ]
