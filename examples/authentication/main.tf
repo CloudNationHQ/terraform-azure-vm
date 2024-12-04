@@ -27,12 +27,12 @@ module "network" {
     name           = module.naming.virtual_network.name
     location       = module.rg.groups.demo.location
     resource_group = module.rg.groups.demo.name
-    address_space           = ["10.18.0.0/16"]
+    address_space  = ["10.18.0.0/16"]
 
     subnets = {
       int = {
-        address_prefixes = ["10.18.1.0/24"]
-        network_security_group  = {}
+        address_prefixes       = ["10.18.1.0/24"]
+        network_security_group = {}
       }
     }
   }

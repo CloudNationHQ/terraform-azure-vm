@@ -78,7 +78,7 @@ EOF
         ip_configurations = {
           config1 = {
             private_ip_address_allocation = "Dynamic"
-            primary = true
+            primary                       = true
           }
         }
       }
