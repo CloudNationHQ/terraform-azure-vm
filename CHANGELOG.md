@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.3.0...v4.3.1) (2024-12-04)
+
+
+### Bug Fixes
+
+* replace conditional check to contains key instead of lookup for sensitive values ([#158](https://github.com/CloudNationHQ/terraform-azure-vm/issues/158)) ([e27ce60](https://github.com/CloudNationHQ/terraform-azure-vm/commit/e27ce60ccfbcee952bfff78d965ccc05658499fc))
+
 ## [4.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.2.2...v4.3.0) (2024-11-19)
 
 
