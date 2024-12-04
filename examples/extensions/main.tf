@@ -19,7 +19,7 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 4.0"
+  version = "~> 8.0"
 
   naming = local.naming
 
@@ -27,12 +27,12 @@ module "network" {
     name           = module.naming.virtual_network.name
     location       = module.rg.groups.demo.location
     resource_group = module.rg.groups.demo.name
-    cidr           = ["10.18.0.0/16"]
+    address_space           = ["10.18.0.0/16"]
 
     subnets = {
       int = {
-        cidr = ["10.18.1.0/24"]
-        nsg  = {}
+        address_prefixes = ["10.18.1.0/24"]
+        network_security_group  = {}
       }
     }
   }
@@ -40,7 +40,7 @@ module "network" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   naming = local.naming
 
@@ -72,6 +72,7 @@ module "vm" {
         ip_configurations = {
           config1 = {
             private_ip_address_allocation = "Dynamic"
+            primary = true
           }
         }
       }
