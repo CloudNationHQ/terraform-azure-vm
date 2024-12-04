@@ -8,7 +8,14 @@ output "uai" {
   value       = azurerm_user_assigned_identity.identity
 }
 
+#output "network_interfaces" {
+  #description = "contains all network interfaces config"
+  #value       = azurerm_network_interface.nic
+#}
+
 output "network_interfaces" {
   description = "contains all network interfaces config"
-  value       = azurerm_network_interface.nic
+  value = {
+    for intf in local.interfaces : intf.interface_key => azurerm_network_interface.nic["${var.instance.name}-${intf.interface_key}"]
+  }
 }
