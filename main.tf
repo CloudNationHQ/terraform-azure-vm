@@ -111,16 +111,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
 # secrets
 resource "tls_private_key" "tls_key" {
-  for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
-  var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
+  for_each = var.instance.type == "linux" && contains(keys(var.instance), "public_key") == false && contains(keys(
+  var.instance), "password") == false ? { (var.instance.name) = true } : {}
 
   algorithm = try(var.instance.encryption.algorithm, "RSA")
   rsa_bits  = try(var.instance.encryption.rsa_bits, 4096)
 }
 
 resource "azurerm_key_vault_secret" "tls_public_key_secret" {
-  for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
-  var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
+  for_each = var.instance.type == "linux" && contains(keys(var.instance), "public_key") == false && contains(keys(
+  var.instance), "password") == false ? { (var.instance.name) = true } : {}
 
   name         = format("%s-%s-%s", "kvs", var.instance.name, "pub")
   value        = tls_private_key.tls_key[var.instance.name].public_key_openssh
@@ -128,8 +128,8 @@ resource "azurerm_key_vault_secret" "tls_public_key_secret" {
 }
 
 resource "azurerm_key_vault_secret" "tls_private_key_secret" {
-  for_each = var.instance.type == "linux" && lookup(var.instance, "public_key", {}) == {} && lookup(
-  var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
+  for_each = var.instance.type == "linux" && contains(keys(var.instance), "public_key") == false && contains(keys(
+  var.instance), "password") == false ? { (var.instance.name) = true } : {}
 
   name         = format("%s-%s-%s", "kvs", var.instance.name, "priv")
   value        = tls_private_key.tls_key[var.instance.name].private_key_pem
@@ -249,7 +249,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 }
 
 resource "random_password" "password" {
-  for_each = var.instance.type == "windows" && lookup(var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
+  for_each = var.instance.type == "windows" && contains(keys(var.instance), "password") == false ? { (var.instance.name) = true } : {}
 
   length      = 24
   special     = true
@@ -260,7 +260,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_key_vault_secret" "secret" {
-  for_each = var.instance.type == "windows" && lookup(var.instance, "password", {}) == {} ? { (var.instance.name) = true } : {}
+  for_each = var.instance.type == "windows" && contains(keys(var.instance), "password") == false ? { (var.instance.name) = true } : {}
 
   name         = format("%s-%s", "kvs", var.instance.name)
   value        = random_password.password[var.instance.name].result
