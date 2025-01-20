@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.3.1...v4.4.0) (2025-01-20)
+
+
+### Features
+
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#162](https://github.com/CloudNationHQ/terraform-azure-vm/issues/162)) ([9e09acf](https://github.com/CloudNationHQ/terraform-azure-vm/commit/9e09acf65089407d08a7f01a993af3468a1a29bd))
+* **deps:** bump golang.org/x/net from 0.31.0 to 0.33.0 in /tests ([#165](https://github.com/CloudNationHQ/terraform-azure-vm/issues/165)) ([dd3cce8](https://github.com/CloudNationHQ/terraform-azure-vm/commit/dd3cce8bf18fbba9c900fe4f6ef81bd8efbe48ee))
+* remove temporary files when deployment tests fails ([#163](https://github.com/CloudNationHQ/terraform-azure-vm/issues/163)) ([efbaa5e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/efbaa5e5a32fef3c08f4bdfee9e3fded12361a2e))
+
 ## [4.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.3.0...v4.3.1) (2024-12-04)
 
 
