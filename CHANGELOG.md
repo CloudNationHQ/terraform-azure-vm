@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.1...v4.4.2) (2025-02-05)
+
+
+### Bug Fixes
+
+* change patch mode default to AutomaticByOS ([#172](https://github.com/CloudNationHQ/terraform-azure-vm/issues/172)) ([cc80915](https://github.com/CloudNationHQ/terraform-azure-vm/commit/cc80915804ccc7b1226f198e8f475b75f4917686))
+
 ## [4.4.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.0...v4.4.1) (2025-02-05)
 
 
