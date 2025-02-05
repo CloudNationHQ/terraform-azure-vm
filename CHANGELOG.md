@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.0...v4.4.1) (2025-02-05)
+
+
+### Bug Fixes
+
+* lifecycle ignore settings on extensions because of AADLoginForWindows null vs. {} mismatch causing endless diffs ([#170](https://github.com/CloudNationHQ/terraform-azure-vm/issues/170)) ([0ce91ef](https://github.com/CloudNationHQ/terraform-azure-vm/commit/0ce91efe8cdc433141a7ee15e05de959bbdc6056))
+
 ## [4.4.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.3.1...v4.4.0) (2025-01-20)
 
 
