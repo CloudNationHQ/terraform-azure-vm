@@ -29,7 +29,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   encryption_at_host_enabled      = try(var.instance.encryption_at_host_enabled, false)
   extensions_time_budget          = try(var.instance.extensions_time_budget, null)
   patch_assessment_mode           = try(var.instance.patch_assessment_mode, "ImageDefault")
-  patch_mode                      = try(var.instance.patch_mode, "ImageDefault")
+  patch_mode                      = try(var.instance.patch_mode, "AutomaticByOS")
   priority                        = try(var.instance.priority, "Regular")
   provision_vm_agent              = try(var.instance.provision_vm_agent, true)
   reboot_setting                  = try(var.instance.reboot_setting, null)
