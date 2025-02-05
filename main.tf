@@ -4,39 +4,45 @@ resource "azurerm_linux_virtual_machine" "vm" {
     (var.instance.name) = true
   } : {}
 
-  name                            = var.instance.name
-  computer_name                   = try(var.instance.computer_name, var.instance.name)
-  resource_group_name             = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
-  location                        = coalesce(lookup(var.instance, "location", null), var.location)
-  size                            = try(var.instance.size, "Standard_D2s_v3")
-  admin_username                  = try(var.instance.username, "adminuser")
-  admin_password                  = try(var.instance.password, null) != null ? var.instance.password : null
-  license_type                    = try(var.instance.license_type, null)
-  allow_extension_operations      = try(var.instance.allow_extension_operations, true)
-  availability_set_id             = try(var.instance.availability_set_id, null)
-  custom_data                     = try(var.instance.custom_data, null)
-  user_data                       = try(var.instance.user_data, null)
-  capacity_reservation_group_id   = try(var.instance.capacity_reservation_group_id, null)
-  virtual_machine_scale_set_id    = try(var.instance.virtual_machine_scale_set_id, null)
-  proximity_placement_group_id    = try(var.instance.proximity_placement_group_id, null)
-  dedicated_host_group_id         = try(var.instance.dedicated_host_group_id, null)
-  platform_fault_domain           = try(var.instance.platform_fault_domain, null)
-  source_image_id                 = try(var.instance.source_image_id, null)
-  dedicated_host_id               = try(var.instance.dedicated_host_id, null)
-  max_bid_price                   = try(var.instance.max_bid_price, null)
-  edge_zone                       = try(var.instance.edge_zone, null)
-  disable_password_authentication = try(var.instance.password, null) == null ? true : false
-  encryption_at_host_enabled      = try(var.instance.encryption_at_host_enabled, false)
-  extensions_time_budget          = try(var.instance.extensions_time_budget, null)
-  patch_assessment_mode           = try(var.instance.patch_assessment_mode, "ImageDefault")
-  patch_mode                      = try(var.instance.patch_mode, "AutomaticByOS")
-  priority                        = try(var.instance.priority, "Regular")
-  provision_vm_agent              = try(var.instance.provision_vm_agent, true)
-  reboot_setting                  = try(var.instance.reboot_setting, null)
-  secure_boot_enabled             = try(var.instance.secure_boot_enabled, false)
-  vtpm_enabled                    = try(var.instance.vtpm_enabled, false)
-  zone                            = try(var.instance.zone, null)
-  tags                            = try(var.instance.tags, var.tags, null)
+  name                                                   = var.instance.name
+  computer_name                                          = try(var.instance.computer_name, var.instance.name)
+  resource_group_name                                    = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
+  location                                               = coalesce(lookup(var.instance, "location", null), var.location)
+  size                                                   = try(var.instance.size, "Standard_D2s_v3")
+  admin_username                                         = try(var.instance.username, "adminuser")
+  admin_password                                         = try(var.instance.password, null) != null ? var.instance.password : null
+  license_type                                           = try(var.instance.license_type, null)
+  allow_extension_operations                             = try(var.instance.allow_extension_operations, true)
+  availability_set_id                                    = try(var.instance.availability_set_id, null)
+  custom_data                                            = try(var.instance.custom_data, null)
+  user_data                                              = try(var.instance.user_data, null)
+  capacity_reservation_group_id                          = try(var.instance.capacity_reservation_group_id, null)
+  virtual_machine_scale_set_id                           = try(var.instance.virtual_machine_scale_set_id, null)
+  proximity_placement_group_id                           = try(var.instance.proximity_placement_group_id, null)
+  dedicated_host_group_id                                = try(var.instance.dedicated_host_group_id, null)
+  platform_fault_domain                                  = try(var.instance.platform_fault_domain, null)
+  source_image_id                                        = try(var.instance.source_image_id, null)
+  dedicated_host_id                                      = try(var.instance.dedicated_host_id, null)
+  max_bid_price                                          = try(var.instance.max_bid_price, null)
+  edge_zone                                              = try(var.instance.edge_zone, null)
+  disable_password_authentication                        = try(var.instance.password, null) == null ? true : false
+  encryption_at_host_enabled                             = try(var.instance.encryption_at_host_enabled, false)
+  extensions_time_budget                                 = try(var.instance.extensions_time_budget, null)
+  patch_assessment_mode                                  = try(var.instance.patch_assessment_mode, "ImageDefault")
+  patch_mode                                             = try(var.instance.patch_mode, "AutomaticByOS")
+  priority                                               = try(var.instance.priority, "Regular")
+  provision_vm_agent                                     = try(var.instance.provision_vm_agent, true)
+  reboot_setting                                         = try(var.instance.reboot_setting, null)
+  secure_boot_enabled                                    = try(var.instance.secure_boot_enabled, false)
+  vtpm_enabled                                           = try(var.instance.vtpm_enabled, false)
+  zone                                                   = try(var.instance.zone, null)
+  vm_agent_platform_updates_enabled                      = try(var.instance.vm_agent_platform_updates_enabled, false)
+  disk_controller_type                                   = try(var.instance.disk_controller_type, null)
+  bypass_platform_safety_checks_on_user_schedule_enabled = try(var.instance.bypass_platform_safety_checks_on_user_schedule_enabled, false)
+
+  tags = try(
+    var.instance.tags, var.tags, null
+  )
 
   dynamic "additional_capabilities" {
     for_each = try(var.instance.additional_capabilities, null) != null ? [1] : []
@@ -151,34 +157,36 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
   admin_password = length(lookup(var.instance, "password", {})) > 0 ? var.instance.password : azurerm_key_vault_secret.secret[var.instance.name].value
 
-  allow_extension_operations    = try(var.instance.allow_extension_operations, true)
-  availability_set_id           = try(var.instance.availability_set_id, null)
-  custom_data                   = try(var.instance.custom_data, null)
-  user_data                     = try(var.instance.user_data, null)
-  enable_automatic_updates      = try(var.instance.enable_automatic_updates, true)
-  encryption_at_host_enabled    = try(var.instance.encryption_at_host_enabled, false)
-  eviction_policy               = try(var.instance.eviction_policy, null)
-  hotpatching_enabled           = try(var.instance.hotpatching_enabled, false)
-  patch_assessment_mode         = try(var.instance.patch_assessment_mode, "ImageDefault")
-  patch_mode                    = try(var.instance.patch_mode, "AutomaticByOS")
-  priority                      = try(var.instance.priority, "Regular")
-  reboot_setting                = try(var.instance.reboot_setting, null)
-  secure_boot_enabled           = try(var.instance.secure_boot_enabled, false)
-  license_type                  = try(var.instance.license_type, null)
-  max_bid_price                 = try(var.instance.max_bid_price, null)
-  edge_zone                     = try(var.instance.edge_zone, null)
-  dedicated_host_id             = try(var.instance.dedicated_host_id, null)
-  source_image_id               = try(var.instance.source_image_id, null)
-  platform_fault_domain         = try(var.instance.platform_fault_domain, null)
-  extensions_time_budget        = try(var.instance.extensions_time_budget, null)
-  dedicated_host_group_id       = try(var.instance.dedicated_host_group_id, null)
-  proximity_placement_group_id  = try(var.instance.proximity_placement_group_id, null)
-  capacity_reservation_group_id = try(var.instance.capacity_reservation_group_id, null)
-  timezone                      = try(var.instance.timezone, null)
-  virtual_machine_scale_set_id  = try(var.instance.virtual_machine_scale_set_id, null)
-  vtpm_enabled                  = try(var.instance.vtpm_enabled, false)
-  zone                          = try(var.instance.zone, null)
-  tags                          = try(var.instance.tags, var.tags, null)
+  allow_extension_operations        = try(var.instance.allow_extension_operations, true)
+  availability_set_id               = try(var.instance.availability_set_id, null)
+  custom_data                       = try(var.instance.custom_data, null)
+  user_data                         = try(var.instance.user_data, null)
+  enable_automatic_updates          = try(var.instance.enable_automatic_updates, true)
+  encryption_at_host_enabled        = try(var.instance.encryption_at_host_enabled, false)
+  eviction_policy                   = try(var.instance.eviction_policy, null)
+  hotpatching_enabled               = try(var.instance.hotpatching_enabled, false)
+  patch_assessment_mode             = try(var.instance.patch_assessment_mode, "ImageDefault")
+  patch_mode                        = try(var.instance.patch_mode, "AutomaticByOS")
+  priority                          = try(var.instance.priority, "Regular")
+  reboot_setting                    = try(var.instance.reboot_setting, null)
+  secure_boot_enabled               = try(var.instance.secure_boot_enabled, false)
+  license_type                      = try(var.instance.license_type, null)
+  max_bid_price                     = try(var.instance.max_bid_price, null)
+  edge_zone                         = try(var.instance.edge_zone, null)
+  dedicated_host_id                 = try(var.instance.dedicated_host_id, null)
+  source_image_id                   = try(var.instance.source_image_id, null)
+  platform_fault_domain             = try(var.instance.platform_fault_domain, null)
+  extensions_time_budget            = try(var.instance.extensions_time_budget, null)
+  dedicated_host_group_id           = try(var.instance.dedicated_host_group_id, null)
+  proximity_placement_group_id      = try(var.instance.proximity_placement_group_id, null)
+  capacity_reservation_group_id     = try(var.instance.capacity_reservation_group_id, null)
+  timezone                          = try(var.instance.timezone, null)
+  virtual_machine_scale_set_id      = try(var.instance.virtual_machine_scale_set_id, null)
+  vtpm_enabled                      = try(var.instance.vtpm_enabled, false)
+  zone                              = try(var.instance.zone, null)
+  vm_agent_platform_updates_enabled = try(var.instance.vm_agent_platform_updates_enabled, false)
+  disk_controller_type              = try(var.instance.disk_controller_type, null)
+  tags                              = try(var.instance.tags, var.tags, null)
 
   bypass_platform_safety_checks_on_user_schedule_enabled = try(var.instance.bypass_platform_safety_checks_on_user_schedule_enabled, false)
 
@@ -303,15 +311,18 @@ resource "azurerm_network_interface" "nic" {
 resource "azurerm_virtual_machine_extension" "ext" {
   for_each = local.ext_keys
 
-  name                       = each.value.name
-  virtual_machine_id         = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[each.value.vm_name].id : azurerm_windows_virtual_machine.vm[each.value.vm_name].id
-  publisher                  = each.value.publisher
-  type                       = each.value.type
-  type_handler_version       = each.value.type_handler_version
-  auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
-  settings                   = jsonencode(each.value.settings)
-  protected_settings         = jsonencode(each.value.protected_settings)
-  tags                       = each.value.tags
+  name                        = each.value.name
+  virtual_machine_id          = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[each.value.vm_name].id : azurerm_windows_virtual_machine.vm[each.value.vm_name].id
+  publisher                   = each.value.publisher
+  type                        = each.value.type
+  type_handler_version        = each.value.type_handler_version
+  auto_upgrade_minor_version  = each.value.auto_upgrade_minor_version
+  settings                    = jsonencode(each.value.settings)
+  protected_settings          = jsonencode(each.value.protected_settings)
+  failure_suppression_enabled = each.value.failure_suppression_enabled
+  automatic_upgrade_enabled   = each.value.automatic_upgrade_enabled
+  provision_after_extensions  = each.value.provision_after_extensions
+  tags                        = each.value.tags
 
   # The AADLoginForWindows extension needs JSON "null" for settings, but Azure returns "{}."
   # This mismatch causes endless diffs, so we ignore settings changes.
@@ -358,6 +369,8 @@ resource "azurerm_managed_disk" "disks" {
   storage_account_id                = each.value.storage_account_id
   disk_iops_read_write              = each.value.disk_iops_read_write
   disk_mbps_read_write              = each.value.disk_mbps_read_write
+  disk_mbps_read_only               = each.value.disk_mbps_read_only
+  disk_iops_read_only               = each.value.disk_iops_read_only
   tags                              = each.value.tags
 
   lifecycle {
@@ -370,10 +383,12 @@ resource "azurerm_managed_disk" "disks" {
 resource "azurerm_virtual_machine_data_disk_attachment" "at" {
   for_each = { for disk in local.data_disks : "${disk.vm_name}-${disk.disk_key}" => disk }
 
-  managed_disk_id    = azurerm_managed_disk.disks[each.key].id
-  virtual_machine_id = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.name].id : azurerm_windows_virtual_machine.vm[var.instance.name].id
-  lun                = each.value.lun
-  caching            = each.value.caching
+  managed_disk_id           = azurerm_managed_disk.disks[each.key].id
+  virtual_machine_id        = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.name].id : azurerm_windows_virtual_machine.vm[var.instance.name].id
+  lun                       = each.value.lun
+  caching                   = each.value.caching
+  write_accelerator_enabled = each.value.write_accelerator_enabled
+  create_option             = each.value.create_option
 }
 
 resource "azurerm_user_assigned_identity" "identity" {
@@ -385,5 +400,8 @@ resource "azurerm_user_assigned_identity" "identity" {
   name                = try(var.instance.identity.name, "uai-${var.instance.name}")
   resource_group_name = coalesce(lookup(var.instance, "resource_group", null), var.resource_group)
   location            = coalesce(lookup(var.instance, "location", null), var.location)
-  tags                = try(var.instance.identity.tags, var.tags, null)
+
+  tags = try(
+    var.instance.identity.tags, var.tags, null
+  )
 }

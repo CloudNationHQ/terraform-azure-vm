@@ -74,7 +74,11 @@ locals {
       hyper_v_generation                = try(disk.hyper_v_generation, null)
       disk_iops_read_write              = try(disk.disk_iops_read_write, null)
       disk_mbps_read_write              = try(disk.disk_mbps_read_write, null)
+      disk_iops_read_only               = try(disk.disk_iops_read_only, null)
+      disk_mbps_read_only               = try(disk.disk_mbps_read_only, null)
       storage_account_id                = try(disk.storage_account_id, null)
+      write_accelerator_enabled         = try(disk.write_accelerator_enabled, false)
+      create_option                     = try(disk.create_option, "Attach")
     }
   ]
 }
@@ -84,15 +88,18 @@ locals {
     for ext_key, ext in lookup(var.instance, "extensions", {}) :
     "${var.instance.name}-${ext_key}" => {
 
-      name                       = try(ext.name, ext_key)
-      vm_name                    = var.instance.name,
-      publisher                  = ext.publisher,
-      type                       = ext.type,
-      type_handler_version       = ext.type_handler_version,
-      settings                   = lookup(ext, "settings", {}),
-      protected_settings         = lookup(ext, "protected_settings", {}),
-      auto_upgrade_minor_version = try(ext.auto_upgrade_minor_version, true)
-      tags                       = try(ext.tags, var.tags, null)
+      name                        = try(ext.name, ext_key)
+      vm_name                     = var.instance.name,
+      publisher                   = ext.publisher,
+      type                        = ext.type,
+      type_handler_version        = ext.type_handler_version,
+      settings                    = lookup(ext, "settings", {}),
+      protected_settings          = lookup(ext, "protected_settings", {}),
+      auto_upgrade_minor_version  = try(ext.auto_upgrade_minor_version, true)
+      tags                        = try(ext.tags, var.tags, null)
+      failure_suppression_enabled = try(ext.failure_suppression_enabled, false)
+      automatic_upgrade_enabled   = try(ext.automatic_upgrade_enabled, false)
+      provision_after_extensions  = try(ext.provision_after_extensions, [])
     }
   } : {}
 }
