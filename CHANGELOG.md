@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* revert default value linux virtual machines and improved availability set iteration ([#174](https://github.com/CloudNationHQ/terraform-azure-vm/issues/174)) ([4e9fbee](https://github.com/CloudNationHQ/terraform-azure-vm/commit/4e9fbee2ccfd575020f7b8f2d056d6c2757744ab))
+* revert default value patch mode linux virtual machines and improved availability set iteration ([#174](https://github.com/CloudNationHQ/terraform-azure-vm/issues/174)) ([4e9fbee](https://github.com/CloudNationHQ/terraform-azure-vm/commit/4e9fbee2ccfd575020f7b8f2d056d6c2757744ab))
 
 ## [4.4.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.1...v4.4.2) (2025-02-05)
 
