@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.0...v4.5.1) (2025-02-10)
+
+
+### Bug Fixes
+
+* for extensions use jsonencode only for non-null values ([#180](https://github.com/CloudNationHQ/terraform-azure-vm/issues/180)) ([7085cf0](https://github.com/CloudNationHQ/terraform-azure-vm/commit/7085cf0355b43e07ee97118d634cfd65903f9754))
+
 ## [4.5.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.3...v4.5.0) (2025-02-10)
 
 
