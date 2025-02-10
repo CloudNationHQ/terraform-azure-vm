@@ -309,18 +309,10 @@ resource "azurerm_virtual_machine_extension" "ext" {
   type                       = each.value.type
   type_handler_version       = each.value.type_handler_version
   auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
-  settings                   = jsonencode(each.value.settings)
-  protected_settings         = jsonencode(each.value.protected_settings)
+  settings                   = each.value.settings
+  protected_settings         = each.value.protected_settings
   tags                       = each.value.tags
 
-  # The AADLoginForWindows extension needs JSON "null" for settings, but Azure returns "{}."
-  # This mismatch causes endless diffs, so we ignore settings changes.
-  lifecycle {
-    ignore_changes = [
-      settings,
-      protected_settings
-    ]
-  }
 }
 
 # data disks

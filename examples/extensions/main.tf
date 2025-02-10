@@ -60,7 +60,7 @@ module "vm" {
   depends_on = [module.kv]
 
   instance = {
-    type           = "linux"
+    type           = "windows"
     name           = module.naming.linux_virtual_machine.name
     resource_group = module.rg.groups.demo.name
     location       = module.rg.groups.demo.location
