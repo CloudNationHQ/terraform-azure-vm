@@ -318,6 +318,7 @@ resource "azurerm_virtual_machine_extension" "ext" {
   lifecycle {
     ignore_changes = [
       settings,
+      protected_settings
     ]
   }
 }
