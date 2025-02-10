@@ -89,8 +89,8 @@ locals {
       publisher                  = ext.publisher,
       type                       = ext.type,
       type_handler_version       = ext.type_handler_version,
-      settings                   = lookup(ext, "settings", {}),
-      protected_settings         = lookup(ext, "protected_settings", {}),
+      settings                   = lookup(ext, "settings", null),
+      protected_settings         = lookup(ext, "protected_settings", null),
       auto_upgrade_minor_version = try(ext.auto_upgrade_minor_version, true)
       tags                       = try(ext.tags, var.tags, null)
     }
