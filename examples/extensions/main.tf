@@ -52,9 +52,8 @@ module "kv" {
 }
 
 module "vm" {
-  # source  = "cloudnationhq/vm/azure"
-  # version = "~> 4.5"
-  source = "../../"
+  source  = "cloudnationhq/vm/azure"
+  version = "~> 4.0"
 
   keyvault   = module.kv.vault.id
   naming     = local.naming
