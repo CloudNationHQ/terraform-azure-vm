@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.5.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.3...v4.5.0) (2025-02-10)
+
+
+### Features
+
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#176](https://github.com/CloudNationHQ/terraform-azure-vm/issues/176)) ([34edca5](https://github.com/CloudNationHQ/terraform-azure-vm/commit/34edca56bb4a13611e24007f4153a87ad51a7895))
+
+
+### Bug Fixes
+
+* change defaults protected settings extensions ([#177](https://github.com/CloudNationHQ/terraform-azure-vm/issues/177)) ([dace1f2](https://github.com/CloudNationHQ/terraform-azure-vm/commit/dace1f29ab1203a241c813d5008ea1fa17abe092))
+
 ## [4.4.3](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.4.2...v4.4.3) (2025-02-06)
 
 
