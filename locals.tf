@@ -2,10 +2,9 @@ locals {
   interfaces = [
     for interface_key, nic in var.instance.interfaces : {
 
-      vm_name       = var.instance.name
-      interface_key = interface_key
-      name          = try(nic.name, join("-", [var.naming.network_interface, var.instance.name, interface_key]))
-      # name                           = try(nic.name, join("-", [var.naming.network_interface, interface_key]))
+      vm_name                        = var.instance.name
+      interface_key                  = interface_key
+      name                           = try(nic.name, join("-", [var.naming.network_interface, var.instance.name, interface_key]))
       dns_servers                    = try(nic.dns_servers, [])
       accelerated_networking_enabled = try(nic.accelerated_networking_enabled, false)
       ip_forwarding_enabled          = try(nic.ip_forwarding_enabled, false)
