@@ -11,8 +11,11 @@
 
 * simplified iteration on network interfaces ([#183](https://github.com/CloudNationHQ/terraform-azure-vm/issues/183)) ([c49303e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c49303e3a6c9ec08dae8b4bf62d893f99ab59b09))
 
-## [4.5.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.1...v4.5.2) (2025-02-12)
+### Upgrade from v4.5.2 to v5.0.0:
 
+- Update module reference to: `version = "~> 5.0"`
+
+## [4.5.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.1...v4.5.2) (2025-02-12)
 
 ### Bug Fixes
 
