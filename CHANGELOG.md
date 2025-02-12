@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.2...v5.0.0) (2025-02-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* the network interface keys are changed. This change will cause a recreate on existing resources.
+
+### Features
+
+* simplified iteration on network interfaces ([#183](https://github.com/CloudNationHQ/terraform-azure-vm/issues/183)) ([c49303e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c49303e3a6c9ec08dae8b4bf62d893f99ab59b09))
+
 ## [4.5.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.1...v4.5.2) (2025-02-12)
 
 
