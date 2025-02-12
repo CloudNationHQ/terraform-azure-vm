@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.0.0...v5.0.1) (2025-02-12)
+
+
+### Bug Fixes
+
+* fix duplicate interface naming ([#185](https://github.com/CloudNationHQ/terraform-azure-vm/issues/185)) ([24abe02](https://github.com/CloudNationHQ/terraform-azure-vm/commit/24abe02c682d31756a6787c6dc18792d86ef1803))
+
 ## [5.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.2...v5.0.0) (2025-02-12)
 
 
