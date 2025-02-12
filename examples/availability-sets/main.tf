@@ -52,7 +52,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   naming         = local.naming
   keyvault       = module.kv.vault.id
@@ -80,7 +80,7 @@ module "vm" {
 
 module "availability" {
   source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   availability_sets = {
     demo = {
