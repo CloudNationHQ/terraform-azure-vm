@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.1...v4.5.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* typo settings ([4aba24a](https://github.com/CloudNationHQ/terraform-azure-vm/commit/4aba24a2f8c841c1021a4d93aeaab058da2917e1))
+
 ## [4.5.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v4.5.0...v4.5.1) (2025-02-10)
 
 
