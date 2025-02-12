@@ -89,7 +89,7 @@ locals {
       publisher                  = ext.publisher
       type                       = ext.type
       type_handler_version       = ext.type_handler_version
-      settings                   = try(ext.setttings, null) != null ? jsonencode(ext.setting) : null
+      settings                   = try(ext.settings, null) != null ? jsonencode(ext.settings) : null
       protected_settings         = try(ext.protected_settings, null) != null ? jsonencode(ext.protected_settings) : null
       auto_upgrade_minor_version = try(ext.auto_upgrade_minor_version, true)
       tags                       = try(ext.tags, var.tags, null)
