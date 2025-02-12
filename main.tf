@@ -56,7 +56,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   network_interface_ids = [
     for intf in local.interfaces :
-    azurerm_network_interface.nic["${intf.vm_name}-${intf.interface_key}"].id
+    azurerm_network_interface.nic[intf.interface_key].id
   ]
 
   dynamic "admin_ssh_key" {
@@ -184,7 +184,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
   network_interface_ids = [
     for intf in local.interfaces :
-    azurerm_network_interface.nic["${intf.vm_name}-${intf.interface_key}"].id
+    azurerm_network_interface.nic[intf.interface_key].id
   ]
 
   dynamic "additional_capabilities" {
@@ -270,7 +270,7 @@ resource "azurerm_key_vault_secret" "secret" {
 # interfaces
 resource "azurerm_network_interface" "nic" {
   for_each = {
-    for intf in local.interfaces : "${intf.vm_name}-${intf.interface_key}" => intf
+    for intf in local.interfaces : intf.interface_key => intf
   }
 
   name                           = each.value.name
