@@ -38,6 +38,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   zone                            = try(var.instance.zone, null)
   tags                            = try(var.instance.tags, var.tags, null)
 
+  bypass_platform_safety_checks_on_user_schedule_enabled = try(var.instance.bypass_platform_safety_checks_on_user_schedule_enabled, false)
+
   dynamic "additional_capabilities" {
     for_each = try(var.instance.additional_capabilities, null) != null ? [1] : []
 
