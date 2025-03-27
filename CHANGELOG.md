@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.1.0...v5.2.0) (2025-03-27)
+
+
+### Features
+
+* vm_agent_platform_updates_enabled added property ([#189](https://github.com/CloudNationHQ/terraform-azure-vm/issues/189)) ([b084327](https://github.com/CloudNationHQ/terraform-azure-vm/commit/b084327e6eabca182e445d97974dfd15a7b355a1))
+
 ## [5.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.0.1...v5.1.0) (2025-03-12)
 
 
