@@ -59,17 +59,24 @@ module "vm" {
   resource_group = module.rg.groups.demo.name
   location       = module.rg.groups.demo.location
   depends_on     = [module.kv]
-
   instance = {
     name = module.naming.virtual_machine.name
     type = "linux"
+    generate_ssh_key = {
+      enable = true
+    }
+    source_image_reference = {
+      offer     = "UbuntuServer"
+      publisher = "Canonical"
+      sku       = "18.04-LTS"
+    }
+
     interfaces = {
       dcroot001 = {
-        subnet = module.network.subnets.int.id
         ip_configurations = {
           config1 = {
-            private_ip_address_allocation = "Dynamic"
-            primary                       = true
+            subnet_id = module.network.subnets.int.id
+            primary   = true
           }
         }
       }
@@ -79,8 +86,9 @@ module "vm" {
 }
 
 module "availability" {
-  source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 5.0"
+  # source  = "cloudnationhq/vm/azure//modules/availability-sets"
+  # version = "~> 5.0"
+  source = "../../modules/availability-sets/"
 
   availability_sets = {
     demo = {

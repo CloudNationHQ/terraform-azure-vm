@@ -62,30 +62,37 @@ module "vm" {
   keyvault   = module.kv.vault.id
   naming     = local.naming
   depends_on = [module.kv]
-
   instance = {
     type           = "windows"
     name           = module.naming.windows_virtual_machine.name
     resource_group = module.rg.groups.demo.name
     location       = module.rg.groups.demo.location
+    generate_password = {
+      enable = true
+    }
+    source_image_reference = {
+      offer     = "WindowsServer"
+      publisher = "MicrosoftWindowsServer"
+      sku       = "2022-Datacenter"
+    }
 
     interfaces = {
       int = {
-        subnet = module.network.subnets.int.id
         ip_configurations = {
           config1 = {
-            private_ip_address_allocation = "Dynamic"
-            primary                       = true
+            subnet_id = module.network.subnets.int.id
+            primary   = true
           }
           config2 = {
             private_ip_address = "10.18.1.25"
+            subnet_id          = module.network.subnets.int.id
           }
         }
       }
       mgt = {
-        subnet = module.network.subnets.mgt.id
         ip_configurations = {
           config1 = {
+            subnet_id          = module.network.subnets.mgt.id
             private_ip_address = "10.18.2.25"
             primary            = true
           }

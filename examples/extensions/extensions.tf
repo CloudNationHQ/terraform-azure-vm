@@ -7,10 +7,11 @@ locals {
       autoUpgradeMinorVersion = true
     }
     AADLoginForWindows = {
-      publisher               = "Microsoft.Azure.ActiveDirectory"
-      type                    = "AADLoginForWindows"
-      type_handler_version    = "1.3"
-      autoUpgradeMinorVersion = true
+      name                       = "AADLogin"
+      publisher                  = "Microsoft.Azure.ActiveDirectory"
+      type                       = "AADLoginForWindows"
+      type_handler_version       = "2.2"
+      auto_upgrade_minor_version = false
     }
   }
 }

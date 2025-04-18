@@ -58,12 +58,19 @@ module "vm" {
   keyvault   = module.kv.vault.id
   naming     = local.naming
   depends_on = [module.kv]
-
   instance = {
     type           = "linux"
     name           = module.naming.linux_virtual_machine.name
     resource_group = module.rg.groups.demo.name
     location       = module.rg.groups.demo.location
+    generate_ssh_key = {
+      enable = true
+    }
+    source_image_reference = {
+      offer     = "UbuntuServer"
+      publisher = "Canonical"
+      sku       = "18.04-LTS"
+    }
 
     custom_data = <<EOF
 I2Nsb3VkLWNvbmZpZwpwYWNrYWdlX3VwZ3JhZGU6IHRydWUKcGFja2FnZXM6CiAg
@@ -74,9 +81,9 @@ EOF
 
     interfaces = {
       int = {
-        subnet = module.network.subnets.int.id
         ip_configurations = {
           config1 = {
+            subnet_id                     = module.network.subnets.int.id
             private_ip_address_allocation = "Dynamic"
             primary                       = true
           }
