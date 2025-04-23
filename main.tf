@@ -568,16 +568,6 @@ resource "azurerm_virtual_machine_extension" "ext" {
   settings                   = each.value.settings
   protected_settings         = each.value.protected_settings
 
-  # settings = try(
-  #   each.value.settings != null ? each.value.settings : null,
-  #   null
-  # )
-  #
-  # protected_settings = try(
-  #   each.value.protected_settings != null ? each.value.protected_settings : null,
-  #   null
-  # )
-
   provision_after_extensions  = each.value.provision_after_extensions
   failure_suppression_enabled = each.value.failure_suppression_enabled
   automatic_upgrade_enabled   = each.value.automatic_upgrade_enabled
