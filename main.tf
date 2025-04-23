@@ -618,9 +618,13 @@ resource "azurerm_managed_disk" "disks" {
   )
 
   name = coalesce(
-    lookup(
-    each.value.disk, "name", join("-", [var.naming.managed_disk, each.value.disk_key]))
+    lookup(each.value.disk, "name", null),
+    lookup(var.naming, "managed_disk", null) != null ? join("-", [var.naming.managed_disk, each.value.disk_key]) : null
   )
+  # name = coalesce(
+  #   lookup(
+  #   each.value.disk, "name", join("-", [var.naming.managed_disk, each.value.disk_key]))
+  # )
   # name = each.value.disk.name
 
   storage_account_type              = each.value.disk.storage_account_type
