@@ -175,7 +175,7 @@ object({
     }), { enable = false })
     os_disk = optional(object({
       name                             = optional(string, null)
-      storage_account_type             = optional(string, "Standard_LRS")
+      storage_account_type             = optional(string, "StandardSSD_LRS")
       caching                          = optional(string, "ReadWrite")
       disk_size_gb                     = optional(number, null)
       security_encryption_type         = optional(string, null)
@@ -191,11 +191,7 @@ object({
       publisher = optional(string)
       offer     = optional(string)
       sku       = optional(string)
-      version   = optional(string)
-      # publisher = optional(string, null)
-      # offer     = optional(string, null)
-      # sku       = optional(string, null)
-      # version   = optional(string, null)
+      version   = optional(string, "latest")
     }), null)
     plan = optional(object({
       name      = string
@@ -249,8 +245,8 @@ object({
       publisher                   = string
       type                        = string
       type_handler_version        = string
-      settings                    = optional(any, null)
-      protected_settings          = optional(any, null)
+      settings                    = optional(string, null)
+      protected_settings          = optional(string, null)
       auto_upgrade_minor_version  = optional(bool, true)
       automatic_upgrade_enabled   = optional(bool, false)
       failure_suppression_enabled = optional(bool, false)

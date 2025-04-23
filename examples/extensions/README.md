@@ -2,7 +2,7 @@ This deploys virtual machine extensions.
 
 ## Notes
 
-To use settings or protected settings use the below examples:
+To use settings or protected settings the jsonencode function needs to be used:
 
 ```hcl
 settings = jsonencode({
@@ -13,8 +13,6 @@ settings = jsonencode({
   VolumeType             = "all"
 })
 ```
-or
-
 ```hcl
 settings = jsonencode({
   workspaceId = data.azurerm_log_analytics_workspace.analytics.workspace_id
