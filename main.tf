@@ -516,7 +516,7 @@ resource "azurerm_network_interface" "nic" {
 
   name = coalesce(
     lookup(each.value.nic, "name", null),
-    lookup(var.naming, "network_interface", null) != null ? join("-", [var.naming.managed_disk, each.value.disk_key]) : null
+    lookup(var.naming, "network_interface", null) != null ? join("-", [var.naming.network_interface, each.value.interface_key]) : null
   )
 
   ip_forwarding_enabled          = each.value.nic.ip_forwarding_enabled
