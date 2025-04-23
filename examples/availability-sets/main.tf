@@ -86,9 +86,8 @@ module "vm" {
 }
 
 module "availability" {
-  # source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  # version = "~> 5.0"
-  source = "../../modules/availability-sets/"
+  source  = "cloudnationhq/vm/azure//modules/availability-sets"
+  version = "~> 5.0"
 
   availability_sets = {
     demo = {

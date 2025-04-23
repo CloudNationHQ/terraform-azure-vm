@@ -58,6 +58,7 @@ module "vm" {
   keyvault   = module.kv.vault.id
   naming     = local.naming
   depends_on = [module.kv]
+
   instance = {
     type           = "windows"
     name           = module.naming.linux_virtual_machine.name
@@ -67,6 +68,7 @@ module "vm" {
     generate_password = {
       enable = true
     }
+
     source_image_reference = {
       offer     = "WindowsServer"
       publisher = "MicrosoftWindowsServer"
@@ -85,3 +87,6 @@ module "vm" {
     }
   }
 }
+
+
+

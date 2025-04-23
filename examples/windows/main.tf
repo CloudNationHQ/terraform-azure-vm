@@ -72,10 +72,6 @@ module "vm" {
       sku       = "2022-Datacenter"
     }
 
-    identity = {
-      type = "SystemAssigned"
-    }
-
     interfaces = {
       int = {
         ip_configurations = {
