@@ -568,21 +568,13 @@ resource "azurerm_virtual_machine_extension" "ext" {
   # settings                    = try(each.value.settings, null) != null ? jsonencode(each.value.settings) : null
   # protected_settings          = try(each.value.protected_settings, null) != null ? jsonencode(each.value.protected_settings) : null
 
-  settings = try(
-    each.value.settings == null ? null : (
-      can(tostring(each.value.settings)) && !can(each.value.settings.fields) ?
-      each.value.settings :
-      jsonencode(each.value.settings)
-    ),
+ settings = try(
+    each.value.settings != null ? each.value.settings : null,
     null
   )
 
   protected_settings = try(
-    each.value.protected_settings == null ? null : (
-      can(tostring(each.value.protected_settings)) && !can(each.value.protected_settings.fields) ?
-      each.value.protected_settings :
-      jsonencode(each.value.protected_settings)
-    ),
+    each.value.protected_settings != null ? each.value.protected_settings : null,
     null
   )
 
