@@ -556,10 +556,7 @@ resource "azurerm_virtual_machine_extension" "ext" {
     "${var.instance.name}-${ext_key}" => ext
   } : {}
 
-  name = coalesce(
-    each.value.name, element(split("-", each.key), 1)
-  )
-
+  name                       = lookup(each.value, "name", null) != null ? each.value.name : element(split("-", each.key), length(split("-", each.key)) - 1)
   virtual_machine_id         = var.instance.type == "linux" ? azurerm_linux_virtual_machine.vm[var.instance.name].id : azurerm_windows_virtual_machine.vm[var.instance.name].id
   publisher                  = each.value.publisher
   type                       = each.value.type
