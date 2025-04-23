@@ -105,7 +105,7 @@ variable "instance" {
     }), { enable = false })
     os_disk = optional(object({
       name                             = optional(string, null)
-      storage_account_type             = optional(string, "Standard_LRS")
+      storage_account_type             = optional(string, "StandardSSD_LRS")
       caching                          = optional(string, "ReadWrite")
       disk_size_gb                     = optional(number, null)
       security_encryption_type         = optional(string, null)
