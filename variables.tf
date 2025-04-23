@@ -121,11 +121,7 @@ variable "instance" {
       publisher = optional(string)
       offer     = optional(string)
       sku       = optional(string)
-      version   = optional(string)
-      # publisher = optional(string, null)
-      # offer     = optional(string, null)
-      # sku       = optional(string, null)
-      # version   = optional(string, null)
+      version   = optional(string, "latest")
     }), null)
     plan = optional(object({
       name      = string
