@@ -565,36 +565,18 @@ resource "azurerm_virtual_machine_extension" "ext" {
   type                       = each.value.type
   type_handler_version       = each.value.type_handler_version
   auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
-  # settings                    = try(each.value.settings, null) != null ? jsonencode(each.value.settings) : null
-  # protected_settings          = try(each.value.protected_settings, null) != null ? jsonencode(each.value.protected_settings) : null
+  settings                   = each.value.settings
+  protected_settings         = each.value.protected_settings
 
- settings = try(
-    each.value.settings == null ? null : (
-      can(tostring(each.value.settings)) && substr(tostring(each.value.settings), 0, 1) == "{" ?
-        each.value.settings :
-        jsonencode(each.value.settings)
-    ),
-    null
-  )
-
-  protected_settings = try(
-    each.value.protected_settings == null ? null : (
-      can(tostring(each.value.protected_settings)) && substr(tostring(each.value.protected_settings), 0, 1) == "{" ?
-        each.value.protected_settings :
-        jsonencode(each.value.protected_settings)
-    ),
-    null
-  )
-
- # settings = try(
- #    each.value.settings != null ? each.value.settings : null,
- #    null
- #  )
- #
- #  protected_settings = try(
- #    each.value.protected_settings != null ? each.value.protected_settings : null,
- #    null
- #  )
+  # settings = try(
+  #   each.value.settings != null ? each.value.settings : null,
+  #   null
+  # )
+  #
+  # protected_settings = try(
+  #   each.value.protected_settings != null ? each.value.protected_settings : null,
+  #   null
+  # )
 
   provision_after_extensions  = each.value.provision_after_extensions
   failure_suppression_enabled = each.value.failure_suppression_enabled
