@@ -514,10 +514,10 @@ resource "azurerm_network_interface" "nic" {
     ), var.location
   )
 
-  # name = coalesce(
-  #   each.value.nic.name, join("-", [var.naming.network_interface, var.instance.name, each.value.interface_key])
-  #)
-  name = each.value.nic.name
+  name = coalesce(
+    lookup(each.value.nic, "name", null),
+    lookup(var.naming, "network_interface", null) != null ? join("-", [var.naming.managed_disk, each.value.disk_key]) : null
+  )
 
   ip_forwarding_enabled          = each.value.nic.ip_forwarding_enabled
   accelerated_networking_enabled = each.value.nic.accelerated_networking_enabled
@@ -621,11 +621,6 @@ resource "azurerm_managed_disk" "disks" {
     lookup(each.value.disk, "name", null),
     lookup(var.naming, "managed_disk", null) != null ? join("-", [var.naming.managed_disk, each.value.disk_key]) : null
   )
-  # name = coalesce(
-  #   lookup(
-  #   each.value.disk, "name", join("-", [var.naming.managed_disk, each.value.disk_key]))
-  # )
-  # name = each.value.disk.name
 
   storage_account_type              = each.value.disk.storage_account_type
   create_option                     = each.value.disk.create_option
