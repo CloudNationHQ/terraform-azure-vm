@@ -1,5 +1,25 @@
 # Changelog
 
+## [6.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.2.0...v6.0.0) (2025-04-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* The data structure changed, causing a recreate on existing resources.
+
+### Features
+
+* add type definitions and small refactor ([#193](https://github.com/CloudNationHQ/terraform-azure-vm/issues/193)) ([c3be1e5](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c3be1e5e76c97251ca9dbab95af52d98b637c427))
+
+### Upgrade from v5.2.0 to v6.0.0:
+
+- Update module reference to: `version = "~> 6.0"`
+- The user assigned identity is removed from the module and it is not set to system assigned default anymore as well.
+  - For identity we created a separate module as shown in the examples.
+- The property and variable resource_group is renamed to resource_group_name
+- The property subnet is changed to subnet_id and placed in ip configurations
+- The structure changed abit when ssh keys or passwords are generated but the module itself as shown in the examples.
+
 ## [5.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.1.0...v5.2.0) (2025-03-27)
 
 
