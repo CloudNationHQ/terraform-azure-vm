@@ -527,8 +527,8 @@ resource "azurerm_network_interface" "nic" {
   edge_zone                      = each.value.nic.edge_zone
   dns_servers                    = each.value.nic.dns_servers
 
-  tags = try(
-    each.value.nic.tags, var.tags, null
+  tags = try(coalesce(
+    each.value.nic.tags, var.tags), null
   )
 
   dynamic "ip_configuration" {
@@ -578,8 +578,8 @@ resource "azurerm_virtual_machine_extension" "ext" {
     }
   }
 
-  tags = try(
-    each.value.tags, var.tags, null
+  tags = try(coalesce(
+    each.value.tags, var.tags), null
   )
 }
 
@@ -645,8 +645,8 @@ resource "azurerm_managed_disk" "disks" {
   disk_iops_read_only               = each.value.disk.disk_iops_read_only
   disk_mbps_read_only               = each.value.disk.disk_mbps_read_only
 
-  tags = try(
-    each.value.disk.tags, var.tags, null
+  tags = try(coalesce(
+    each.value.disk.tags, var.tags), null
   )
 
   lifecycle {
