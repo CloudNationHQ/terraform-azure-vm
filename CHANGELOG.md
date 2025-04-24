@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.0.0...v6.1.0) (2025-04-24)
+
+
+### Features
+
+* **deps:** bump golang.org/x/crypto from 0.32.0 to 0.35.0 in /tests ([#191](https://github.com/CloudNationHQ/terraform-azure-vm/issues/191)) ([8d6ec4c](https://github.com/CloudNationHQ/terraform-azure-vm/commit/8d6ec4c86fa5d637276a11a8d19cc2d6cb138744))
+* **deps:** bump golang.org/x/net from 0.34.0 to 0.38.0 in /tests ([#192](https://github.com/CloudNationHQ/terraform-azure-vm/issues/192)) ([650abad](https://github.com/CloudNationHQ/terraform-azure-vm/commit/650abadce5af07a7476448d9603be89408df794e))
+
 ## [6.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.2.0...v6.0.0) (2025-04-24)
 
 
