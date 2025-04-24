@@ -175,8 +175,8 @@ variable "instance" {
       publisher                   = string
       type                        = string
       type_handler_version        = string
-      settings                    = optional(string, null)
-      protected_settings          = optional(string, null)
+      settings                    = optional(map(string), {})
+      protected_settings          = optional(map(string), {})
       auto_upgrade_minor_version  = optional(bool, true)
       automatic_upgrade_enabled   = optional(bool, false)
       failure_suppression_enabled = optional(bool, false)

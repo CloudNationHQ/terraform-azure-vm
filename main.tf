@@ -562,8 +562,8 @@ resource "azurerm_virtual_machine_extension" "ext" {
   type                       = each.value.type
   type_handler_version       = each.value.type_handler_version
   auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
-  settings                   = each.value.settings
-  protected_settings         = each.value.protected_settings
+  settings                   = jsonencode(each.value.settings)
+  protected_settings         = jsonencode(each.value.protected_settings)
 
   provision_after_extensions  = each.value.provision_after_extensions
   failure_suppression_enabled = each.value.failure_suppression_enabled
