@@ -73,7 +73,7 @@ Type:
 object({
     name                                                   = string
     type                                                   = string
-    resource_group                                         = optional(string, null)
+    resource_group_name                                    = optional(string, null)
     location                                               = optional(string, null)
     size                                                   = optional(string, "Standard_D2s_v3")
     computer_name                                          = optional(string, null)
@@ -245,8 +245,8 @@ object({
       publisher                   = string
       type                        = string
       type_handler_version        = string
-      settings                    = optional(string, null)
-      protected_settings          = optional(string, null)
+      settings                    = optional(map(string), {})
+      protected_settings          = optional(map(string), {})
       auto_upgrade_minor_version  = optional(bool, true)
       automatic_upgrade_enabled   = optional(bool, false)
       failure_suppression_enabled = optional(bool, false)
@@ -317,7 +317,7 @@ Type: `map(string)`
 
 Default: `{}`
 
-### <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group)
+### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
 
 Description: default resource group and can be used if resourcegroup is not specified inside the object.
 

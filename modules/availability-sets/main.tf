@@ -7,7 +7,7 @@ resource "azurerm_availability_set" "avail" {
   )
 
   resource_group_name = try(
-    each.value.resource_group, var.resource_group
+    each.value.resource_group_name, var.resource_group_name
   )
 
   name = try(

@@ -6,8 +6,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   resource_group_name = coalesce(
     lookup(
-      var.instance, "resource_group", null
-    ), var.resource_group
+      var.instance, "resource_group_name", null
+    ), var.resource_group_name
   )
 
   location = coalesce(
@@ -54,8 +54,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
     contains(keys(tls_private_key.tls_key), var.instance.name) ? true : try(var.instance.disable_password_authentication, true)
   )
 
-  tags = try(
-    var.instance.tags, var.tags, null
+  tags = try(coalesce(
+    var.instance.tags, var.tags), null
   )
 
   # diffent defaults for windows and linux
@@ -225,8 +225,8 @@ resource "azurerm_key_vault_secret" "tls_public_key_secret" {
   value_wo         = var.instance.generate_ssh_key.value_wo
   content_type     = var.instance.generate_ssh_key.content_type
 
-  tags = try(
-    var.instance.tags, var.tags, null
+  tags = try(coalesce(
+    var.instance.tags, var.tags), null
   )
 }
 
@@ -242,8 +242,8 @@ resource "azurerm_key_vault_secret" "tls_private_key_secret" {
   value_wo_version = var.instance.generate_ssh_key.value_wo_version
   content_type     = var.instance.generate_ssh_key.content_type
 
-  tags = try(
-    var.instance.tags, var.tags, null
+  tags = try(coalesce(
+    var.instance.tags, var.tags), null
   )
 }
 
@@ -255,8 +255,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
   resource_group_name = coalesce(
     lookup(
-      var.instance, "resource_group", null
-    ), var.resource_group
+      var.instance, "resource_group_name", null
+    ), var.resource_group_name
   )
 
   location = coalesce(
@@ -307,8 +307,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
     var.instance.patch_mode, "AutomaticByOS"
   )
 
-  tags = try(
-    var.instance.tags, var.tags, null
+  tags = try(coalesce(
+    var.instance.tags, var.tags), null
   )
 
   bypass_platform_safety_checks_on_user_schedule_enabled = var.instance.bypass_platform_safety_checks_on_user_schedule_enabled
@@ -489,8 +489,8 @@ resource "azurerm_key_vault_secret" "secret" {
   not_before_date  = var.instance.generate_password.not_before_date
   expiration_date  = var.instance.generate_password.expiration_date
 
-  tags = try(
-    var.instance.tags, var.tags, null
+  tags = try(coalesce(
+    var.instance.tags, var.tags), null
   )
 }
 
@@ -505,8 +505,8 @@ resource "azurerm_network_interface" "nic" {
 
   resource_group_name = coalesce(
     lookup(
-      var.instance, "resource_group", null
-    ), var.resource_group
+      var.instance, "resource_group_name", null
+    ), var.resource_group_name
   )
 
   location = coalesce(
@@ -594,8 +594,8 @@ resource "azurerm_managed_disk" "disks" {
 
   resource_group_name = coalesce(
     lookup(
-      var.instance, "resource_group", null
-    ), var.resource_group
+      var.instance, "resource_group_name", null
+    ), var.resource_group_name
   )
 
   location = coalesce(

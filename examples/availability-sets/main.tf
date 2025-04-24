@@ -52,13 +52,14 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
-  naming         = local.naming
-  keyvault       = module.kv.vault.id
-  resource_group = module.rg.groups.demo.name
-  location       = module.rg.groups.demo.location
-  depends_on     = [module.kv]
+  naming              = local.naming
+  keyvault            = module.kv.vault.id
+  resource_group_name = module.rg.groups.demo.name
+  location            = module.rg.groups.demo.location
+  depends_on          = [module.kv]
+
   instance = {
     name = module.naming.virtual_machine.name
     type = "linux"
@@ -87,13 +88,13 @@ module "vm" {
 
 module "availability" {
   source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   availability_sets = {
     demo = {
-      name           = module.naming.availability_set.name
-      resource_group = module.rg.groups.demo.name
-      location       = module.rg.groups.demo.location
+      name                = module.naming.availability_set.name
+      resource_group_name = module.rg.groups.demo.name
+      location            = module.rg.groups.demo.location
     }
   }
 }

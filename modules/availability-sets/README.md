@@ -41,7 +41,7 @@ Type:
 map(object({
     name                         = optional(string)
     location                     = optional(string)
-    resource_group               = optional(string)
+    resource_group_name          = optional(string)
     managed                      = optional(bool, true)
     platform_fault_domain_count  = optional(number, 3)
     platform_update_domain_count = optional(number, 5)
@@ -68,7 +68,7 @@ Type: `map(string)`
 
 Default: `null`
 
-### <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group)
+### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
 
 Description: default resource group to be used.
 

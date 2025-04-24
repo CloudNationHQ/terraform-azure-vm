@@ -3,7 +3,7 @@ variable "instance" {
   type = object({
     name                                                   = string
     type                                                   = string
-    resource_group                                         = optional(string, null)
+    resource_group_name                                    = optional(string, null)
     location                                               = optional(string, null)
     size                                                   = optional(string, "Standard_D2s_v3")
     computer_name                                          = optional(string, null)
@@ -229,7 +229,7 @@ variable "instance" {
   }
 
   validation {
-    condition     = var.instance.resource_group != null || var.resource_group != null
+    condition     = var.instance.resource_group_name != null || var.resource_group_name != null
     error_message = "Resource group name must be provided either in the instance object or as a separate variable."
   }
 
@@ -286,7 +286,7 @@ variable "location" {
   default     = null
 }
 
-variable "resource_group" {
+variable "resource_group_name" {
   description = "default resource group and can be used if resourcegroup is not specified inside the object."
   type        = string
   default     = null

@@ -3,7 +3,7 @@ variable "availability_sets" {
   type = map(object({
     name                         = optional(string)
     location                     = optional(string)
-    resource_group               = optional(string)
+    resource_group_name          = optional(string)
     managed                      = optional(bool, true)
     platform_fault_domain_count  = optional(number, 3)
     platform_update_domain_count = optional(number, 5)
@@ -25,7 +25,7 @@ variable "location" {
   default     = null
 }
 
-variable "resource_group" {
+variable "resource_group_name" {
   description = "default resource group to be used."
   type        = string
   default     = null
