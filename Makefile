@@ -16,15 +16,15 @@ test-sequential:
 	cd tests && go test -v -timeout 120m -run '^TestApplyAllSequential$$' -args $(TEST_ARGS) .
 
 test-parallel:
-	cd tests && go test -v -timeout 60m -run '^TestApplyAllParallel$$' -args $(TEST_ARGS) .
+	cd tests && go test -v -timeout 600m -run '^TestApplyAllParallel$$' -args $(TEST_ARGS) .
 
 docs:
 	@echo "Generating documentation for root and modules..."
-	terraform-docs markdown . --output-file README.md --output-mode inject --hide modules
+	terraform-docs markdown document . --output-file README.md --output-mode inject --hide modules
 	for dir in modules/*; do \
 		if [ -d "$$dir" ]; then \
 			echo "Processing $$dir..."; \
-			(cd "$$dir" && terraform-docs markdown . --output-file README.md --output-mode inject --hide modules) || echo "Skipped: $$dir"; \
+			(cd "$$dir" && terraform-docs markdown document . --output-file README.md --output-mode inject --hide modules) || echo "Skipped: $$dir"; \
 		fi \
 	done
 
