@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.2.0...v6.0.0) (2025-04-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* The data structure changed, causing a recreate on existing resources.
+
+### Features
+
+* add type definitions and small refactor ([#193](https://github.com/CloudNationHQ/terraform-azure-vm/issues/193)) ([c3be1e5](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c3be1e5e76c97251ca9dbab95af52d98b637c427))
+
 ## [5.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.1.0...v5.2.0) (2025-03-27)
 
 
