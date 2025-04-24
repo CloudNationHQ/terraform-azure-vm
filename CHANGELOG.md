@@ -18,7 +18,7 @@
   - For identity we created a separate module as shown in the examples.
 - The property and variable resource_group is renamed to resource_group_name
 - The property subnet is changed to subnet_id and placed in ip configurations
-- The structure changed abit when ssh keys or passwords are generated but the module itself as shown in the examples.
+- The structure changed abit when ssh keys or passwords are generated within the module itself as shown in the examples.
 
 ## [5.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v5.1.0...v5.2.0) (2025-03-27)
 
