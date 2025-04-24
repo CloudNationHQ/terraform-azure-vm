@@ -609,11 +609,16 @@ resource "azurerm_managed_disk" "disks" {
     lookup(var.naming, "managed_disk", null) != null ? join("-", [var.naming.managed_disk, each.value.disk_key]) : null
   )
 
+  zone = try(
+    coalesce(
+      each.value.disk.zone, var.instance.zone
+    ), null
+  )
+
   storage_account_type              = each.value.disk.storage_account_type
   create_option                     = each.value.disk.create_option
   disk_size_gb                      = each.value.disk.disk_size_gb
   tier                              = each.value.disk.tier
-  zone                              = each.value.disk.zone
   os_type                           = each.value.disk.os_type
   edge_zone                         = each.value.disk.edge_zone
   max_shares                        = each.value.disk.max_shares
