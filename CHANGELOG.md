@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.1.0...v6.2.0) (2025-05-09)
+
+
+### Features
+
+* replace deployment test code with module consumption and fix tags property idempotence ([#197](https://github.com/CloudNationHQ/terraform-azure-vm/issues/197)) ([c6418b3](https://github.com/CloudNationHQ/terraform-azure-vm/commit/c6418b32aac10cb69d586ca820e0cac49b8c5b47))
+
 ## [6.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.0.0...v6.1.0) (2025-04-24)
 
 
