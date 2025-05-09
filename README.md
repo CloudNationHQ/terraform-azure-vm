@@ -132,7 +132,7 @@ object({
       auxiliary_mode                 = optional(string, null)
       internal_dns_name_label        = optional(string, null)
       edge_zone                      = optional(string, null)
-      tags                           = optional(map(string), null)
+      tags                           = optional(map(string))
       ip_configurations = map(object({
         name                                               = optional(string)
         private_ip_address                                 = optional(string, null)
@@ -209,7 +209,7 @@ object({
       disk_size_gb                      = optional(number, 10)
       storage_account_type              = optional(string, "Standard_LRS")
       caching                           = optional(string, "ReadWrite")
-      tags                              = optional(map(string), null)
+      tags                              = optional(map(string))
       lun                               = number
       tier                              = optional(string, null)
       zone                              = optional(string, null)
@@ -251,7 +251,7 @@ object({
       automatic_upgrade_enabled   = optional(bool, false)
       failure_suppression_enabled = optional(bool, false)
       provision_after_extensions  = optional(list(string), [])
-      tags                        = optional(map(string), null)
+      tags                        = optional(map(string))
     })), {})
     enable_automatic_updates = optional(bool, true)
     hotpatching_enabled      = optional(bool, false)

@@ -54,8 +54,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
     contains(keys(tls_private_key.tls_key), var.instance.name) ? true : try(var.instance.disable_password_authentication, true)
   )
 
-  tags = try(coalesce(
-    var.instance.tags, var.tags), null
+  tags = coalesce(
+    var.instance.tags, var.tags
   )
 
   # diffent defaults for windows and linux
@@ -225,8 +225,8 @@ resource "azurerm_key_vault_secret" "tls_public_key_secret" {
   value_wo         = var.instance.generate_ssh_key.value_wo
   content_type     = var.instance.generate_ssh_key.content_type
 
-  tags = try(coalesce(
-    var.instance.tags, var.tags), null
+  tags = coalesce(
+    var.instance.tags, var.tags
   )
 }
 
@@ -242,8 +242,8 @@ resource "azurerm_key_vault_secret" "tls_private_key_secret" {
   value_wo_version = var.instance.generate_ssh_key.value_wo_version
   content_type     = var.instance.generate_ssh_key.content_type
 
-  tags = try(coalesce(
-    var.instance.tags, var.tags), null
+  tags = coalesce(
+    var.instance.tags, var.tags
   )
 }
 
@@ -307,8 +307,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
     var.instance.patch_mode, "AutomaticByOS"
   )
 
-  tags = try(coalesce(
-    var.instance.tags, var.tags), null
+  tags = coalesce(
+    var.instance.tags, var.tags
   )
 
   bypass_platform_safety_checks_on_user_schedule_enabled = var.instance.bypass_platform_safety_checks_on_user_schedule_enabled
@@ -489,8 +489,8 @@ resource "azurerm_key_vault_secret" "secret" {
   not_before_date  = var.instance.generate_password.not_before_date
   expiration_date  = var.instance.generate_password.expiration_date
 
-  tags = try(coalesce(
-    var.instance.tags, var.tags), null
+  tags = coalesce(
+    var.instance.tags, var.tags
   )
 }
 
@@ -527,8 +527,8 @@ resource "azurerm_network_interface" "nic" {
   edge_zone                      = each.value.nic.edge_zone
   dns_servers                    = each.value.nic.dns_servers
 
-  tags = try(coalesce(
-    each.value.nic.tags, var.tags), null
+  tags = coalesce(
+    each.value.nic.tags, var.tags
   )
 
   dynamic "ip_configuration" {
@@ -578,8 +578,8 @@ resource "azurerm_virtual_machine_extension" "ext" {
     }
   }
 
-  tags = try(coalesce(
-    each.value.tags, var.tags), null
+  tags = coalesce(
+    each.value.tags, var.tags
   )
 }
 
@@ -645,8 +645,8 @@ resource "azurerm_managed_disk" "disks" {
   disk_iops_read_only               = each.value.disk.disk_iops_read_only
   disk_mbps_read_only               = each.value.disk.disk_mbps_read_only
 
-  tags = try(coalesce(
-    each.value.disk.tags, var.tags), null
+  tags = coalesce(
+    each.value.disk.tags, var.tags
   )
 
   lifecycle {

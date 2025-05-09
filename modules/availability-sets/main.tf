@@ -19,7 +19,7 @@ resource "azurerm_availability_set" "avail" {
   platform_update_domain_count = each.value.platform_update_domain_count
   proximity_placement_group_id = each.value.proximity_placement_group_id
 
-  tags = try(
-    each.value.tags, var.tags, {}
+  tags = coalesce(
+    each.value.tags, var.tags
   )
 }
