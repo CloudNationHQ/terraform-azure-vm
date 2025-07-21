@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.2.0...v6.2.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* update settings variable type from map(string) to map(any) in instance configuration ([#202](https://github.com/CloudNationHQ/terraform-azure-vm/issues/202)) ([972168b](https://github.com/CloudNationHQ/terraform-azure-vm/commit/972168b7d973c0abfda6368d405f024df556f826))
+
 ## [6.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.1.0...v6.2.0) (2025-05-09)
 
 
