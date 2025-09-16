@@ -47,6 +47,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   vtpm_enabled                  = var.instance.vtpm_enabled
   eviction_policy               = var.instance.eviction_policy
   disk_controller_type          = var.instance.disk_controller_type
+  os_managed_disk_id            = var.instance.os_managed_disk_id
   zone                          = var.instance.zone
 
   disable_password_authentication = (
@@ -80,39 +81,37 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "termination_notification" {
-    for_each = try(var.instance.termination_notification, null) != null ? [1] : []
+    for_each = var.instance.termination_notification != null ? [var.instance.termination_notification] : []
 
     content {
-      enabled = var.instance.termination_notification.enabled
-      timeout = var.instance.termination_notification.timeout
+      enabled = termination_notification.value.enabled
+      timeout = termination_notification.value.timeout
     }
   }
 
   dynamic "os_image_notification" {
-    for_each = try(var.instance.os_image_notification, null) != null ? [1] : []
+    for_each = var.instance.os_image_notification != null ? [var.instance.os_image_notification] : []
 
     content {
-      timeout = var.instance.os_image_notification.timeout
+      timeout = os_image_notification.value.timeout
     }
   }
 
 
   dynamic "additional_capabilities" {
-    for_each = try(var.instance.additional_capabilities, null) != null ? [1] : []
+    for_each = var.instance.additional_capabilities != null ? [var.instance.additional_capabilities] : []
 
     content {
-      ultra_ssd_enabled   = var.instance.additional_capabilities.ultra_ssd_enabled
-      hibernation_enabled = var.instance.additional_capabilities.hibernation_enabled
+      ultra_ssd_enabled   = additional_capabilities.value.ultra_ssd_enabled
+      hibernation_enabled = additional_capabilities.value.hibernation_enabled
     }
   }
 
   dynamic "boot_diagnostics" {
-    for_each = lookup(var.instance, "boot_diagnostics", null) != null ? [1] : []
+    for_each = var.instance.boot_diagnostics != null ? [var.instance.boot_diagnostics] : []
 
     content {
-      storage_account_uri = lookup(
-        var.instance.boot_diagnostics, "storage_account_uri", null
-      )
+      storage_account_uri = boot_diagnostics.value.storage_account_uri
     }
   }
 
@@ -141,11 +140,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
     secure_vm_disk_encryption_set_id = var.instance.os_disk.secure_vm_disk_encryption_set_id
 
     dynamic "diff_disk_settings" {
-      for_each = try(var.instance.os_disk.diff_disk_settings, null) != null ? [1] : []
+      for_each = var.instance.os_disk.diff_disk_settings != null ? [var.instance.os_disk.diff_disk_settings] : []
 
       content {
-        option    = var.instance.os_disk.diff_disk_settings.option
-        placement = var.instance.os_disk.diff_disk_settings.placement
+        option    = diff_disk_settings.value.option
+        placement = diff_disk_settings.value.placement
       }
     }
   }
@@ -185,12 +184,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   dynamic "plan" {
-    for_each = try(var.instance.plan, null) != null ? [1] : []
+    for_each = var.instance.plan != null ? [var.instance.plan] : []
 
     content {
-      name      = var.instance.plan.name
-      product   = var.instance.plan.product
-      publisher = var.instance.plan.publisher
+      name      = plan.value.name
+      product   = plan.value.product
+      publisher = plan.value.publisher
     }
   }
 
@@ -301,6 +300,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   zone                          = var.instance.zone
   provision_vm_agent            = var.instance.provision_vm_agent
   disk_controller_type          = var.instance.disk_controller_type
+  os_managed_disk_id            = var.instance.os_managed_disk_id
 
   # diffent defaults for windows and linux
   patch_mode = try(
@@ -324,8 +324,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
     )
 
     content {
-      protocol        = winrm.listener.value.protocol
-      certificate_url = winrm.listener.value.certificate_url
+      protocol        = winrm_listener.value.protocol
+      certificate_url = winrm_listener.value.certificate_url
     }
   }
 
@@ -345,10 +345,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "os_image_notification" {
-    for_each = try(var.instance.os_image_notification, null) != null ? [1] : []
+    for_each = var.instance.os_image_notification != null ? [var.instance.os_image_notification] : []
 
     content {
-      timeout = var.instance.os_image_notification.timeout
+      timeout = os_image_notification.value.timeout
     }
   }
 
@@ -368,28 +368,28 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "termination_notification" {
-    for_each = try(var.instance.termination_notification, null) != null ? [1] : []
+    for_each = var.instance.termination_notification != null ? [var.instance.termination_notification] : []
 
     content {
-      enabled = var.instance.termination_notification.enabled
-      timeout = var.instance.termination_notification.timeout
+      enabled = termination_notification.value.enabled
+      timeout = termination_notification.value.timeout
     }
   }
 
   dynamic "additional_capabilities" {
-    for_each = try(var.instance.additional_capabilities, null) != null ? [1] : []
+    for_each = var.instance.additional_capabilities != null ? [var.instance.additional_capabilities] : []
 
     content {
-      ultra_ssd_enabled   = var.instance.additional_capabilities.ultra_ssd_enabled
-      hibernation_enabled = var.instance.additional_capabilities.hibernation_enabled
+      ultra_ssd_enabled   = additional_capabilities.value.ultra_ssd_enabled
+      hibernation_enabled = additional_capabilities.value.hibernation_enabled
     }
   }
 
   dynamic "boot_diagnostics" {
-    for_each = lookup(var.instance, "boot_diagnostics", null) != null ? [1] : []
+    for_each = var.instance.boot_diagnostics != null ? [var.instance.boot_diagnostics] : []
 
     content {
-      storage_account_uri = var.instance.boot_diagnostics.storage_account_uri
+      storage_account_uri = boot_diagnostics.value.storage_account_uri
     }
   }
 
@@ -404,17 +404,19 @@ resource "azurerm_windows_virtual_machine" "vm" {
     name                             = var.instance.os_disk.name
 
     dynamic "diff_disk_settings" {
-      for_each = try(var.instance.os_disk.diff_disk_settings, null) != null ? [1] : []
+      for_each = var.instance.os_disk.diff_disk_settings != null ? [var.instance.os_disk.diff_disk_settings] : []
 
       content {
-        option    = var.instance.os_disk.diff_disk_settings.option
-        placement = var.instance.os_disk.diff_disk_settings.placement
+        option    = diff_disk_settings.value.option
+        placement = diff_disk_settings.value.placement
       }
     }
   }
 
   dynamic "additional_unattend_content" {
-    for_each = try(var.instance.addtional_unattend_contents, {})
+    for_each = try(
+      var.instance.additional_unattend_content, {}
+    )
 
     content {
       content = additional_unattend_content.value.content
@@ -442,12 +444,12 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   dynamic "plan" {
-    for_each = try(var.instance.plan, null) != null ? [1] : []
+    for_each = var.instance.plan != null ? [var.instance.plan] : []
 
     content {
-      name      = var.instance.plan.name
-      product   = var.instance.plan.product
-      publisher = var.instance.plan.publisher
+      name      = plan.value.name
+      product   = plan.value.product
+      publisher = plan.value.publisher
     }
   }
 
@@ -570,7 +572,7 @@ resource "azurerm_virtual_machine_extension" "ext" {
   automatic_upgrade_enabled   = each.value.automatic_upgrade_enabled
 
   dynamic "protected_settings_from_key_vault" {
-    for_each = try(each.value.protected_settings_from_key_vault, null) != null ? [1] : []
+    for_each = each.value.protected_settings_from_key_vault != null ? [each.value.protected_settings_from_key_vault] : []
 
     content {
       secret_url      = protected_settings_from_key_vault.value.secret_url
