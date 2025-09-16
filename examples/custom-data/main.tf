@@ -84,9 +84,8 @@ EOF
       int = {
         ip_configurations = {
           config1 = {
-            subnet_id                     = module.network.subnets.int.id
-            private_ip_address_allocation = "Dynamic"
-            primary                       = true
+            subnet_id = module.network.subnets.int.id
+            primary   = true
           }
         }
       }
