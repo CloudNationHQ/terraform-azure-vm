@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.2.1...v6.3.0) (2025-09-16)
+
+
+### Features
+
+* small refactor type definitions ([#212](https://github.com/CloudNationHQ/terraform-azure-vm/issues/212)) ([f3e8490](https://github.com/CloudNationHQ/terraform-azure-vm/commit/f3e84907be470ef35982a8f1bce0356f826b50b0))
+
 ## [6.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.2.0...v6.2.1) (2025-07-21)
 
 
