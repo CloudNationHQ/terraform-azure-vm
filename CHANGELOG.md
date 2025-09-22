@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.3.0...v6.3.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* extension settings default null ([#215](https://github.com/CloudNationHQ/terraform-azure-vm/issues/215)) ([a8de255](https://github.com/CloudNationHQ/terraform-azure-vm/commit/a8de255c547ed2381dd9f9b83be8d1fbef368793))
+
 ## [6.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.2.1...v6.3.0) (2025-09-16)
 
 
