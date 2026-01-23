@@ -1,5 +1,41 @@
 # Changelog
 
+## [7.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.0.0...v7.1.0) (2026-01-23)
+
+
+### Features
+
+* add dependabot workflow ([#224](https://github.com/CloudNationHQ/terraform-azure-vm/issues/224)) ([08cc105](https://github.com/CloudNationHQ/terraform-azure-vm/commit/08cc10513096489ea4aea272b0217ee8e5c54af9))
+
+## [7.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.3.1...v7.0.0) (2026-01-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* this change causes recreates
+
+### Features
+
+* fix nic for each keys when deploying multiple vms ([#222](https://github.com/CloudNationHQ/terraform-azure-vm/issues/222)) ([da49a2e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/da49a2e3e8d0b190b7266386ff7b497176538fa7))
+
+### Upgrade from v6.3.1 to v7.0.0:
+
+- Update module reference to: `version = "~> 7.0"`
+
+## [6.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.3.0...v6.3.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* extension settings default null ([#215](https://github.com/CloudNationHQ/terraform-azure-vm/issues/215)) ([a8de255](https://github.com/CloudNationHQ/terraform-azure-vm/commit/a8de255c547ed2381dd9f9b83be8d1fbef368793))
+
+## [6.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.2.1...v6.3.0) (2025-09-16)
+
+
+### Features
+
+* small refactor type definitions ([#212](https://github.com/CloudNationHQ/terraform-azure-vm/issues/212)) ([f3e8490](https://github.com/CloudNationHQ/terraform-azure-vm/commit/f3e84907be470ef35982a8f1bce0356f826b50b0))
+
 ## [6.2.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.2.0...v6.2.1) (2025-07-21)
 
 

@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.24"
+  version = "~> 0.26"
 
   suffix = ["demo", "dev"]
 }
@@ -19,15 +19,15 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   naming = local.naming
 
   vnet = {
-    name           = module.naming.virtual_network.name
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
-    address_space  = ["10.18.0.0/16"]
+    name                = module.naming.virtual_network.name
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+    address_space       = ["10.18.0.0/16"]
 
     subnets = {
       int = {
@@ -48,25 +48,30 @@ module "kv" {
     name                = module.naming.key_vault.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
+    secrets = {
+      random_string = {
+        vm1 = {
+          length  = 24
+          special = false
+        }
+      }
+    }
   }
 }
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
-  keyvault   = module.kv.vault.id
-  naming     = local.naming
-  depends_on = [module.kv]
+  naming = local.naming
 
   instance = {
     type                = "windows"
-    name                = module.naming.windows_virtual_machine.name
+    name                = module.naming.windows_virtual_machine.name_unique
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
-    generate_password = {
-      enable = true
-    }
+    password            = module.kv.secrets.vm1.value
+
     source_image_reference = {
       offer     = "WindowsServer"
       publisher = "MicrosoftWindowsServer"
