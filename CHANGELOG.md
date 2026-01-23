@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.0.0...v7.1.0) (2026-01-23)
+
+
+### Features
+
+* add dependabot workflow ([#224](https://github.com/CloudNationHQ/terraform-azure-vm/issues/224)) ([08cc105](https://github.com/CloudNationHQ/terraform-azure-vm/commit/08cc10513096489ea4aea272b0217ee8e5c54af9))
+
 ## [7.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.3.1...v7.0.0) (2026-01-23)
 
 
