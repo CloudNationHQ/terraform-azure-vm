@@ -11,6 +11,10 @@
 
 * fix nic for each keys when deploying multiple vms ([#222](https://github.com/CloudNationHQ/terraform-azure-vm/issues/222)) ([da49a2e](https://github.com/CloudNationHQ/terraform-azure-vm/commit/da49a2e3e8d0b190b7266386ff7b497176538fa7))
 
+### Upgrade from v6.3.1 to v7.0.0:
+
+- Update module reference to: `version = "~> 7.0"`
+
 ## [6.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v6.3.0...v6.3.1) (2025-09-22)
 
 
