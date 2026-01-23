@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.24"
+  version = "~> 0.26"
 
   suffix = ["demo", "dev"]
 }
@@ -19,15 +19,15 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   naming = local.naming
 
   vnet = {
-    name           = module.naming.virtual_network.name
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
-    address_space  = ["10.18.0.0/16"]
+    name                = module.naming.virtual_network.name
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+    address_space       = ["10.18.0.0/16"]
     subnets = {
       int = {
         address_prefixes       = ["10.18.1.0/24"]
@@ -47,25 +47,30 @@ module "kv" {
     name                = module.naming.key_vault.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
+    secrets = {
+      tls_keys = {
+        vm1 = {
+          algorithm = "RSA"
+          rsa_bits  = 2048
+        }
+      }
+    }
   }
 }
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   naming              = local.naming
-  keyvault            = module.kv.vault.id
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
-  depends_on          = [module.kv]
 
   instance = {
-    name = module.naming.virtual_machine.name
-    type = "linux"
-    generate_ssh_key = {
-      enable = true
-    }
+    name       = module.naming.virtual_machine.name_unique
+    type       = "linux"
+    public_key = module.kv.tls_public_keys.vm1.value
+
     source_image_reference = {
       offer     = "UbuntuServer"
       publisher = "Canonical"
@@ -88,7 +93,7 @@ module "vm" {
 
 module "availability" {
   source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
   availability_sets = {
     demo = {

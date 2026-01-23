@@ -29,35 +29,22 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
 
-- <a name="requirement_random"></a> [random](#requirement\_random) (~> 3.6)
-
-- <a name="requirement_tls"></a> [tls](#requirement\_tls) (~> 4.0)
-
 ## Providers
 
 The following providers are used by this module:
 
 - <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
 
-- <a name="provider_random"></a> [random](#provider\_random) (~> 3.6)
-
-- <a name="provider_tls"></a> [tls](#provider\_tls) (~> 4.0)
-
 ## Resources
 
 The following resources are used by this module:
 
-- [azurerm_key_vault_secret.secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
-- [azurerm_key_vault_secret.tls_private_key_secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
-- [azurerm_key_vault_secret.tls_public_key_secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) (resource)
-- [azurerm_linux_virtual_machine.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
-- [azurerm_managed_disk.disks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
-- [azurerm_network_interface.nic](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
-- [azurerm_virtual_machine_data_disk_attachment.at](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
-- [azurerm_virtual_machine_extension.ext](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
-- [azurerm_windows_virtual_machine.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
-- [random_password.password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) (resource)
-- [tls_private_key.tls_key](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) (resource)
+- [azurerm_linux_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
+- [azurerm_managed_disk.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
+- [azurerm_network_interface.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_virtual_machine_data_disk_attachment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
+- [azurerm_virtual_machine_extension.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) (resource)
+- [azurerm_windows_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_virtual_machine) (resource)
 
 ## Required Inputs
 
@@ -256,9 +243,9 @@ object({
       }))
       tags = optional(map(string))
     })), {})
-    enable_automatic_updates = optional(bool, true)
-    hotpatching_enabled      = optional(bool, false)
-    timezone                 = optional(string)
+    automatic_updates_enabled = optional(bool, true)
+    hotpatching_enabled       = optional(bool, false)
+    timezone                  = optional(string)
     winrm_listeners = optional(map(object({
       protocol        = string
       certificate_url = optional(string)
@@ -267,7 +254,7 @@ object({
       key_vault_id = string
       certificate = object({
         url   = string
-        store = string
+        store = optional(string)
       })
     })), {})
     os_image_notification = optional(object({
@@ -295,14 +282,6 @@ object({
 ## Optional Inputs
 
 The following input variables are optional (have default values):
-
-### <a name="input_keyvault"></a> [keyvault](#input\_keyvault)
-
-Description: keyvault id to store secrets
-
-Type: `string`
-
-Default: `null`
 
 ### <a name="input_location"></a> [location](#input\_location)
 
