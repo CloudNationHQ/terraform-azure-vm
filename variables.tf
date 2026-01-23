@@ -186,9 +186,9 @@ variable "instance" {
       }))
       tags = optional(map(string))
     })), {})
-    enable_automatic_updates = optional(bool, true)
-    hotpatching_enabled      = optional(bool, false)
-    timezone                 = optional(string)
+    automatic_updates_enabled = optional(bool, true)
+    hotpatching_enabled       = optional(bool, false)
+    timezone                  = optional(string)
     winrm_listeners = optional(map(object({
       protocol        = string
       certificate_url = optional(string)
@@ -197,7 +197,7 @@ variable "instance" {
       key_vault_id = string
       certificate = object({
         url   = string
-        store = string
+        store = optional(string)
       })
     })), {})
     os_image_notification = optional(object({
@@ -244,30 +244,11 @@ variable "instance" {
   validation {
     condition = alltrue([
       for secret in try(var.instance.secrets, {}) :
-      var.instance.type == "windows" || lookup(secret.certificate, "store", null) == null
+      var.instance.type == "windows"
+      ? secret.certificate.store != null
+      : lookup(secret.certificate, "store", null) == null
     ])
-    error_message = "Certificate store is only applicable when instance type is 'windows'. Remove the store property for Linux instances."
-  }
-
-  validation {
-    condition = (
-      var.instance.type == "windows" && (
-        try(var.instance.password, null) != null ||
-        try(var.instance.generate_password.enable, false) == true
-      )
-      ) || (
-      var.instance.type == "linux" && (
-        try(var.instance.public_key, null) != null ||
-        try(var.instance.generate_ssh_key.enable, false) == true ||
-        try(var.instance.password, null) != null
-      )
-    )
-    error_message = join(" ", [
-      "Invalid authentication configuration.",
-      "Windows VMs must have either 'password' specified or 'generate_password.enable=true'.",
-      "Linux VMs must either use SSH key auth (via 'public_key' or 'generate_ssh_key.enable=true')",
-      "or provide a 'password'."
-    ])
+    error_message = "For Linux instances omit the certificate store; for Windows instances provide a certificate store value."
   }
 }
 
@@ -275,12 +256,6 @@ variable "naming" {
   description = "used for naming purposes"
   type        = map(string)
   default     = {}
-}
-
-variable "keyvault" {
-  description = "keyvault id to store secrets"
-  type        = string
-  default     = null
 }
 
 variable "location" {

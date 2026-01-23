@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.24"
+  version = "~> 0.26"
 
   suffix = ["demo", "dev"]
 }
@@ -19,15 +19,15 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   naming = local.naming
 
   vnet = {
-    name           = module.naming.virtual_network.name
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
-    address_space  = ["10.18.0.0/16"]
+    name                = module.naming.virtual_network.name
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+    address_space       = ["10.18.0.0/16"]
 
     subnets = {
       int = {
@@ -51,19 +51,30 @@ module "kv" {
 
     secrets = {
       tls_keys = {
-        vm-demo-dev-01 = {
+        vm1 = {
           algorithm = "RSA"
-          key_size  = 2048
         }
       }
       random_string = {
-        vm-demo-dev-02 = {
+        vm2 = {
           length  = 24
           special = false
         }
-        vm-demo-dev-03 = {
+        vm3 = {
           length  = 24
           special = false
+        }
+        vm4 = {
+          length  = 24
+          special = false
+        }
+      }
+
+      certs = {
+        webcert = {
+          subject            = "CN=vm-auth-demo"
+          validity_in_months = 12
+          key_usage          = ["digitalSignature", "keyEncipherment"]
         }
       }
     }
@@ -72,17 +83,17 @@ module "kv" {
 
 module "vm-linux-ssh" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
-  naming     = local.naming
-  depends_on = [module.kv]
+  naming = local.naming
 
   instance = {
     name                = "${module.naming.linux_virtual_machine.name}-01"
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
-    public_key          = module.kv.tls_public_keys.vm-demo-dev-01.value
+    public_key          = module.kv.tls_public_keys.vm1.value
     type                = "linux"
+
     source_image_reference = {
       offer     = "UbuntuServer"
       publisher = "Canonical"
@@ -104,17 +115,17 @@ module "vm-linux-ssh" {
 
 module "vm-linux-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
-  naming     = local.naming
-  depends_on = [module.kv]
+  naming = local.naming
 
   instance = {
     name                = "${module.naming.linux_virtual_machine.name}-02"
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
-    password            = module.kv.secrets.vm-demo-dev-02.value
+    password            = module.kv.secrets.vm2.value
     type                = "linux"
+
     source_image_reference = {
       offer     = "UbuntuServer"
       publisher = "Canonical"
@@ -136,17 +147,17 @@ module "vm-linux-password" {
 
 module "vm-windows-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 6.0"
+  version = "~> 7.0"
 
-  naming     = local.naming
-  depends_on = [module.kv]
+  naming = local.naming
 
   instance = {
     name                = "${module.naming.windows_virtual_machine.name}-03"
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
-    password            = module.kv.secrets.vm-demo-dev-03.value
+    password            = module.kv.secrets.vm3.value
     type                = "windows"
+
     source_image_reference = {
       offer     = "WindowsServer"
       publisher = "MicrosoftWindowsServer"
