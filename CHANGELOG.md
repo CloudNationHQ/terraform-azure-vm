@@ -1,5 +1,15 @@
 # Changelog
 
+## [7.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.1.0...v7.2.0) (2026-02-23)
+
+
+### Features
+
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#221](https://github.com/CloudNationHQ/terraform-azure-vm/issues/221)) ([f83ca1c](https://github.com/CloudNationHQ/terraform-azure-vm/commit/f83ca1cb08b7489240f54eade78c16c3eeb08b30))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#229](https://github.com/CloudNationHQ/terraform-azure-vm/issues/229)) ([35c396f](https://github.com/CloudNationHQ/terraform-azure-vm/commit/35c396f53cf963b6b6414e59faeafcb5d60e99b4))
+* **deps:** bump github.com/ulikunitz/xz from 0.5.10 to 0.5.14 in /tests ([#208](https://github.com/CloudNationHQ/terraform-azure-vm/issues/208)) ([455149a](https://github.com/CloudNationHQ/terraform-azure-vm/commit/455149ace0ef1fe139cd9c0c2a28c84709b4c9ad))
+* **deps:** bump golang.org/x/crypto from 0.36.0 to 0.45.0 in /tests ([#219](https://github.com/CloudNationHQ/terraform-azure-vm/issues/219)) ([7788653](https://github.com/CloudNationHQ/terraform-azure-vm/commit/77886536f9709073fbdf1afa2fb32cb91a3c36fe))
+
 ## [7.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.0.0...v7.1.0) (2026-01-23)
 
 
