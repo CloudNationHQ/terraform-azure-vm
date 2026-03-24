@@ -336,6 +336,18 @@ Default: `{}`
 
 The following outputs are exported:
 
+### <a name="output_disk_attachments"></a> [disk\_attachments](#output\_disk\_attachments)
+
+Description: contains all data disk attachments config
+
+### <a name="output_disks"></a> [disks](#output\_disks)
+
+Description: contains all managed disks config
+
+### <a name="output_extensions"></a> [extensions](#output\_extensions)
+
+Description: contains all virtual machine extensions config
+
 ### <a name="output_instance"></a> [instance](#output\_instance)
 
 Description: contains all virtual machine config
