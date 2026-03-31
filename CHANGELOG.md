@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.2.0...v7.3.0) (2026-03-31)
+
+
+### Features
+
+* add disk encryption set support for managed disks ([#234](https://github.com/CloudNationHQ/terraform-azure-vm/issues/234)) ([74c3cc9](https://github.com/CloudNationHQ/terraform-azure-vm/commit/74c3cc988691541d66692a82503a1df542473f4a))
+
 ## [7.2.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.1.0...v7.2.0) (2026-03-23)
 
 
