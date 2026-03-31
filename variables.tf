@@ -219,6 +219,7 @@ variable "instance" {
       content = string
       setting = string
     })), {})
+    disk_encryption_set_ids = optional(map(string), {})
   })
 
   validation {
