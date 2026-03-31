@@ -18,6 +18,8 @@ Compatible with both Linux and Windows environments
 
 Supports availability sets to enhance fault tolerance and availability
 
+Supports disk encryption sets for managed disk encryption using customer-managed keys
+
 Offers optional multiple ip configurations per interface
 
 <!-- BEGIN_TF_DOCS -->
@@ -276,6 +278,7 @@ object({
       content = string
       setting = string
     })), {})
+    disk_encryption_set_ids = optional(map(string), {})
   })
 ```
 
@@ -391,4 +394,4 @@ MIT Licensed. See [LICENSE](./LICENSE) for full details.
 
 - [Documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines)
-- [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/virtualMachine.json)
+- [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2023-07-01/virtualMachine.json)
