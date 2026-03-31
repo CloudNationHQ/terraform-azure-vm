@@ -548,7 +548,7 @@ resource "azurerm_managed_disk" "this" {
   source_resource_id                = each.value.source_resource_id
   image_reference_id                = each.value.image_reference_id
   secure_vm_disk_encryption_set_id  = each.value.secure_vm_disk_encryption_set_id
-  disk_encryption_set_id            = each.value.disk_encryption_set_id
+  disk_encryption_set_id            = lookup(var.instance.disk_encryption_set_ids, each.key, each.value.disk_encryption_set_id)
   security_type                     = each.value.security_type
   disk_access_id                    = each.value.disk_access_id
   hyper_v_generation                = each.value.hyper_v_generation

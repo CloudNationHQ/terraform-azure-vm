@@ -18,6 +18,8 @@ Compatible with both Linux and Windows environments
 
 Supports availability sets to enhance fault tolerance and availability
 
+Supports disk encryption sets for managed disk encryption using customer-managed keys
+
 Offers optional multiple ip configurations per interface
 
 <!-- BEGIN_TF_DOCS -->
@@ -276,6 +278,7 @@ object({
       content = string
       setting = string
     })), {})
+    disk_encryption_set_ids = optional(map(string), {})
   })
 ```
 
