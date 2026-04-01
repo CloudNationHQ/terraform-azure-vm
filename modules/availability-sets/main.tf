@@ -2,16 +2,16 @@
 resource "azurerm_availability_set" "avail" {
   for_each = var.availability_sets != null ? var.availability_sets : {}
 
-  location = try(
+  location = coalesce(
     each.value.location, var.location
   )
 
-  resource_group_name = try(
+  resource_group_name = coalesce(
     each.value.resource_group_name, var.resource_group_name
   )
 
-  name = try(
-    each.value.name, join("-", [var.naming.availability_set, each.key])
+  name = coalesce(
+    each.value.name, try(join("-", [var.naming.availability_set, each.key]), null)
   )
 
   managed                      = each.value.managed
