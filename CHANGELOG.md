@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.3.0...v7.3.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* replace try with coalesce for availability set attributes ([#236](https://github.com/CloudNationHQ/terraform-azure-vm/issues/236)) ([b5296f2](https://github.com/CloudNationHQ/terraform-azure-vm/commit/b5296f280f9bea9a3cc41d883e01fa8145798efb))
+
 ## [7.3.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.2.0...v7.3.0) (2026-03-31)
 
 
