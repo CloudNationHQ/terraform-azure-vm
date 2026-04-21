@@ -31,7 +31,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   proximity_placement_group_id  = var.instance.proximity_placement_group_id
   dedicated_host_group_id       = var.instance.dedicated_host_group_id
   platform_fault_domain         = var.instance.platform_fault_domain
-  source_image_id               = var.instance.source_image_id
+  source_image_id               = try(var.instance.source_image_id, null)
   dedicated_host_id             = var.instance.dedicated_host_id
   max_bid_price                 = var.instance.max_bid_price
   edge_zone                     = var.instance.edge_zone
