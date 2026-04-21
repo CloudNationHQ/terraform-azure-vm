@@ -238,11 +238,6 @@ variable "instance" {
   }
 
   validation {
-    condition     = try(var.instance.source_image_reference, null) != null || try(var.source_image_reference, null) != null || try(var.instance.source_image_id, null) != null
-    error_message = "Source image information must be provided either as source_image_id, in the instance.source_image_reference object, or as a separate source_image_reference variable."
-  }
-
-  validation {
     condition = alltrue([
       for secret in try(var.instance.secrets, {}) :
       var.instance.type == "windows"
