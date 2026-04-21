@@ -120,7 +120,7 @@ variable "instance" {
       publisher = optional(string)
       offer     = optional(string)
       sku       = optional(string)
-      version   = optional(string, "latest")
+      version   = optional(string)
     }))
     plan = optional(object({
       name      = string
