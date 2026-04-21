@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.3.2](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.3.1...v7.3.2) (2026-04-21)
+
+
+### Bug Fixes
+
+* remove defaults for os_managed_disk_id ([eca80ac](https://github.com/CloudNationHQ/terraform-azure-vm/commit/eca80ac2ef991c46264cda5c2b9d147e1c364b34))
+
 ## [7.3.1](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.3.0...v7.3.1) (2026-04-01)
 
 
