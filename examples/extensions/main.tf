@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,9 +19,8 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 9.0"
+  version = "~> 10.0"
 
-  naming = local.naming
 
   vnet = {
     name                = module.naming.virtual_network.name
@@ -40,9 +39,8 @@ module "network" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
-  naming = local.naming
 
   vault = {
     name                = module.naming.key_vault.name_unique
@@ -57,22 +55,64 @@ module "kv" {
         }
       }
     }
+
+    certs = {
+      vmcert = {
+        issuer             = "Self"
+        subject            = "CN=vm-extensions-demo"
+        validity_in_months = 12
+        key_type           = "RSA"
+        key_size           = 2048
+        reuse_key          = false
+        content_type       = "application/x-pkcs12"
+        key_usage          = ["digitalSignature", "keyEncipherment"]
+      }
+    }
   }
+}
+
+# user-assigned identity the key vault extension authenticates as (UAI is always standalone)
+module "uai" {
+  source  = "cloudnationhq/uai/azure"
+  version = "~> 3.0"
+
+  identity = {
+    name                = module.naming.user_assigned_identity.name_unique
+    resource_group_name = module.rg.groups.demo.name
+    location            = module.rg.groups.demo.location
+  }
+}
+
+# grant that identity read access to the vault so KeyVaultForWindows can pull the observed certificate
+resource "azurerm_role_assignment" "vm_kv_secrets" {
+  scope                = module.kv.vault.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = module.uai.identity.principal_id
 }
 
 module "vm1" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
-  naming = local.naming
+  # the key vault extension must run after the identity has been granted access
+  depends_on = [azurerm_role_assignment.vm_kv_secrets]
 
-  instance = {
-    type                = "windows"
+  virtual_machine = {
+    type     = "windows"
+    username = "adminuser"
+    os_disk = {
+      storage_account_type = "Standard_LRS"
+    }
     name                = module.naming.windows_virtual_machine.name_unique
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
     extensions          = local.extensions
     password            = module.kv.secrets.vm1.value
+
+    identity = {
+      type         = "UserAssigned"
+      identity_ids = [module.uai.identity.id]
+    }
 
     source_image_reference = {
       offer     = "WindowsServer"

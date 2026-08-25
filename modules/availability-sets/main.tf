@@ -1,5 +1,5 @@
 # availability sets
-resource "azurerm_availability_set" "avail" {
+resource "azurerm_availability_set" "this" {
   for_each = var.availability_sets != null ? var.availability_sets : {}
 
   location = coalesce(
@@ -11,7 +11,7 @@ resource "azurerm_availability_set" "avail" {
   )
 
   name = coalesce(
-    each.value.name, try(join("-", [var.naming.availability_set, each.key]), null)
+    each.value.name, each.key
   )
 
   managed                      = each.value.managed

@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,9 +19,8 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 9.0"
+  version = "~> 10.0"
 
-  naming = local.naming
 
   vnet = {
     name                = module.naming.virtual_network.name
@@ -40,9 +39,8 @@ module "network" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
-  naming = local.naming
 
   vault = {
     name                = module.naming.key_vault.name_unique
@@ -83,16 +81,19 @@ module "kv" {
 
 module "vm-linux-ssh" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
-  naming = local.naming
 
-  instance = {
+  virtual_machine = {
     name                = "${module.naming.linux_virtual_machine.name}-01"
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
     public_key          = module.kv.tls_public_keys.vm1.value
     type                = "linux"
+    username            = "adminuser"
+    os_disk = {
+      storage_account_type = "Standard_LRS"
+    }
 
     source_image_reference = {
       offer     = "UbuntuServer"
@@ -115,16 +116,19 @@ module "vm-linux-ssh" {
 
 module "vm-linux-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
-  naming = local.naming
 
-  instance = {
+  virtual_machine = {
     name                = "${module.naming.linux_virtual_machine.name}-02"
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
     password            = module.kv.secrets.vm2.value
     type                = "linux"
+    username            = "adminuser"
+    os_disk = {
+      storage_account_type = "Standard_LRS"
+    }
 
     source_image_reference = {
       offer     = "UbuntuServer"
@@ -147,16 +151,19 @@ module "vm-linux-password" {
 
 module "vm-windows-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
-  naming = local.naming
 
-  instance = {
+  virtual_machine = {
     name                = "${module.naming.windows_virtual_machine.name}-03"
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
     password            = module.kv.secrets.vm3.value
     type                = "windows"
+    username            = "adminuser"
+    os_disk = {
+      storage_account_type = "Standard_LRS"
+    }
 
     source_image_reference = {
       offer     = "WindowsServer"

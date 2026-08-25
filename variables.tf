@@ -1,4 +1,4 @@
-variable "instance" {
+variable "virtual_machine" {
   description = "Contains all virtual machine configuration"
   type = object({
     name                                                   = string
@@ -174,8 +174,8 @@ variable "instance" {
       publisher                   = string
       type                        = string
       type_handler_version        = string
-      settings                    = optional(map(any), {})
-      protected_settings          = optional(map(string), {})
+      settings                    = optional(string)
+      protected_settings          = optional(string)
       auto_upgrade_minor_version  = optional(bool, true)
       automatic_upgrade_enabled   = optional(bool, false)
       failure_suppression_enabled = optional(bool, false)
@@ -223,40 +223,34 @@ variable "instance" {
   })
 
   validation {
-    condition     = contains(["linux", "windows"], var.instance.type)
-    error_message = "The instance type must be either 'linux' or 'windows'."
+    condition     = contains(["linux", "windows"], var.virtual_machine.type)
+    error_message = "The virtual machine type must be either 'linux' or 'windows'."
   }
 
   validation {
-    condition     = var.instance.location != null || var.location != null
-    error_message = "Location must be provided either in the instance object or as a separate variable."
+    condition     = lookup(var.virtual_machine, "location", null) != null || var.location != null
+    error_message = "location must be set on var.virtual_machine.location or on the module-level var.location."
   }
 
   validation {
-    condition     = var.instance.resource_group_name != null || var.resource_group_name != null
-    error_message = "Resource group name must be provided either in the instance object or as a separate variable."
+    condition     = lookup(var.virtual_machine, "resource_group_name", null) != null || var.resource_group_name != null
+    error_message = "resource_group_name must be set on var.virtual_machine.resource_group_name or on the module-level var.resource_group_name."
   }
 
   validation {
-    condition     = try(var.instance.source_image_reference, null) != null || try(var.source_image_reference, null) != null || try(var.instance.source_image_id, null) != null
-    error_message = "Source image information must be provided either as source_image_id, in the instance.source_image_reference object, or as a separate source_image_reference variable."
+    condition     = try(var.virtual_machine.source_image_reference, null) != null || try(var.source_image_reference, null) != null || try(var.virtual_machine.source_image_id, null) != null
+    error_message = "Source image information must be provided either as source_image_id, in the virtual_machine.source_image_reference object, or as a separate source_image_reference variable."
   }
 
   validation {
     condition = alltrue([
-      for secret in try(var.instance.secrets, {}) :
-      var.instance.type == "windows"
+      for secret in try(var.virtual_machine.secrets, {}) :
+      var.virtual_machine.type == "windows"
       ? secret.certificate.store != null
       : lookup(secret.certificate, "store", null) == null
     ])
     error_message = "For Linux instances omit the certificate store; for Windows instances provide a certificate store value."
   }
-}
-
-variable "naming" {
-  description = "used for naming purposes"
-  type        = map(string)
-  default     = {}
 }
 
 variable "location" {
@@ -278,7 +272,7 @@ variable "tags" {
 }
 
 variable "source_image_reference" {
-  description = "Default source image reference configuration to use when not specified at the instance level"
+  description = "Default source image reference configuration to use when not specified at the virtual machine level"
   type = object({
     publisher = string
     offer     = string

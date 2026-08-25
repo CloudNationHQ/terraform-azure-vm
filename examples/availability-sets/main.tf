@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,9 +19,8 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 9.0"
+  version = "~> 10.0"
 
-  naming = local.naming
 
   vnet = {
     name                = module.naming.virtual_network.name
@@ -39,9 +38,8 @@ module "network" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
-  naming = local.naming
 
   vault = {
     name                = module.naming.key_vault.name_unique
@@ -60,15 +58,18 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
-  naming              = local.naming
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
 
-  instance = {
-    name       = module.naming.virtual_machine.name_unique
-    type       = "linux"
+  virtual_machine = {
+    name     = module.naming.virtual_machine.name_unique
+    type     = "linux"
+    username = "adminuser"
+    os_disk = {
+      storage_account_type = "Standard_LRS"
+    }
     public_key = module.kv.tls_public_keys.vm1.value
 
     source_image_reference = {
@@ -93,7 +94,7 @@ module "vm" {
 
 module "availability" {
   source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
   availability_sets = {
     demo = {

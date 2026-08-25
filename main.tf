@@ -1,72 +1,67 @@
 # linux vm
 resource "azurerm_linux_virtual_machine" "this" {
-  for_each = var.instance.type == "linux" ? { "vm" = true } : {}
+  for_each = var.virtual_machine.type == "linux" ? { "vm" = true } : {}
 
   resource_group_name = coalesce(
-    lookup(
-      var.instance, "resource_group_name", null
-    ), var.resource_group_name
+    var.virtual_machine.resource_group_name, var.resource_group_name
   )
 
   location = coalesce(
-    lookup(var.instance, "location", null
-    ), var.location
+    var.virtual_machine.location, var.location
   )
 
-  computer_name = try(
-    var.instance.computer_name, var.instance.name
+  computer_name = coalesce(
+    var.virtual_machine.computer_name, var.virtual_machine.name
   )
 
-  name                          = var.instance.name
-  size                          = var.instance.size
-  admin_username                = var.instance.username
-  admin_password                = var.instance.password
-  license_type                  = var.instance.license_type
-  allow_extension_operations    = var.instance.allow_extension_operations
-  availability_set_id           = var.instance.availability_set_id
-  custom_data                   = var.instance.custom_data
-  user_data                     = var.instance.user_data
-  capacity_reservation_group_id = var.instance.capacity_reservation_group_id
-  virtual_machine_scale_set_id  = var.instance.virtual_machine_scale_set_id
-  proximity_placement_group_id  = var.instance.proximity_placement_group_id
-  dedicated_host_group_id       = var.instance.dedicated_host_group_id
-  platform_fault_domain         = var.instance.platform_fault_domain
-  source_image_id               = var.instance.source_image_id
-  dedicated_host_id             = var.instance.dedicated_host_id
-  max_bid_price                 = var.instance.max_bid_price
-  edge_zone                     = var.instance.edge_zone
-  encryption_at_host_enabled    = var.instance.encryption_at_host_enabled
-  extensions_time_budget        = var.instance.extensions_time_budget
-  patch_assessment_mode         = var.instance.patch_assessment_mode
-  priority                      = var.instance.priority
-  provision_vm_agent            = var.instance.provision_vm_agent
-  reboot_setting                = var.instance.reboot_setting
-  secure_boot_enabled           = var.instance.secure_boot_enabled
-  vtpm_enabled                  = var.instance.vtpm_enabled
-  eviction_policy               = var.instance.eviction_policy
-  disk_controller_type          = var.instance.disk_controller_type
-  os_managed_disk_id            = var.instance.os_managed_disk_id
-  zone                          = var.instance.zone
+  name                          = var.virtual_machine.name
+  size                          = var.virtual_machine.size
+  admin_username                = var.virtual_machine.username
+  admin_password                = var.virtual_machine.password
+  license_type                  = var.virtual_machine.license_type
+  allow_extension_operations    = var.virtual_machine.allow_extension_operations
+  availability_set_id           = var.virtual_machine.availability_set_id
+  custom_data                   = var.virtual_machine.custom_data
+  user_data                     = var.virtual_machine.user_data
+  capacity_reservation_group_id = var.virtual_machine.capacity_reservation_group_id
+  virtual_machine_scale_set_id  = var.virtual_machine.virtual_machine_scale_set_id
+  proximity_placement_group_id  = var.virtual_machine.proximity_placement_group_id
+  dedicated_host_group_id       = var.virtual_machine.dedicated_host_group_id
+  platform_fault_domain         = var.virtual_machine.platform_fault_domain
+  source_image_id               = var.virtual_machine.source_image_id
+  dedicated_host_id             = var.virtual_machine.dedicated_host_id
+  max_bid_price                 = var.virtual_machine.max_bid_price
+  edge_zone                     = var.virtual_machine.edge_zone
+  encryption_at_host_enabled    = var.virtual_machine.encryption_at_host_enabled
+  extensions_time_budget        = var.virtual_machine.extensions_time_budget
+  patch_assessment_mode         = var.virtual_machine.patch_assessment_mode
+  priority                      = var.virtual_machine.priority
+  provision_vm_agent            = var.virtual_machine.provision_vm_agent
+  reboot_setting                = var.virtual_machine.reboot_setting
+  secure_boot_enabled           = var.virtual_machine.secure_boot_enabled
+  vtpm_enabled                  = var.virtual_machine.vtpm_enabled
+  eviction_policy               = var.virtual_machine.eviction_policy
+  disk_controller_type          = var.virtual_machine.disk_controller_type
+  os_managed_disk_id            = var.virtual_machine.os_managed_disk_id
+  zone                          = var.virtual_machine.zone
 
   disable_password_authentication = (
-    try(var.instance.password, null) != null ? false : try(var.instance.public_key, null) != null ? true : try(var.instance.disable_password_authentication, true)
+    var.virtual_machine.password != null ? false : var.virtual_machine.public_key != null ? true : var.virtual_machine.disable_password_authentication
   )
 
   tags = coalesce(
-    var.instance.tags, var.tags
+    var.virtual_machine.tags, var.tags
   )
 
   # diffent defaults for windows and linux
-  patch_mode = try(
-    var.instance.patch_mode, "ImageDefault"
+  patch_mode = coalesce(
+    var.virtual_machine.patch_mode, "ImageDefault"
   )
 
-  bypass_platform_safety_checks_on_user_schedule_enabled = var.instance.bypass_platform_safety_checks_on_user_schedule_enabled
+  bypass_platform_safety_checks_on_user_schedule_enabled = var.virtual_machine.bypass_platform_safety_checks_on_user_schedule_enabled
 
   dynamic "secret" {
-    for_each = try(
-      var.instance.secrets, {}
-    )
+    for_each = var.virtual_machine.secrets
 
     content {
       key_vault_id = secret.value.key_vault_id
@@ -78,7 +73,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "termination_notification" {
-    for_each = var.instance.termination_notification != null ? [var.instance.termination_notification] : []
+    for_each = var.virtual_machine.termination_notification != null ? [var.virtual_machine.termination_notification] : []
 
     content {
       enabled = termination_notification.value.enabled
@@ -87,7 +82,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "os_image_notification" {
-    for_each = var.instance.os_image_notification != null ? [var.instance.os_image_notification] : []
+    for_each = var.virtual_machine.os_image_notification != null ? [var.virtual_machine.os_image_notification] : []
 
     content {
       timeout = os_image_notification.value.timeout
@@ -96,7 +91,7 @@ resource "azurerm_linux_virtual_machine" "this" {
 
 
   dynamic "additional_capabilities" {
-    for_each = var.instance.additional_capabilities != null ? [var.instance.additional_capabilities] : []
+    for_each = var.virtual_machine.additional_capabilities != null ? [var.virtual_machine.additional_capabilities] : []
 
     content {
       ultra_ssd_enabled   = additional_capabilities.value.ultra_ssd_enabled
@@ -105,7 +100,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "boot_diagnostics" {
-    for_each = var.instance.boot_diagnostics != null ? [var.instance.boot_diagnostics] : []
+    for_each = var.virtual_machine.boot_diagnostics != null ? [var.virtual_machine.boot_diagnostics] : []
 
     content {
       storage_account_uri = boot_diagnostics.value.storage_account_uri
@@ -113,31 +108,31 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   network_interface_ids = [
-    for interface_key, nic in var.instance.interfaces :
+    for interface_key, nic in var.virtual_machine.interfaces :
     azurerm_network_interface.this[interface_key].id
   ]
 
   dynamic "admin_ssh_key" {
-    for_each = try(var.instance.public_key, null) != null ? [1] : []
+    for_each = var.virtual_machine.public_key != null ? [1] : []
 
     content {
-      username   = var.instance.username
-      public_key = var.instance.public_key
+      username   = var.virtual_machine.username
+      public_key = var.virtual_machine.public_key
     }
   }
 
   os_disk {
-    name                             = var.instance.os_disk.name
-    storage_account_type             = var.instance.os_disk.storage_account_type
-    caching                          = var.instance.os_disk.caching
-    disk_size_gb                     = var.instance.os_disk.disk_size_gb
-    security_encryption_type         = var.instance.os_disk.security_encryption_type
-    write_accelerator_enabled        = var.instance.os_disk.write_accelerator_enabled
-    disk_encryption_set_id           = var.instance.os_disk.disk_encryption_set_id
-    secure_vm_disk_encryption_set_id = var.instance.os_disk.secure_vm_disk_encryption_set_id
+    name                             = var.virtual_machine.os_disk.name
+    storage_account_type             = var.virtual_machine.os_disk.storage_account_type
+    caching                          = var.virtual_machine.os_disk.caching
+    disk_size_gb                     = var.virtual_machine.os_disk.disk_size_gb
+    security_encryption_type         = var.virtual_machine.os_disk.security_encryption_type
+    write_accelerator_enabled        = var.virtual_machine.os_disk.write_accelerator_enabled
+    disk_encryption_set_id           = var.virtual_machine.os_disk.disk_encryption_set_id
+    secure_vm_disk_encryption_set_id = var.virtual_machine.os_disk.secure_vm_disk_encryption_set_id
 
     dynamic "diff_disk_settings" {
-      for_each = var.instance.os_disk.diff_disk_settings != null ? [var.instance.os_disk.diff_disk_settings] : []
+      for_each = var.virtual_machine.os_disk.diff_disk_settings != null ? [var.virtual_machine.os_disk.diff_disk_settings] : []
 
       content {
         option    = diff_disk_settings.value.option
@@ -147,9 +142,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "gallery_application" {
-    for_each = try(
-      var.instance.gallery_applications, {}
-    )
+    for_each = var.virtual_machine.gallery_applications
 
     content {
       tag                                         = gallery_application.value.tag
@@ -162,26 +155,26 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "source_image_reference" {
-    for_each = try(var.instance.source_image_id, null) == null ? [true] : []
+    for_each = var.virtual_machine.source_image_id == null ? [true] : []
 
     content {
       publisher = try(
-        var.instance.source_image_reference.publisher, var.source_image_reference != null ? var.source_image_reference.publisher : null
+        var.virtual_machine.source_image_reference.publisher, var.source_image_reference != null ? var.source_image_reference.publisher : null
       )
       offer = try(
-        var.instance.source_image_reference.offer, var.source_image_reference != null ? var.source_image_reference.offer : null
+        var.virtual_machine.source_image_reference.offer, var.source_image_reference != null ? var.source_image_reference.offer : null
       )
       sku = try(
-        var.instance.source_image_reference.sku, var.source_image_reference != null ? var.source_image_reference.sku : null
+        var.virtual_machine.source_image_reference.sku, var.source_image_reference != null ? var.source_image_reference.sku : null
       )
       version = try(
-        var.instance.source_image_reference.version, var.source_image_reference != null ? var.source_image_reference.version : null
+        var.virtual_machine.source_image_reference.version, var.source_image_reference != null ? var.source_image_reference.version : null
       )
     }
   }
 
   dynamic "plan" {
-    for_each = var.instance.plan != null ? [var.instance.plan] : []
+    for_each = var.virtual_machine.plan != null ? [var.virtual_machine.plan] : []
 
     content {
       name      = plan.value.name
@@ -191,7 +184,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "identity" {
-    for_each = lookup(var.instance, "identity", null) != null ? [var.instance.identity] : []
+    for_each = var.virtual_machine.identity != null ? [var.virtual_machine.identity] : []
 
     content {
       type         = identity.value.type
@@ -202,77 +195,72 @@ resource "azurerm_linux_virtual_machine" "this" {
 
 # windows vm
 resource "azurerm_windows_virtual_machine" "this" {
-  for_each = var.instance.type == "windows" ? { "vm" = true } : {}
+  for_each = var.virtual_machine.type == "windows" ? { "vm" = true } : {}
 
   resource_group_name = coalesce(
-    lookup(
-      var.instance, "resource_group_name", null
-    ), var.resource_group_name
+    var.virtual_machine.resource_group_name, var.resource_group_name
   )
 
   location = coalesce(
-    lookup(var.instance, "location", null
-    ), var.location
+    var.virtual_machine.location, var.location
   )
 
-  computer_name = try(
-    var.instance.computer_name, var.instance.name
+  computer_name = coalesce(
+    var.virtual_machine.computer_name, var.virtual_machine.name
   )
 
-  name                          = var.instance.name
-  size                          = var.instance.size
-  admin_username                = var.instance.username
-  admin_password                = var.instance.password
-  allow_extension_operations    = var.instance.allow_extension_operations
-  availability_set_id           = var.instance.availability_set_id
-  custom_data                   = var.instance.custom_data
-  user_data                     = var.instance.user_data
-  automatic_updates_enabled     = var.instance.automatic_updates_enabled
-  encryption_at_host_enabled    = var.instance.encryption_at_host_enabled
-  eviction_policy               = var.instance.eviction_policy
-  hotpatching_enabled           = var.instance.hotpatching_enabled
-  patch_assessment_mode         = var.instance.patch_assessment_mode
-  priority                      = var.instance.priority
-  reboot_setting                = var.instance.reboot_setting
-  secure_boot_enabled           = var.instance.secure_boot_enabled
-  license_type                  = var.instance.license_type
-  max_bid_price                 = var.instance.max_bid_price
-  edge_zone                     = var.instance.edge_zone
-  dedicated_host_id             = var.instance.dedicated_host_id
-  source_image_id               = var.instance.source_image_id
-  platform_fault_domain         = var.instance.platform_fault_domain
-  extensions_time_budget        = var.instance.extensions_time_budget
-  dedicated_host_group_id       = var.instance.dedicated_host_group_id
-  proximity_placement_group_id  = var.instance.proximity_placement_group_id
-  capacity_reservation_group_id = var.instance.capacity_reservation_group_id
-  timezone                      = var.instance.timezone
-  virtual_machine_scale_set_id  = var.instance.virtual_machine_scale_set_id
-  vtpm_enabled                  = var.instance.vtpm_enabled
-  zone                          = var.instance.zone
-  provision_vm_agent            = var.instance.provision_vm_agent
-  disk_controller_type          = var.instance.disk_controller_type
-  os_managed_disk_id            = var.instance.os_managed_disk_id
+  name                          = var.virtual_machine.name
+  size                          = var.virtual_machine.size
+  admin_username                = var.virtual_machine.username
+  admin_password                = var.virtual_machine.password
+  allow_extension_operations    = var.virtual_machine.allow_extension_operations
+  availability_set_id           = var.virtual_machine.availability_set_id
+  custom_data                   = var.virtual_machine.custom_data
+  user_data                     = var.virtual_machine.user_data
+  automatic_updates_enabled     = var.virtual_machine.automatic_updates_enabled
+  encryption_at_host_enabled    = var.virtual_machine.encryption_at_host_enabled
+  eviction_policy               = var.virtual_machine.eviction_policy
+  hotpatching_enabled           = var.virtual_machine.hotpatching_enabled
+  patch_assessment_mode         = var.virtual_machine.patch_assessment_mode
+  priority                      = var.virtual_machine.priority
+  reboot_setting                = var.virtual_machine.reboot_setting
+  secure_boot_enabled           = var.virtual_machine.secure_boot_enabled
+  license_type                  = var.virtual_machine.license_type
+  max_bid_price                 = var.virtual_machine.max_bid_price
+  edge_zone                     = var.virtual_machine.edge_zone
+  dedicated_host_id             = var.virtual_machine.dedicated_host_id
+  source_image_id               = var.virtual_machine.source_image_id
+  platform_fault_domain         = var.virtual_machine.platform_fault_domain
+  extensions_time_budget        = var.virtual_machine.extensions_time_budget
+  dedicated_host_group_id       = var.virtual_machine.dedicated_host_group_id
+  proximity_placement_group_id  = var.virtual_machine.proximity_placement_group_id
+  capacity_reservation_group_id = var.virtual_machine.capacity_reservation_group_id
+  timezone                      = var.virtual_machine.timezone
+  virtual_machine_scale_set_id  = var.virtual_machine.virtual_machine_scale_set_id
+  vtpm_enabled                  = var.virtual_machine.vtpm_enabled
+  zone                          = var.virtual_machine.zone
+  provision_vm_agent            = var.virtual_machine.provision_vm_agent
+  disk_controller_type          = var.virtual_machine.disk_controller_type
+  os_managed_disk_id            = var.virtual_machine.os_managed_disk_id
 
   # diffent defaults for windows and linux
-  patch_mode = try(
-    var.instance.patch_mode, "AutomaticByOS"
+  patch_mode = coalesce(
+    var.virtual_machine.patch_mode, "AutomaticByOS"
   )
 
   tags = coalesce(
-    var.instance.tags, var.tags
+    var.virtual_machine.tags, var.tags
   )
 
-  bypass_platform_safety_checks_on_user_schedule_enabled = var.instance.bypass_platform_safety_checks_on_user_schedule_enabled
+  bypass_platform_safety_checks_on_user_schedule_enabled = var.virtual_machine.bypass_platform_safety_checks_on_user_schedule_enabled
 
   network_interface_ids = [
-    for interface_key, nic in var.instance.interfaces :
+    for interface_key, nic in var.virtual_machine.interfaces :
     azurerm_network_interface.this[interface_key].id
   ]
 
   dynamic "winrm_listener" {
-    for_each = try(
-      var.instance.winrm_listeners, {}
-    )
+    for_each = var.virtual_machine.winrm_listeners
 
     content {
       protocol        = winrm_listener.value.protocol
@@ -281,9 +269,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "secret" {
-    for_each = try(
-      var.instance.secrets, {}
-    )
+    for_each = var.virtual_machine.secrets
 
     content {
       key_vault_id = secret.value.key_vault_id
@@ -296,7 +282,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "os_image_notification" {
-    for_each = var.instance.os_image_notification != null ? [var.instance.os_image_notification] : []
+    for_each = var.virtual_machine.os_image_notification != null ? [var.virtual_machine.os_image_notification] : []
 
     content {
       timeout = os_image_notification.value.timeout
@@ -304,9 +290,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "gallery_application" {
-    for_each = try(
-      var.instance.gallery_applications, {}
-    )
+    for_each = var.virtual_machine.gallery_applications
 
     content {
       tag                                         = gallery_application.value.tag
@@ -319,7 +303,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "termination_notification" {
-    for_each = var.instance.termination_notification != null ? [var.instance.termination_notification] : []
+    for_each = var.virtual_machine.termination_notification != null ? [var.virtual_machine.termination_notification] : []
 
     content {
       enabled = termination_notification.value.enabled
@@ -328,7 +312,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "additional_capabilities" {
-    for_each = var.instance.additional_capabilities != null ? [var.instance.additional_capabilities] : []
+    for_each = var.virtual_machine.additional_capabilities != null ? [var.virtual_machine.additional_capabilities] : []
 
     content {
       ultra_ssd_enabled   = additional_capabilities.value.ultra_ssd_enabled
@@ -337,7 +321,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "boot_diagnostics" {
-    for_each = var.instance.boot_diagnostics != null ? [var.instance.boot_diagnostics] : []
+    for_each = var.virtual_machine.boot_diagnostics != null ? [var.virtual_machine.boot_diagnostics] : []
 
     content {
       storage_account_uri = boot_diagnostics.value.storage_account_uri
@@ -345,17 +329,17 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   os_disk {
-    storage_account_type             = var.instance.os_disk.storage_account_type
-    caching                          = var.instance.os_disk.caching
-    disk_size_gb                     = var.instance.os_disk.disk_size_gb
-    write_accelerator_enabled        = var.instance.os_disk.write_accelerator_enabled
-    disk_encryption_set_id           = var.instance.os_disk.disk_encryption_set_id
-    security_encryption_type         = var.instance.os_disk.security_encryption_type
-    secure_vm_disk_encryption_set_id = var.instance.os_disk.secure_vm_disk_encryption_set_id
-    name                             = var.instance.os_disk.name
+    storage_account_type             = var.virtual_machine.os_disk.storage_account_type
+    caching                          = var.virtual_machine.os_disk.caching
+    disk_size_gb                     = var.virtual_machine.os_disk.disk_size_gb
+    write_accelerator_enabled        = var.virtual_machine.os_disk.write_accelerator_enabled
+    disk_encryption_set_id           = var.virtual_machine.os_disk.disk_encryption_set_id
+    security_encryption_type         = var.virtual_machine.os_disk.security_encryption_type
+    secure_vm_disk_encryption_set_id = var.virtual_machine.os_disk.secure_vm_disk_encryption_set_id
+    name                             = var.virtual_machine.os_disk.name
 
     dynamic "diff_disk_settings" {
-      for_each = var.instance.os_disk.diff_disk_settings != null ? [var.instance.os_disk.diff_disk_settings] : []
+      for_each = var.virtual_machine.os_disk.diff_disk_settings != null ? [var.virtual_machine.os_disk.diff_disk_settings] : []
 
       content {
         option    = diff_disk_settings.value.option
@@ -365,9 +349,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "additional_unattend_content" {
-    for_each = try(
-      var.instance.additional_unattend_content, {}
-    )
+    for_each = var.virtual_machine.additional_unattend_content
 
     content {
       content = additional_unattend_content.value.content
@@ -376,26 +358,26 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "source_image_reference" {
-    for_each = try(var.instance.source_image_id, null) == null ? [true] : []
+    for_each = var.virtual_machine.source_image_id == null ? [true] : []
 
     content {
       publisher = try(
-        var.instance.source_image_reference.publisher, var.source_image_reference != null ? var.source_image_reference.publisher : null
+        var.virtual_machine.source_image_reference.publisher, var.source_image_reference != null ? var.source_image_reference.publisher : null
       )
       offer = try(
-        var.instance.source_image_reference.offer, var.source_image_reference != null ? var.source_image_reference.offer : null
+        var.virtual_machine.source_image_reference.offer, var.source_image_reference != null ? var.source_image_reference.offer : null
       )
       sku = try(
-        var.instance.source_image_reference.sku, var.source_image_reference != null ? var.source_image_reference.sku : null
+        var.virtual_machine.source_image_reference.sku, var.source_image_reference != null ? var.source_image_reference.sku : null
       )
       version = try(
-        var.instance.source_image_reference.version, var.source_image_reference != null ? var.source_image_reference.version : null
+        var.virtual_machine.source_image_reference.version, var.source_image_reference != null ? var.source_image_reference.version : null
       )
     }
   }
 
   dynamic "plan" {
-    for_each = var.instance.plan != null ? [var.instance.plan] : []
+    for_each = var.virtual_machine.plan != null ? [var.virtual_machine.plan] : []
 
     content {
       name      = plan.value.name
@@ -405,7 +387,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "identity" {
-    for_each = lookup(var.instance, "identity", null) != null ? [var.instance.identity] : []
+    for_each = var.virtual_machine.identity != null ? [var.virtual_machine.identity] : []
 
     content {
       type         = identity.value.type
@@ -416,25 +398,19 @@ resource "azurerm_windows_virtual_machine" "this" {
 
 # interfaces
 resource "azurerm_network_interface" "this" {
-  for_each = {
-    for interface_key, nic in lookup(var.instance, "interfaces", {}) :
-    interface_key => nic
-  }
+  for_each = var.virtual_machine.interfaces
 
   resource_group_name = coalesce(
-    lookup(
-      var.instance, "resource_group_name", null
-    ), var.resource_group_name
+    var.virtual_machine.resource_group_name, var.resource_group_name
   )
 
   location = coalesce(
-    lookup(var.instance, "location", null
-    ), var.location
+    var.virtual_machine.location, var.location
   )
 
   name = coalesce(
-    lookup(each.value, "name", null),
-    lookup(var.naming, "network_interface", null) != null ? join("-", [var.naming.network_interface, var.instance.name, each.key]) : join("-", [var.instance.name, each.key])
+    each.value.name,
+    join("-", [var.virtual_machine.name, each.key])
   )
 
   ip_forwarding_enabled          = each.value.ip_forwarding_enabled
@@ -457,7 +433,7 @@ resource "azurerm_network_interface" "this" {
         ip_configuration.value.name, ip_configuration.key
       )
 
-      private_ip_address_allocation                      = try(ip_configuration.value.private_ip_address, null) != null ? "Static" : "Dynamic"
+      private_ip_address_allocation                      = ip_configuration.value.private_ip_address != null ? "Static" : "Dynamic"
       private_ip_address                                 = ip_configuration.value.private_ip_address
       public_ip_address_id                               = ip_configuration.value.public_ip_address_id
       subnet_id                                          = ip_configuration.value.subnet_id
@@ -469,18 +445,16 @@ resource "azurerm_network_interface" "this" {
 }
 
 resource "azurerm_virtual_machine_extension" "this" {
-  for_each = try(
-    var.instance.extensions, {}
-  )
+  for_each = var.virtual_machine.extensions
 
-  name                       = lookup(each.value, "name", null) != null ? each.value.name : element(split("-", each.key), length(split("-", each.key)) - 1)
-  virtual_machine_id         = var.instance.type == "linux" ? azurerm_linux_virtual_machine.this["vm"].id : azurerm_windows_virtual_machine.this["vm"].id
+  name                       = coalesce(each.value.name, element(split("-", each.key), length(split("-", each.key)) - 1))
+  virtual_machine_id         = var.virtual_machine.type == "linux" ? azurerm_linux_virtual_machine.this["vm"].id : azurerm_windows_virtual_machine.this["vm"].id
   publisher                  = each.value.publisher
   type                       = each.value.type
   type_handler_version       = each.value.type_handler_version
   auto_upgrade_minor_version = each.value.auto_upgrade_minor_version
-  settings                   = length(try(each.value.settings, {})) > 0 ? jsonencode(each.value.settings) : null
-  protected_settings         = length(try(each.value.protected_settings, {})) > 0 ? jsonencode(each.value.protected_settings) : null
+  settings                   = each.value.settings
+  protected_settings         = each.value.protected_settings
 
   provision_after_extensions  = each.value.provision_after_extensions
   failure_suppression_enabled = each.value.failure_suppression_enabled
@@ -502,30 +476,24 @@ resource "azurerm_virtual_machine_extension" "this" {
 
 # data disks
 resource "azurerm_managed_disk" "this" {
-  for_each = try(
-    var.instance.disks, {}
-  )
+  for_each = var.virtual_machine.disks
 
   resource_group_name = coalesce(
-    lookup(
-      var.instance, "resource_group_name", null
-    ), var.resource_group_name
+    var.virtual_machine.resource_group_name, var.resource_group_name
   )
 
   location = coalesce(
-    lookup(
-      var.instance, "location", null
-    ), var.location
+    var.virtual_machine.location, var.location
   )
 
   name = coalesce(
-    lookup(each.value, "name", null),
-    lookup(var.naming, "managed_disk", null) != null ? join("-", [var.naming.managed_disk, each.key]) : null
+    each.value.name,
+    join("-", [var.virtual_machine.name, each.key])
   )
 
   zone = try(
     coalesce(
-      each.value.disk.zone, var.instance.zone
+      each.value.disk.zone, var.virtual_machine.zone
     ), null
   )
 
@@ -548,7 +516,7 @@ resource "azurerm_managed_disk" "this" {
   source_resource_id                = each.value.source_resource_id
   image_reference_id                = each.value.image_reference_id
   secure_vm_disk_encryption_set_id  = each.value.secure_vm_disk_encryption_set_id
-  disk_encryption_set_id            = lookup(var.instance.disk_encryption_set_ids, each.key, each.value.disk_encryption_set_id)
+  disk_encryption_set_id            = lookup(var.virtual_machine.disk_encryption_set_ids, each.key, each.value.disk_encryption_set_id)
   security_type                     = each.value.security_type
   disk_access_id                    = each.value.disk_access_id
   hyper_v_generation                = each.value.hyper_v_generation
@@ -569,12 +537,10 @@ resource "azurerm_managed_disk" "this" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "this" {
-  for_each = {
-    for disk_key, disk in try(var.instance.disks, {}) : disk_key => disk
-  }
+  for_each = var.virtual_machine.disks
 
   managed_disk_id           = azurerm_managed_disk.this[each.key].id
-  virtual_machine_id        = var.instance.type == "linux" ? azurerm_linux_virtual_machine.this["vm"].id : azurerm_windows_virtual_machine.this["vm"].id
+  virtual_machine_id        = var.virtual_machine.type == "linux" ? azurerm_linux_virtual_machine.this["vm"].id : azurerm_windows_virtual_machine.this["vm"].id
   lun                       = each.value.lun
   caching                   = each.value.caching
   write_accelerator_enabled = each.value.write_accelerator_enabled

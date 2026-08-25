@@ -29,13 +29,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
@@ -52,7 +52,7 @@ The following resources are used by this module:
 
 The following input variables are required:
 
-### <a name="input_instance"></a> [instance](#input\_instance)
+### <a name="input_virtual_machine"></a> [virtual\_machine](#input\_virtual\_machine)
 
 Description: Contains all virtual machine configuration
 
@@ -66,7 +66,7 @@ object({
     location                                               = optional(string)
     size                                                   = optional(string, "Standard_D2s_v3")
     computer_name                                          = optional(string)
-    username                                               = optional(string, "adminuser")
+    username                                               = optional(string)
     password                                               = optional(string)
     public_key                                             = optional(string)
     license_type                                           = optional(string)
@@ -86,15 +86,15 @@ object({
     disable_password_authentication                        = optional(bool, true)
     encryption_at_host_enabled                             = optional(bool, false)
     extensions_time_budget                                 = optional(string)
-    patch_assessment_mode                                  = optional(string, "ImageDefault")
+    patch_assessment_mode                                  = optional(string)
     patch_mode                                             = optional(string)
     priority                                               = optional(string, "Regular")
-    provision_vm_agent                                     = optional(bool, true)
+    provision_vm_agent                                     = optional(bool)
     reboot_setting                                         = optional(string)
     secure_boot_enabled                                    = optional(bool, false)
     vtpm_enabled                                           = optional(bool, false)
     zone                                                   = optional(string)
-    bypass_platform_safety_checks_on_user_schedule_enabled = optional(bool, false)
+    bypass_platform_safety_checks_on_user_schedule_enabled = optional(bool)
     disk_controller_type                                   = optional(string)
     eviction_policy                                        = optional(string)
     os_managed_disk_id                                     = optional(string)
@@ -163,7 +163,7 @@ object({
     }), { enable = false })
     os_disk = optional(object({
       name                             = optional(string)
-      storage_account_type             = optional(string, "StandardSSD_LRS")
+      storage_account_type             = optional(string)
       caching                          = optional(string, "ReadWrite")
       disk_size_gb                     = optional(number)
       security_encryption_type         = optional(string)
@@ -180,7 +180,7 @@ object({
       offer     = optional(string)
       sku       = optional(string)
       version   = optional(string, "latest")
-    }), null)
+    }))
     plan = optional(object({
       name      = string
       product   = string
@@ -233,8 +233,8 @@ object({
       publisher                   = string
       type                        = string
       type_handler_version        = string
-      settings                    = optional(map(any), {})
-      protected_settings          = optional(map(string), {})
+      settings                    = optional(string)
+      protected_settings          = optional(string)
       auto_upgrade_minor_version  = optional(bool, true)
       automatic_upgrade_enabled   = optional(bool, false)
       failure_suppression_enabled = optional(bool, false)
@@ -294,14 +294,6 @@ Type: `string`
 
 Default: `null`
 
-### <a name="input_naming"></a> [naming](#input\_naming)
-
-Description: used for naming purposes
-
-Type: `map(string)`
-
-Default: `{}`
-
 ### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
 
 Description: default resource group and can be used if resourcegroup is not specified inside the object.
@@ -312,7 +304,7 @@ Default: `null`
 
 ### <a name="input_source_image_reference"></a> [source\_image\_reference](#input\_source\_image\_reference)
 
-Description: Default source image reference configuration to use when not specified at the instance level
+Description: Default source image reference configuration to use when not specified at the virtual machine level
 
 Type:
 
@@ -351,13 +343,13 @@ Description: contains all managed disks config
 
 Description: contains all virtual machine extensions config
 
-### <a name="output_instance"></a> [instance](#output\_instance)
-
-Description: contains all virtual machine config
-
 ### <a name="output_network_interfaces"></a> [network\_interfaces](#output\_network\_interfaces)
 
 Description: contains all network interfaces config
+
+### <a name="output_virtual_machine"></a> [virtual\_machine](#output\_virtual\_machine)
+
+Description: contains all virtual machine config
 <!-- END_TF_DOCS -->
 
 ## Goals
