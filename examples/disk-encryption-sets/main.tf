@@ -99,6 +99,7 @@ module "vm" {
   virtual_machine = {
     name     = module.naming.linux_virtual_machine.name_unique
     type     = "linux"
+    size     = "Standard_D2s_v3"
     username = "adminuser"
     os_disk = {
       storage_account_type = "Standard_LRS"

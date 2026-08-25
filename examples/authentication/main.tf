@@ -90,6 +90,7 @@ module "vm-linux-ssh" {
     resource_group_name = module.rg.groups.demo.name
     public_key          = module.kv.tls_public_keys.vm1.value
     type                = "linux"
+    size                = "Standard_D2s_v3"
     username            = "adminuser"
     os_disk = {
       storage_account_type = "Standard_LRS"
@@ -125,6 +126,7 @@ module "vm-linux-password" {
     resource_group_name = module.rg.groups.demo.name
     password            = module.kv.secrets.vm2.value
     type                = "linux"
+    size                = "Standard_D2s_v3"
     username            = "adminuser"
     os_disk = {
       storage_account_type = "Standard_LRS"
@@ -160,6 +162,7 @@ module "vm-windows-password" {
     resource_group_name = module.rg.groups.demo.name
     password            = module.kv.secrets.vm3.value
     type                = "windows"
+    size                = "Standard_D2s_v3"
     username            = "adminuser"
     os_disk = {
       storage_account_type = "Standard_LRS"

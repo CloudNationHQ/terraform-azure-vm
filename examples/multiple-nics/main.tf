@@ -69,6 +69,7 @@ module "vm" {
 
   virtual_machine = {
     type     = "windows"
+    size     = "Standard_D2s_v3"
     username = "adminuser"
     os_disk = {
       storage_account_type = "Standard_LRS"
