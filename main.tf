@@ -73,7 +73,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "termination_notification" {
-    for_each = var.virtual_machine.termination_notification != null ? [var.virtual_machine.termination_notification] : []
+    for_each = var.virtual_machine.termination_notification != null ? { "this" = var.virtual_machine.termination_notification } : {}
 
     content {
       enabled = termination_notification.value.enabled
@@ -82,7 +82,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "os_image_notification" {
-    for_each = var.virtual_machine.os_image_notification != null ? [var.virtual_machine.os_image_notification] : []
+    for_each = var.virtual_machine.os_image_notification != null ? { "this" = var.virtual_machine.os_image_notification } : {}
 
     content {
       timeout = os_image_notification.value.timeout
@@ -91,7 +91,7 @@ resource "azurerm_linux_virtual_machine" "this" {
 
 
   dynamic "additional_capabilities" {
-    for_each = var.virtual_machine.additional_capabilities != null ? [var.virtual_machine.additional_capabilities] : []
+    for_each = var.virtual_machine.additional_capabilities != null ? { "this" = var.virtual_machine.additional_capabilities } : {}
 
     content {
       ultra_ssd_enabled   = additional_capabilities.value.ultra_ssd_enabled
@@ -100,7 +100,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "boot_diagnostics" {
-    for_each = var.virtual_machine.boot_diagnostics != null ? [var.virtual_machine.boot_diagnostics] : []
+    for_each = var.virtual_machine.boot_diagnostics != null ? { "this" = var.virtual_machine.boot_diagnostics } : {}
 
     content {
       storage_account_uri = boot_diagnostics.value.storage_account_uri
@@ -113,7 +113,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   ]
 
   dynamic "admin_ssh_key" {
-    for_each = var.virtual_machine.public_key != null ? [1] : []
+    for_each = var.virtual_machine.public_key != null ? { "this" = var.virtual_machine.public_key } : {}
 
     content {
       username   = var.virtual_machine.username
@@ -132,7 +132,7 @@ resource "azurerm_linux_virtual_machine" "this" {
     secure_vm_disk_encryption_set_id = var.virtual_machine.os_disk.secure_vm_disk_encryption_set_id
 
     dynamic "diff_disk_settings" {
-      for_each = var.virtual_machine.os_disk.diff_disk_settings != null ? [var.virtual_machine.os_disk.diff_disk_settings] : []
+      for_each = var.virtual_machine.os_disk.diff_disk_settings != null ? { "this" = var.virtual_machine.os_disk.diff_disk_settings } : {}
 
       content {
         option    = diff_disk_settings.value.option
@@ -155,7 +155,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "source_image_reference" {
-    for_each = var.virtual_machine.source_image_id == null ? [true] : []
+    for_each = var.virtual_machine.source_image_id == null ? { "this" = true } : {}
 
     content {
       publisher = try(
@@ -174,7 +174,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "plan" {
-    for_each = var.virtual_machine.plan != null ? [var.virtual_machine.plan] : []
+    for_each = var.virtual_machine.plan != null ? { "this" = var.virtual_machine.plan } : {}
 
     content {
       name      = plan.value.name
@@ -184,7 +184,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   dynamic "identity" {
-    for_each = var.virtual_machine.identity != null ? [var.virtual_machine.identity] : []
+    for_each = var.virtual_machine.identity != null ? { "this" = var.virtual_machine.identity } : {}
 
     content {
       type         = identity.value.type
@@ -282,7 +282,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "os_image_notification" {
-    for_each = var.virtual_machine.os_image_notification != null ? [var.virtual_machine.os_image_notification] : []
+    for_each = var.virtual_machine.os_image_notification != null ? { "this" = var.virtual_machine.os_image_notification } : {}
 
     content {
       timeout = os_image_notification.value.timeout
@@ -303,7 +303,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "termination_notification" {
-    for_each = var.virtual_machine.termination_notification != null ? [var.virtual_machine.termination_notification] : []
+    for_each = var.virtual_machine.termination_notification != null ? { "this" = var.virtual_machine.termination_notification } : {}
 
     content {
       enabled = termination_notification.value.enabled
@@ -312,7 +312,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "additional_capabilities" {
-    for_each = var.virtual_machine.additional_capabilities != null ? [var.virtual_machine.additional_capabilities] : []
+    for_each = var.virtual_machine.additional_capabilities != null ? { "this" = var.virtual_machine.additional_capabilities } : {}
 
     content {
       ultra_ssd_enabled   = additional_capabilities.value.ultra_ssd_enabled
@@ -321,7 +321,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "boot_diagnostics" {
-    for_each = var.virtual_machine.boot_diagnostics != null ? [var.virtual_machine.boot_diagnostics] : []
+    for_each = var.virtual_machine.boot_diagnostics != null ? { "this" = var.virtual_machine.boot_diagnostics } : {}
 
     content {
       storage_account_uri = boot_diagnostics.value.storage_account_uri
@@ -339,7 +339,7 @@ resource "azurerm_windows_virtual_machine" "this" {
     name                             = var.virtual_machine.os_disk.name
 
     dynamic "diff_disk_settings" {
-      for_each = var.virtual_machine.os_disk.diff_disk_settings != null ? [var.virtual_machine.os_disk.diff_disk_settings] : []
+      for_each = var.virtual_machine.os_disk.diff_disk_settings != null ? { "this" = var.virtual_machine.os_disk.diff_disk_settings } : {}
 
       content {
         option    = diff_disk_settings.value.option
@@ -358,7 +358,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "source_image_reference" {
-    for_each = var.virtual_machine.source_image_id == null ? [true] : []
+    for_each = var.virtual_machine.source_image_id == null ? { "this" = true } : {}
 
     content {
       publisher = try(
@@ -377,7 +377,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "plan" {
-    for_each = var.virtual_machine.plan != null ? [var.virtual_machine.plan] : []
+    for_each = var.virtual_machine.plan != null ? { "this" = var.virtual_machine.plan } : {}
 
     content {
       name      = plan.value.name
@@ -387,7 +387,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   dynamic "identity" {
-    for_each = var.virtual_machine.identity != null ? [var.virtual_machine.identity] : []
+    for_each = var.virtual_machine.identity != null ? { "this" = var.virtual_machine.identity } : {}
 
     content {
       type         = identity.value.type
@@ -461,7 +461,7 @@ resource "azurerm_virtual_machine_extension" "this" {
   automatic_upgrade_enabled   = each.value.automatic_upgrade_enabled
 
   dynamic "protected_settings_from_key_vault" {
-    for_each = each.value.protected_settings_from_key_vault != null ? [each.value.protected_settings_from_key_vault] : []
+    for_each = each.value.protected_settings_from_key_vault != null ? { "this" = each.value.protected_settings_from_key_vault } : {}
 
     content {
       secret_url      = protected_settings_from_key_vault.value.secret_url
