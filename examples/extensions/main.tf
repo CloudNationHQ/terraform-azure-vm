@@ -71,7 +71,6 @@ module "kv" {
   }
 }
 
-# user-assigned identity the key vault extension authenticates as (UAI is always standalone)
 module "uai" {
   source  = "cloudnationhq/uai/azure"
   version = "~> 3.0"
@@ -83,7 +82,6 @@ module "uai" {
   }
 }
 
-# grant that identity read access to the vault so KeyVaultForWindows can pull the observed certificate
 resource "azurerm_role_assignment" "vm_kv_secrets" {
   scope                = module.kv.vault.id
   role_definition_name = "Key Vault Secrets User"
@@ -93,9 +91,6 @@ resource "azurerm_role_assignment" "vm_kv_secrets" {
 module "vm1" {
   source  = "cloudnationhq/vm/azure"
   version = "~> 8.0"
-
-  # the key vault extension must run after the identity has been granted access
-  depends_on = [azurerm_role_assignment.vm_kv_secrets]
 
   virtual_machine = {
     type     = "windows"
@@ -132,4 +127,6 @@ module "vm1" {
       }
     }
   }
+
+  depends_on = [azurerm_role_assignment.vm_kv_secrets]
 }
