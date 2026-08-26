@@ -1,6 +1,6 @@
-output "instance" {
+output "virtual_machine" {
   description = "contains all virtual machine config"
-  value       = var.instance.type == "linux" ? try(azurerm_linux_virtual_machine.this["vm"], null) : try(azurerm_windows_virtual_machine.this["vm"], null)
+  value       = var.virtual_machine.type == "linux" ? try(azurerm_linux_virtual_machine.this["vm"], null) : try(azurerm_windows_virtual_machine.this["vm"], null)
 }
 
 output "network_interfaces" {

@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,9 +19,8 @@ module "rg" {
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 9.0"
+  version = "~> 10.0"
 
-  naming = local.naming
 
   vnet = {
     name                = module.naming.virtual_network.name
@@ -39,14 +38,14 @@ module "network" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
-  naming = local.naming
 
   vault = {
-    name                = module.naming.key_vault.name_unique
-    location            = module.rg.groups.demo.location
-    resource_group_name = module.rg.groups.demo.name
+    name                     = module.naming.key_vault.name_unique
+    location                 = module.rg.groups.demo.location
+    resource_group_name      = module.rg.groups.demo.name
+    purge_protection_enabled = true
 
     keys = {
       des = {
@@ -69,7 +68,7 @@ module "kv" {
 
 module "encryption" {
   source  = "cloudnationhq/vm/azure//modules/disk-encryption-sets"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
@@ -82,38 +81,29 @@ module "encryption" {
   }
 }
 
-module "rbac" {
-  source  = "cloudnationhq/rbac/azure"
-  version = "~> 2.0"
-
-  role_assignments = {
-    des = {
-      object_id = module.encryption.sets["demo"].identity[0].principal_id
-      type      = "ServicePrincipal"
-      roles = {
-        "Key Vault Crypto Service Encryption User" = {
-          scopes = {
-            kv = module.kv.vault.id
-          }
-        }
-      }
-    }
-  }
+resource "azurerm_role_assignment" "des" {
+  scope                = module.kv.vault.id
+  role_definition_name = "Key Vault Crypto Service Encryption User"
+  principal_id         = module.encryption.sets["demo"].identity[0].principal_id
 }
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
-  depends_on = [module.rbac]
+  depends_on = [azurerm_role_assignment.des]
 
-  naming              = local.naming
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
 
-  instance = {
-    name       = module.naming.linux_virtual_machine.name_unique
-    type       = "linux"
+  virtual_machine = {
+    name     = module.naming.linux_virtual_machine.name_unique
+    type     = "linux"
+    size     = "Standard_D2s_v3"
+    username = "adminuser"
+    os_disk = {
+      storage_account_type = "Standard_LRS"
+    }
     public_key = module.kv.tls_public_keys.vm1.value
 
     source_image_reference = {

@@ -13,12 +13,6 @@ variable "availability_sets" {
   default = null
 }
 
-variable "naming" {
-  description = "Used for naming purposes"
-  type        = map(string)
-  default     = null
-}
-
 variable "location" {
   description = "default azure region to be used."
   type        = string

@@ -1,17 +1,17 @@
-variable "instance" {
+variable "virtual_machine" {
   description = "Contains all virtual machine configuration"
   type = object({
     name                                                   = string
     type                                                   = string
     resource_group_name                                    = optional(string)
     location                                               = optional(string)
-    size                                                   = optional(string, "Standard_D2s_v3")
+    size                                                   = optional(string)
     computer_name                                          = optional(string)
     username                                               = optional(string)
     password                                               = optional(string)
     public_key                                             = optional(string)
     license_type                                           = optional(string)
-    allow_extension_operations                             = optional(bool, true)
+    allow_extension_operations                             = optional(bool)
     availability_set_id                                    = optional(string)
     custom_data                                            = optional(string)
     user_data                                              = optional(string)
@@ -24,16 +24,16 @@ variable "instance" {
     dedicated_host_id                                      = optional(string)
     max_bid_price                                          = optional(number)
     edge_zone                                              = optional(string)
-    disable_password_authentication                        = optional(bool, true)
-    encryption_at_host_enabled                             = optional(bool, false)
+    disable_password_authentication                        = optional(bool)
+    encryption_at_host_enabled                             = optional(bool)
     extensions_time_budget                                 = optional(string)
     patch_assessment_mode                                  = optional(string)
     patch_mode                                             = optional(string)
-    priority                                               = optional(string, "Regular")
+    priority                                               = optional(string)
     provision_vm_agent                                     = optional(bool)
     reboot_setting                                         = optional(string)
-    secure_boot_enabled                                    = optional(bool, false)
-    vtpm_enabled                                           = optional(bool, false)
+    secure_boot_enabled                                    = optional(bool)
+    vtpm_enabled                                           = optional(bool)
     zone                                                   = optional(string)
     bypass_platform_safety_checks_on_user_schedule_enabled = optional(bool)
     disk_controller_type                                   = optional(string)
@@ -41,21 +41,21 @@ variable "instance" {
     os_managed_disk_id                                     = optional(string)
     tags                                                   = optional(map(string))
     additional_capabilities = optional(object({
-      ultra_ssd_enabled   = optional(bool, false)
-      hibernation_enabled = optional(bool, false)
+      ultra_ssd_enabled   = optional(bool)
+      hibernation_enabled = optional(bool)
     }), null)
     boot_diagnostics = optional(object({
       storage_account_uri = optional(string)
     }))
     interfaces = map(object({
       name                           = optional(string)
-      dns_servers                    = optional(list(string), [])
-      accelerated_networking_enabled = optional(bool, false)
-      ip_forwarding_enabled          = optional(bool, false)
+      dns_servers                    = optional(list(string))
+      accelerated_networking_enabled = optional(bool)
+      ip_forwarding_enabled          = optional(bool)
       ip_config_name                 = optional(string, "ipconfig")
       private_ip_address_allocation  = optional(string, "Dynamic")
       private_ip_address             = optional(string)
-      private_ip_address_version     = optional(string, "IPv4")
+      private_ip_address_version     = optional(string)
       public_ip_address_id           = optional(string)
       auxiliary_sku                  = optional(string)
       auxiliary_mode                 = optional(string)
@@ -68,7 +68,7 @@ variable "instance" {
         public_ip_address_id                               = optional(string)
         private_ip_address_version                         = optional(string, "IPv4")
         subnet_id                                          = optional(string)
-        primary                                            = optional(bool, false)
+        primary                                            = optional(bool)
         gateway_load_balancer_frontend_ip_configuration_id = optional(string)
       }))
     }))
@@ -108,7 +108,7 @@ variable "instance" {
       caching                          = optional(string, "ReadWrite")
       disk_size_gb                     = optional(number)
       security_encryption_type         = optional(string)
-      write_accelerator_enabled        = optional(bool, false)
+      write_accelerator_enabled        = optional(bool)
       disk_encryption_set_id           = optional(string)
       secure_vm_disk_encryption_set_id = optional(string)
       diff_disk_settings = optional(object({
@@ -133,9 +133,9 @@ variable "instance" {
     }), null)
     disks = optional(map(object({
       name                              = optional(string)
-      create_option_disk_attachment     = optional(string, "Attach")
+      create_option_disk_attachment     = optional(string)
       create_option                     = optional(string, "Empty")
-      disk_size_gb                      = optional(number, 10)
+      disk_size_gb                      = optional(number)
       storage_account_type              = optional(string, "Standard_LRS")
       caching                           = optional(string, "ReadWrite")
       tags                              = optional(map(string))
@@ -164,7 +164,7 @@ variable "instance" {
       disk_iops_read_write              = optional(number)
       disk_mbps_read_write              = optional(number)
       storage_account_id                = optional(string)
-      write_accelerator_enabled         = optional(bool, false)
+      write_accelerator_enabled         = optional(bool)
       disk_iops_read_only               = optional(number)
       disk_mbps_read_only               = optional(number)
       upload_size_bytes                 = optional(number)
@@ -174,11 +174,11 @@ variable "instance" {
       publisher                   = string
       type                        = string
       type_handler_version        = string
-      settings                    = optional(map(any), {})
-      protected_settings          = optional(map(string), {})
-      auto_upgrade_minor_version  = optional(bool, true)
-      automatic_upgrade_enabled   = optional(bool, false)
-      failure_suppression_enabled = optional(bool, false)
+      settings                    = optional(string)
+      protected_settings          = optional(string)
+      auto_upgrade_minor_version  = optional(bool)
+      automatic_upgrade_enabled   = optional(bool)
+      failure_suppression_enabled = optional(bool)
       provision_after_extensions  = optional(list(string), [])
       protected_settings_from_key_vault = optional(object({
         secret_url      = string
@@ -186,8 +186,8 @@ variable "instance" {
       }))
       tags = optional(map(string))
     })), {})
-    automatic_updates_enabled = optional(bool, true)
-    hotpatching_enabled       = optional(bool, false)
+    automatic_updates_enabled = optional(bool)
+    hotpatching_enabled       = optional(bool)
     timezone                  = optional(string)
     winrm_listeners = optional(map(object({
       protocol        = string
@@ -208,8 +208,8 @@ variable "instance" {
       order                                       = optional(number)
       version_id                                  = string
       configuration_blob_uri                      = optional(string)
-      automatic_upgrade_enabled                   = optional(bool, false)
-      treat_failure_as_deployment_failure_enabled = optional(bool, false)
+      automatic_upgrade_enabled                   = optional(bool)
+      treat_failure_as_deployment_failure_enabled = optional(bool)
     })), {})
     termination_notification = optional(object({
       enabled = bool
@@ -223,40 +223,34 @@ variable "instance" {
   })
 
   validation {
-    condition     = contains(["linux", "windows"], var.instance.type)
-    error_message = "The instance type must be either 'linux' or 'windows'."
+    condition     = contains(["linux", "windows"], var.virtual_machine.type)
+    error_message = "The virtual machine type must be either 'linux' or 'windows'."
   }
 
   validation {
-    condition     = var.instance.location != null || var.location != null
-    error_message = "Location must be provided either in the instance object or as a separate variable."
+    condition     = lookup(var.virtual_machine, "location", null) != null || var.location != null
+    error_message = "location must be set on var.virtual_machine.location or on the module-level var.location."
   }
 
   validation {
-    condition     = var.instance.resource_group_name != null || var.resource_group_name != null
-    error_message = "Resource group name must be provided either in the instance object or as a separate variable."
+    condition     = lookup(var.virtual_machine, "resource_group_name", null) != null || var.resource_group_name != null
+    error_message = "resource_group_name must be set on var.virtual_machine.resource_group_name or on the module-level var.resource_group_name."
   }
 
   validation {
-    condition     = try(var.instance.source_image_reference, null) != null || try(var.source_image_reference, null) != null || try(var.instance.source_image_id, null) != null
-    error_message = "Source image information must be provided either as source_image_id, in the instance.source_image_reference object, or as a separate source_image_reference variable."
+    condition     = try(var.virtual_machine.source_image_reference, null) != null || try(var.source_image_reference, null) != null || try(var.virtual_machine.source_image_id, null) != null
+    error_message = "Source image information must be provided either as source_image_id, in the virtual_machine.source_image_reference object, or as a separate source_image_reference variable."
   }
 
   validation {
     condition = alltrue([
-      for secret in try(var.instance.secrets, {}) :
-      var.instance.type == "windows"
+      for secret in try(var.virtual_machine.secrets, {}) :
+      var.virtual_machine.type == "windows"
       ? secret.certificate.store != null
       : lookup(secret.certificate, "store", null) == null
     ])
     error_message = "For Linux instances omit the certificate store; for Windows instances provide a certificate store value."
   }
-}
-
-variable "naming" {
-  description = "used for naming purposes"
-  type        = map(string)
-  default     = {}
 }
 
 variable "location" {
@@ -278,7 +272,7 @@ variable "tags" {
 }
 
 variable "source_image_reference" {
-  description = "Default source image reference configuration to use when not specified at the instance level"
+  description = "Default source image reference configuration to use when not specified at the virtual machine level"
   type = object({
     publisher = string
     offer     = string

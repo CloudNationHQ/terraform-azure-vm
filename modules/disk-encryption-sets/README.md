@@ -5,13 +5,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
@@ -39,7 +39,6 @@ map(object({
     location                  = optional(string)
     resource_group_name       = optional(string)
     key_vault_key_id          = optional(string)
-    managed_hsm_key_id        = optional(string)
     encryption_type           = optional(string)
     auto_key_rotation_enabled = optional(bool, false)
     federated_client_id       = optional(string)
@@ -58,14 +57,6 @@ Default: `null`
 Description: default azure region to be used.
 
 Type: `string`
-
-Default: `null`
-
-### <a name="input_naming"></a> [naming](#input\_naming)
-
-Description: Used for naming purposes
-
-Type: `map(string)`
 
 Default: `null`
 

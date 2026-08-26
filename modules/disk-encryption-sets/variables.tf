@@ -5,7 +5,6 @@ variable "encryption_sets" {
     location                  = optional(string)
     resource_group_name       = optional(string)
     key_vault_key_id          = optional(string)
-    managed_hsm_key_id        = optional(string)
     encryption_type           = optional(string)
     auto_key_rotation_enabled = optional(bool, false)
     federated_client_id       = optional(string)
@@ -16,12 +15,6 @@ variable "encryption_sets" {
     tags = optional(map(string))
   }))
   default = null
-}
-
-variable "naming" {
-  description = "Used for naming purposes"
-  type        = map(string)
-  default     = null
 }
 
 variable "location" {
