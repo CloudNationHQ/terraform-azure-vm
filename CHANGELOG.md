@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.1.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v8.0.0...v8.1.0) (2026-10-20)
+
+
+### Features
+
+* **deps:** bump github.com/klauspost/compress in /tests ([#244](https://github.com/CloudNationHQ/terraform-azure-vm/issues/244)) ([74efae3](https://github.com/CloudNationHQ/terraform-azure-vm/commit/74efae39028ed67ff7dde6e78d8be3ec7759985e))
+
 ## [8.0.0](https://github.com/CloudNationHQ/terraform-azure-vm/compare/v7.3.1...v8.0.0) (2026-08-26)
 
 
