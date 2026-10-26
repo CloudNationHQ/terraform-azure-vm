@@ -493,7 +493,7 @@ resource "azurerm_managed_disk" "this" {
 
   zone = try(
     coalesce(
-      each.value.disk.zone, var.virtual_machine.zone
+      each.value.zone, var.virtual_machine.zone
     ), null
   )
 
