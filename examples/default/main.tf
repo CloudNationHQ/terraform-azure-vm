@@ -65,7 +65,6 @@ module "vm1" {
   virtual_machine = {
     type     = "linux"
     size     = "Standard_D2s_v3"
-    zone     = "1"
     username = "adminuser"
     os_disk = {
       storage_account_type = "Standard_LRS"
