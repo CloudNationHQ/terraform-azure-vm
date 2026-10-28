@@ -81,7 +81,7 @@ module "kv" {
 
 module "vm-linux-ssh" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
 
   virtual_machine = {
@@ -117,7 +117,7 @@ module "vm-linux-ssh" {
 
 module "vm-linux-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
 
   virtual_machine = {
@@ -153,7 +153,7 @@ module "vm-linux-password" {
 
 module "vm-windows-password" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
 
   virtual_machine = {

@@ -491,10 +491,9 @@ resource "azurerm_managed_disk" "this" {
     join("-", [var.virtual_machine.name, each.key])
   )
 
-  zone = try(
-    coalesce(
-      each.value.disk.zone, var.virtual_machine.zone
-    ), null
+  # zrs disks span all zones and must stay non-zonal
+  zone = each.value.zone != null ? each.value.zone : (
+    endswith(each.value.storage_account_type, "_ZRS") ? null : var.virtual_machine.zone
   )
 
   storage_account_type              = each.value.storage_account_type

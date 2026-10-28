@@ -251,6 +251,16 @@ variable "virtual_machine" {
     ])
     error_message = "For Linux instances omit the certificate store; for Windows instances provide a certificate store value."
   }
+
+  validation {
+    condition = alltrue([
+      for disk in var.virtual_machine.disks :
+      endswith(disk.storage_account_type, "_ZRS")
+      ? disk.zone == null
+      : (disk.zone == null || var.virtual_machine.zone == null || disk.zone == var.virtual_machine.zone)
+    ])
+    error_message = "Data disk zone must match the virtual machine zone, and zone-redundant disks (*_ZRS) cannot have a zone."
+  }
 }
 
 variable "location" {

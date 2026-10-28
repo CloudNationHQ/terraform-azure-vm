@@ -58,7 +58,7 @@ module "kv" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
@@ -95,7 +95,7 @@ module "vm" {
 
 module "availability" {
   source  = "cloudnationhq/vm/azure//modules/availability-sets"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   availability_sets = {
     demo = {
