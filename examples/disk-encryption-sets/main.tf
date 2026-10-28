@@ -68,7 +68,7 @@ module "kv" {
 
 module "encryption" {
   source  = "cloudnationhq/vm/azure//modules/disk-encryption-sets"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
@@ -89,7 +89,7 @@ resource "azurerm_role_assignment" "des" {
 
 module "vm" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   depends_on = [azurerm_role_assignment.des]
 

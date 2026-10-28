@@ -90,7 +90,7 @@ resource "azurerm_role_assignment" "vm_kv_secrets" {
 
 module "vm1" {
   source  = "cloudnationhq/vm/azure"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   virtual_machine = {
     type     = "windows"
