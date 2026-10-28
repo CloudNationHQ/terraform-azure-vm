@@ -255,9 +255,11 @@ variable "virtual_machine" {
   validation {
     condition = alltrue([
       for disk in var.virtual_machine.disks :
-      !endswith(disk.storage_account_type, "_ZRS") || disk.zone == null
+      endswith(disk.storage_account_type, "_ZRS")
+      ? disk.zone == null
+      : (disk.zone == null || var.virtual_machine.zone == null || disk.zone == var.virtual_machine.zone)
     ])
-    error_message = "Zone-redundant data disks (*_ZRS) span all zones; omit zone on these disks."
+    error_message = "Data disk zone must match the virtual machine zone, and zone-redundant disks (*_ZRS) cannot have a zone."
   }
 }
 
